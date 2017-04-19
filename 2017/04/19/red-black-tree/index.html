@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="-红黑树 -查找," />
 
 
 
@@ -87,15 +87,20 @@
 
 
 
-<meta name="description" content="今天要比昨天更优秀">
-<meta property="og:type" content="website">
-<meta property="og:title" content="蓝色格调">
-<meta property="og:url" content="http://yoursite.com/tags/二叉树-森林/index.html">
+<meta name="description" content="简介红黑树（Red Black Tree）是一棵二叉搜索树，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是近似于平衡的。树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性">
+<meta name="keywords" content="-红黑树 -查找">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构--红黑树">
+<meta property="og:url" content="http://yoursite.com/2017/04/19/red-black-tree/index.html">
 <meta property="og:site_name" content="蓝色格调">
-<meta property="og:description" content="今天要比昨天更优秀">
+<meta property="og:description" content="简介红黑树（Red Black Tree）是一棵二叉搜索树，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是近似于平衡的。树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性">
+<meta property="og:image" content="http://yoursite.com/2017/04/19/red-black-tree/rbt-1.png">
+<meta property="og:image" content="http://yoursite.com/2017/04/19/red-black-tree/rbt-2.png">
+<meta property="og:updated_time" content="2017-04-19T13:54:04.069Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="蓝色格调">
-<meta name="twitter:description" content="今天要比昨天更优秀">
+<meta name="twitter:title" content="数据结构--红黑树">
+<meta name="twitter:description" content="简介红黑树（Red Black Tree）是一棵二叉搜索树，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是近似于平衡的。树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性">
+<meta name="twitter:image" content="http://yoursite.com/2017/04/19/red-black-tree/rbt-1.png">
 
 
 
@@ -123,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/二叉树-森林/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/19/red-black-tree/"/>
 
 
 
 
 
-  <title> 标签: -二叉树 -森林 | 蓝色格调 </title>
+  <title> 数据结构--红黑树 | 蓝色格调 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -164,7 +169,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 	
 	<a href="https://github.com/bluestyle97"><img style="position: absolute; top: 0; left: 0; border: 0;" 
@@ -296,46 +301,393 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        -二叉树 -森林
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/19/red-black-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xu Jiale">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/690147660.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蓝色格调">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据结构--红黑树
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-19T19:50:16+08:00">
+                2017-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/04/19/red-black-tree/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/04/19/red-black-tree/" class="leancloud_visitors" data-flag-title="数据结构--红黑树">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,280
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>红黑树（Red Black Tree）是一棵<em>二叉搜索树</em>，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是<em>近似于平衡</em>的。<br>树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性的值为NULL.我们把这些NULL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。</p>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><ol>
+<li>每个结点或者是红色的或者是黑色的。</li>
+<li>根节点是黑色的。</li>
+<li>每个叶结点（NULL）是黑色的。</li>
+<li>如果一个结点是红色的，则它的两个子节点都是黑色的。</li>
+<li>对每个结点，从该结点到其所有后代叶节点的简单路径上，均包含相同数目的黑色结点。</li>
+</ol>
+<p><strong>黑高</strong>（black-height）：从某个结点出发（不含该结点）到达一个叶结点的任意一条简单路径上黑色结点的个数，记为bh(x)。红黑树的黑高为其根结点的黑高（根据性质5）。<br><em>定理</em>：一棵有n个内部结点的红黑树的高度至多为2<em>lg(n+1)。<br>证明：略（感兴趣可以查看 </em>《算法导论》* P174~175）。<br>由定理可知红黑树上的各操作的时间复杂度为O(lgn)。  </p>
+<h2 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h2><p><strong>旋转</strong>（rotation）：为了保持红黑树的二叉搜索树性质而对指针结构进行的修改操作。<br>时间复杂度：O(1)<br>左旋和右旋：如图所示<br><img src="/2017/04/19/red-black-tree/rbt-1.png" alt="旋转示意图">  </p>
+<h3 id="左旋"><a href="#左旋" class="headerlink" title="左旋"></a>左旋</h3><p>算法描述（伪C代码）：  </p>
+<pre><code>void leftRotate(T, x)
+{
+    y = x.right;
+    x.right = y.left;
+    if (y.left != NULL)
+        y.left.p = x;
+    y.p = x.p;
+    if (x.p == NULL)
+        T.root = y;
+    else if (x == x.p.left)
+        x.p.left = y;
+    else
+        x.p.right = y;
+    y.left = x;
+    x.p = y;
+}
+</code></pre><h3 id="右旋"><a href="#右旋" class="headerlink" title="右旋"></a>右旋</h3><p>算法描述（伪C代码）：  </p>
+<pre><code>void rightRotate(T, y)
+{
+    x = y.left;
+    y.left = x.right;
+    if (x.right != NULL)
+        x.right.p = y;
+    x.p = y.p;
+    if (y.p == NULL)
+        T.root = x;
+    else if (y == y.p.left)
+        y.p.left = x;
+    else
+        y.p.right = x;
+    x.right = y;
+    y.p = x;
+}
+</code></pre><h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>时间复杂度：O(lgn)  </p>
+<h3 id="插入结点"><a href="#插入结点" class="headerlink" title="插入结点"></a>插入结点</h3><p>利用一个经过修改的二叉搜索树插入算法向红黑树中插入一个新结点z，并将其着为红色。<br>算法描述（伪C代码）：</p>
+<pre><code>void rbtInsert(T, z)    //插入结点
+{
+    x = T.root;
+    y = NULL;
+    while (x != NULL)
+    {
+        y = x;
+        if (z.key &lt; x.key)
+            x = x.left;
+        else
+            x = x.right;
+    }
+    z.p = y;
+    if (y == NULL)
+        T.root = z;
+    else if (z.key &lt; y.key)
+        y.left = z;
+    else
+        y.right = z;
+    z.left = NULL;
+    z.right = NULL;
+    z.color = RED;
+    rbtFixup(T, z);
+}
+</code></pre><h3 id="维持红黑性质"><a href="#维持红黑性质" class="headerlink" title="维持红黑性质"></a>维持红黑性质</h3><p>在每次插入新的结点之后，红黑树的红黑性质可能被破坏，因此需要进行修复。<br>算法描述（伪代码）：</p>
+<pre><code>void rbtInsertFixup(T, z)        //维持红黑树的性质
+{
+    while (z.p.color == RED)
+    {
+        if (z.p == z.p.p.left)
+        {
+            y = z.p.p.right;
+            if (y.color == RED)            //情况1
+            {
+                z.p.color = BLACK;
+                y.color = BLACK;
+                z.p.p.color = RED;
+                z = z.p.p;
+            else if (z == z.p.right)    //情况2
+            {
+                z = z.p;
+                leftRotate(T, z);
+            }
+            else                        //情况3
+            {
+                z.p.color = BLACK;
+                z.p.p.color = RED;
+                rightRotate(T, z.p.p);
+            }
+        }
+        else
+        {
+            y = z.p.p.left;
+            if (y.color == RED)            //情况1
+            {
+                z.p.color = BLACK;
+                y.color = BLACK;
+                z.p.p.color = RED;
+                z = z.p.p;
+            else if (z == z.p.left)        //情况2
+            {
+                z = z.p;
+                rightRotate(T, z);
+            }
+            else                        //情况3
+            {
+                z.p.color = BLACK;
+                z.p.p.color = RED;
+                leftRotate(T, z.p.p);
+            }
+        }
+    }
+    T.root.color = BLACK;
+}
+</code></pre><p>如图所示：<br><img src="/2017/04/19/red-black-tree/rbt-2.png" alt="恢复红黑树结构示意图"><br>情况1：z的叔结点y是红色的<br>情况2：z的叔结点y是黑色的且z是一个右孩子<br>情况3：z的叔结点y是黑色的且z是一个左孩子<br>（1）红黑树插入结点z后的结构如图(a)所示。由于ｚ和它的父结点ｚ．ｐ都是红色的，所以违反了性质４，又ｚ的叔结点y也是红色的，所以可以应用情况1。结点被重新着色，并且指针z沿树上升，所得树如图(b)所示。<br>（2）z及其父结点均为红色，但z的叔结点y是黑色的，因为z是z.p的右孩子，可以应用情况2。在执行一次左旋后，所得树见图(c)。<br>（3）现在，z是父结点的左孩子，可以应用情况3。  重新着色并执行一次右旋后得图(d)中的树，它是一棵合法的红黑树。  </p>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>时间复杂度：O(lgn)</p>
+<h3 id="删除结点"><a href="#删除结点" class="headerlink" title="删除结点"></a>删除结点</h3><p>从一颗红黑树中删除结点的过程基于二叉搜索树的删除过程。<br>算法描述（伪C代码）：</p>
+<pre><code>void rbtDelete(T, z)
+{
+    y = z;
+    y_color_original = y.color;
+    if (z.left == NULL)
+    {
+        x = z.right;
+        rbtTransplant(T, z, z.right);
+    }
+    else if (z.right == NULL)
+    {
+        x = z.left;
+        rbtTransplant(T, z, z.left);
+    }
+    else
+    {
+        y = treeMinimum(z.right);
+        y_original_color = y.color;
+        x = y.right;
+        if (y.p == z)
+            x.p = y;
+        else
+        {
+            rbtTransplant(T, y, y.right);
+            y.right = z.right;
+            y.right.p = y;
+        }
+        rbtTransplant(T, z, y);
+        y.left = z.left;
+        y.left.p = y;
+        y.color = z.color;
+    }
+    if (y_original_color == BLACK)
+        rbtDeleteFixup(T, x);
+}
+</code></pre><p>未完待续…</p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/04/19/forest/" itemprop="url">
-              
-                <span itemprop="name">数据结构--二叉树与森林的转化</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-19T18:20:45+08:00"
-              content="2017-04-19" >
-          04-19
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/红黑树-查找/" rel="tag"># -红黑树 -查找</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/17/git/" rel="prev" title="Git使用指南">
+                Git使用指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -343,6 +695,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
 
         </div>
         
@@ -362,8 +720,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/690147660.jpg"
@@ -448,6 +815,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性质"><span class="nav-number">2.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转"><span class="nav-number">3.</span> <span class="nav-text">旋转</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#左旋"><span class="nav-number">3.1.</span> <span class="nav-text">左旋</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#右旋"><span class="nav-number">3.2.</span> <span class="nav-text">右旋</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入"><span class="nav-number">4.</span> <span class="nav-text">插入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入结点"><span class="nav-number">4.1.</span> <span class="nav-text">插入结点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维持红黑性质"><span class="nav-number">4.2.</span> <span class="nav-text">维持红黑性质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">5.</span> <span class="nav-text">删除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#删除结点"><span class="nav-number">5.1.</span> <span class="nav-text">删除结点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -589,6 +972,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
