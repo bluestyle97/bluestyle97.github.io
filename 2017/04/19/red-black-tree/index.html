@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/04/19/red-black-tree/rbt-1.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/19/red-black-tree/rbt-2.png">
 <meta property="og:image" content="http://yoursite.com/2017/04/19/red-black-tree/rbt-3.png">
-<meta property="og:updated_time" content="2017-04-20T02:32:32.765Z">
+<meta property="og:updated_time" content="2017-04-20T02:35:52.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构--红黑树">
 <meta name="twitter:description" content="简介红黑树（Red Black Tree）是一棵二叉搜索树，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是近似于平衡的。树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性">
@@ -457,15 +457,17 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>红黑树（Red Black Tree）是一棵<em>二叉搜索树</em>，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是<em>近似于平衡</em>的。<br>树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性的值为NULL.我们把这些NULL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>红黑树（Red Black Tree）是一棵<em>二叉搜索树</em>，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是<em>近似于平衡</em>的。<br>树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性的值为NULL.我们把这些NULL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。<br><a id="more"></a></p>
 <h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><ol>
 <li>每个结点或者是红色的或者是黑色的。</li>
 <li>根节点是黑色的。</li>
 <li>每个叶结点（NULL）是黑色的。</li>
 <li>如果一个结点是红色的，则它的两个子节点都是黑色的。</li>
-<li>对每个结点，从该结点到其所有后代叶节点的简单路径上，均包含相同数目的黑色结点。<a id="more"></a>
-<strong>黑高</strong>（black-height）：从某个结点出发（不含该结点）到达一个叶结点的任意一条简单路径上黑色结点的个数，记为bh(x)。红黑树的黑高为其根结点的黑高（根据性质5）。<br><em>定理</em>：一棵有n个内部结点的红黑树的高度至多为2<em>lg(n+1)。<br>证明：略（感兴趣可以查看 </em>《算法导论》* P174~175）。<br>由定理可知红黑树上的各操作的时间复杂度为O(lgn)。  <h2 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h2><strong>旋转</strong>（rotation）：为了保持红黑树的二叉搜索树性质而对指针结构进行的修改操作。<br>时间复杂度：O(1)<br>左旋和右旋：如图所示<br><img src="/2017/04/19/red-black-tree/rbt-1.png" alt="旋转示意图">  <h3 id="左旋"><a href="#左旋" class="headerlink" title="左旋"></a>左旋</h3>算法描述（伪C代码）：  </li>
+<li>对每个结点，从该结点到其所有后代叶节点的简单路径上，均包含相同数目的黑色结点。  </li>
 </ol>
+<p><strong>黑高</strong>（black-height）：从某个结点出发（不含该结点）到达一个叶结点的任意一条简单路径上黑色结点的个数，记为bh(x)。红黑树的黑高为其根结点的黑高（根据性质5）。<br><em>定理</em>：一棵有n个内部结点的红黑树的高度至多为2<em>lg(n+1)。<br>证明：略（感兴趣可以查看 </em>《算法导论》* P174~175）。<br>由定理可知红黑树上的各操作的时间复杂度为O(lgn)。  </p>
+<h2 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h2><p><strong>旋转</strong>（rotation）：为了保持红黑树的二叉搜索树性质而对指针结构进行的修改操作。<br>时间复杂度：O(1)<br>左旋和右旋：如图所示<br><img src="/2017/04/19/red-black-tree/rbt-1.png" alt="旋转示意图">  </p>
+<h3 id="左旋"><a href="#左旋" class="headerlink" title="左旋"></a>左旋</h3><p>算法描述（伪C代码）：  </p>
 <pre><code>void leftRotate(T, y)
 {
     y = x.right;
