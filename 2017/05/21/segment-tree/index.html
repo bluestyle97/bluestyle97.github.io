@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。基本操作：构造线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行">
+<meta name="description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。">
 <meta name="keywords" content="线段树">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构——线段树(Segment Tree)">
 <meta property="og:url" content="http://yoursite.com/2017/05/21/segment-tree/index.html">
 <meta property="og:site_name" content="蓝色格调">
-<meta property="og:description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。基本操作：构造线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行">
+<meta property="og:description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。">
 <meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-1.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-2.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-3.jpg">
@@ -143,10 +143,10 @@
 <meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-47.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-48.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-49.jpg">
-<meta property="og:updated_time" content="2017-06-28T09:54:33.848Z">
+<meta property="og:updated_time" content="2017-06-28T09:56:47.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构——线段树(Segment Tree)">
-<meta name="twitter:description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。基本操作：构造线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行">
+<meta name="twitter:description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。">
 <meta name="twitter:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-1.jpg">
 
 
@@ -493,7 +493,7 @@
       
 
       
-        <h1 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h1><p>线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。<br><img src="/2017/05/21/segment-tree/segmenttree-1.jpg" alt="线段树示意图"><br>基本操作：<br><strong>构造</strong><br>线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。<br>当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行统计，计算当前结点的数据域。<br><strong>区间更新</strong><br>线段树的更新是指更新数组在[x, y]区间的值，具体如何进行更新要根据具体情况而定，可以是将[x, y]区间的值都变成val（覆盖），也可以是将[x, y]区间的值都加上val（累加）。<br>更新过程采用二分法，将[1, n]区间不断拆分成一个个子区间[l, r]，当更新区间[x, y]完全覆盖被拆分的区间[l, r]时，则更新管辖[l, r]区间的结点的数据域。<br><strong>区间查询</strong><br>与更新类似，同样是一个二分递归的过程。主要思想是把所要查询的区间[a,b]划分为线段树上的结点，然后将这些结点代表的区间合并起来得到所需信息。<br><a id="more"></a></p>
+        <h1 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h1><p>线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。<br><img src="/2017/05/21/segment-tree/segmenttree-1.jpg" alt="线段树示意图"><br><a id="more"></a><br>基本操作：<br><strong>构造</strong><br>线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。<br>当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行统计，计算当前结点的数据域。<br><strong>区间更新</strong><br>线段树的更新是指更新数组在[x, y]区间的值，具体如何进行更新要根据具体情况而定，可以是将[x, y]区间的值都变成val（覆盖），也可以是将[x, y]区间的值都加上val（累加）。<br>更新过程采用二分法，将[1, n]区间不断拆分成一个个子区间[l, r]，当更新区间[x, y]完全覆盖被拆分的区间[l, r]时，则更新管辖[l, r]区间的结点的数据域。<br><strong>区间查询</strong><br>与更新类似，同样是一个二分递归的过程。主要思想是把所要查询的区间[a,b]划分为线段树上的结点，然后将这些结点代表的区间合并起来得到所需信息。  </p>
 <h1 id="二维线段树介绍"><a href="#二维线段树介绍" class="headerlink" title="二维线段树介绍"></a>二维线段树介绍</h1><p>二维线段树是一维线段树的推广。一维线段树解决的是一维区间上的动态查询问题，而二维线段树解决的是二维区间上的动态查询问题。<br>一维线段树是一棵二叉树，树上每个结点保存一个区间和一个域，非叶结点一定有两个儿子结点，儿子结点表示的两个区间交集为空，并集为父结点表示的区间；叶子结点表示的区间长度为1，即单位长度；数据域则存储需要求的数据，每个父结点的数据域可以通过两个儿子结点得出。<br>二维线段树是一棵四叉树，树上每个结点保存一个矩形和一个域，非叶结点一定有二或四个儿子结点，儿子结点表示的四个矩形交集为空，并集为父结点表示的矩形；叶子结点表示的矩形长宽均为1，即单位矩形，数据域则存储需要求的数据，每个父结点的数据域可以通过四个儿子结点得出。<br>二维线段树的操作与一维线段树完全类似，区别只是有四个儿子结点需要考虑而已。<br><img src="/2017/05/21/segment-tree/segmenttree-2.jpg" alt="二维线段树示意图"><br>线段树的具体实现和操作只有结合具体的使用场景才能确定，下面将通过几个用线段树解决的常见问题来说明线段树的用法。  </p>
 <h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="求解区间的最值与总和"><a href="#求解区间的最值与总和" class="headerlink" title="求解区间的最值与总和"></a>求解区间的最值与总和</h2><p>在线段树结点中定义minValue、maxValue、sumValue三个数据域以便同时求解区间的最小值、最大值、总和值。<br><img src="/2017/05/21/segment-tree/segmenttree-3.jpg" alt="线段树结点">  </p>
 <ol>
