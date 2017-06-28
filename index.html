@@ -308,7 +308,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/21/segmenttree/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/21/segment-tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xu Jiale">
@@ -330,7 +330,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/05/21/segmenttree/" itemprop="url">
+                <a class="post-title-link" href="/2017/05/21/segment-tree/" itemprop="url">
                   数据结构——线段树(Segment Tree)
                 </a>
               
@@ -387,7 +387,7 @@
 
           
           
-             <span id="/2017/05/21/segmenttree/" class="leancloud_visitors" data-flag-title="数据结构——线段树(Segment Tree)">
+             <span id="/2017/05/21/segment-tree/" class="leancloud_visitors" data-flag-title="数据结构——线段树(Segment Tree)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,7 +411,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  10
+                  5,066
                 </span>
               
 
@@ -427,7 +427,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  1
+                  18
                 </span>
               
             </div>
@@ -447,10 +447,10 @@
 
       
         
-          <p>##简介<br>等待更新，敬请期待<br></p>
+          <h1 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h1><p>线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。<br><img src="/2017/05/21/segment-tree/segmenttree-1.jpg" alt="线段树示意图"><br>基本操作：<br><strong>构造</strong><br>线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。<br>当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行统计，计算当前结点的数据域。<br><strong>区间更新</strong><br>线段树的更新是指更新数组在[x, y]区间的值，具体如何进行更新要根据具体情况而定，可以是将[x, y]区间的值都变成val（覆盖），也可以是将[x, y]区间的值都加上val（累加）。<br>更新过程采用二分法，将[1, n]区间不断拆分成一个个子区间[l, r]，当更新区间[x, y]完全覆盖被拆分的区间[l, r]时，则更新管辖[l, r]区间的结点的数据域。<br><strong>区间查询</strong><br>与更新类似，同样是一个二分递归的过程。主要思想是把所要查询的区间[a,b]划分为线段树上的结点，然后将这些结点代表的区间合并起来得到所需信息。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/05/21/segmenttree/#more" rel="contents">
+            <a class="btn" href="/2017/05/21/segment-tree/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -635,7 +635,7 @@
 
       
         
-          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>红黑树（Red Black Tree）是一棵<em>二叉搜索树</em>，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是<em>近似于平衡</em>的。<br>树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性的值为NULL.我们把这些NULL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。<br></p>
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>红黑树（Red Black Tree）是一棵<em>二叉搜索树</em>，它在每个结点上添加了一个存储位来表示结点的颜色，可以是RED或BLACK。通过对任何一条从根到叶子的简单路径上各个结点的颜色进行约束，红黑树确保没有一条路径会比其他路径长出2倍，因此是<em>近似于平衡</em>的。<br>树中每个结点包含5个属性：color、key、left、right和p（parent）。如果一个结点没有子结点或父结点，则该结点相应指针的属性的值为NULL.我们把这些NULL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/19/red-black-tree/#more" rel="contents">
@@ -827,7 +827,7 @@
 <p>Git是目前世界上最先进的分布式版本控制系统，本文将通过对Git常用命令的介绍来使初学者迅速掌握Git的使用</p>
 </blockquote>
 <hr>
-<h2 id="本地仓库"><a href="#本地仓库" class="headerlink" title="本地仓库"></a>本地仓库</h2><p>工作区：工作目录<br>版本库：隐藏目录.git<br>暂存区：在版本库中（stage）<br></p>
+<h1 id="本地仓库"><a href="#本地仓库" class="headerlink" title="本地仓库"></a>本地仓库</h1><p>工作区：工作目录<br>版本库：隐藏目录.git<br>暂存区：在版本库中（stage）<br></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/17/git/#more" rel="contents">
@@ -934,7 +934,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

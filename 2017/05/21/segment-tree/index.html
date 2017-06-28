@@ -1,0 +1,1176 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="线段树," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。基本操作：构造线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行">
+<meta name="keywords" content="线段树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构——线段树(Segment Tree)">
+<meta property="og:url" content="http://yoursite.com/2017/05/21/segment-tree/index.html">
+<meta property="og:site_name" content="蓝色格调">
+<meta property="og:description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。基本操作：构造线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-1.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-2.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-3.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-4.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-5.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-6.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-7.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-8.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-9.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-10.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-11.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-12.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-13.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-14.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-15.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-16.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-17.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-18.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-19.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-20.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-21.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-22.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-23.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-24.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-25.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-26.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-27.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-28.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-29.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-30.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-31.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-32.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-33.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-34.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-35.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-36.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-37.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-38.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-39.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-40.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-41.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-42.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-43.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-44.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-45.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-46.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-47.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-48.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-49.jpg">
+<meta property="og:updated_time" content="2017-06-28T09:54:33.848Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构——线段树(Segment Tree)">
+<meta name="twitter:description" content="基本介绍线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。基本操作：构造线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行">
+<meta name="twitter:image" content="http://yoursite.com/2017/05/21/segment-tree/segmenttree-1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/21/segment-tree/"/>
+
+
+
+
+
+  <title> 数据结构——线段树(Segment Tree) | 蓝色格调 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2be6fee97cbfe3edaec8399b8c10bb95";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/bluestyle97"><img style="position: absolute; top: 0; left: 0; border: 0;" 
+	src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" 
+	alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蓝色格调</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录生活，感悟人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/21/segment-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xu Jiale">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/690147660.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蓝色格调">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据结构——线段树(Segment Tree)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-21T15:26:00+08:00">
+                2017-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/05/21/segment-tree/" class="leancloud_visitors" data-flag-title="数据结构——线段树(Segment Tree)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  5,066
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  18
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h1><p>线段树是一种二叉搜索树，因每个结点保存一个线段（区间）而得名，主要用于解决连续区间的动态查询问题。<br><img src="/2017/05/21/segment-tree/segmenttree-1.jpg" alt="线段树示意图"><br>基本操作：<br><strong>构造</strong><br>线段树的构造是一个二分递归的过程，总体思路就是从区间[1, n]开始，用二分的方式进行拆分，将左半区间分配给左子树，右半区间分配给右子树，继续递归构造左右子树。<br>当区间拆分到单位区间时（即遍历到了线段树的叶子结点），则执行回溯。回溯时对于任何一个非叶子结点需要根据两棵子树的情况进行统计，计算当前结点的数据域。<br><strong>区间更新</strong><br>线段树的更新是指更新数组在[x, y]区间的值，具体如何进行更新要根据具体情况而定，可以是将[x, y]区间的值都变成val（覆盖），也可以是将[x, y]区间的值都加上val（累加）。<br>更新过程采用二分法，将[1, n]区间不断拆分成一个个子区间[l, r]，当更新区间[x, y]完全覆盖被拆分的区间[l, r]时，则更新管辖[l, r]区间的结点的数据域。<br><strong>区间查询</strong><br>与更新类似，同样是一个二分递归的过程。主要思想是把所要查询的区间[a,b]划分为线段树上的结点，然后将这些结点代表的区间合并起来得到所需信息。<br><a id="more"></a></p>
+<h1 id="二维线段树介绍"><a href="#二维线段树介绍" class="headerlink" title="二维线段树介绍"></a>二维线段树介绍</h1><p>二维线段树是一维线段树的推广。一维线段树解决的是一维区间上的动态查询问题，而二维线段树解决的是二维区间上的动态查询问题。<br>一维线段树是一棵二叉树，树上每个结点保存一个区间和一个域，非叶结点一定有两个儿子结点，儿子结点表示的两个区间交集为空，并集为父结点表示的区间；叶子结点表示的区间长度为1，即单位长度；数据域则存储需要求的数据，每个父结点的数据域可以通过两个儿子结点得出。<br>二维线段树是一棵四叉树，树上每个结点保存一个矩形和一个域，非叶结点一定有二或四个儿子结点，儿子结点表示的四个矩形交集为空，并集为父结点表示的矩形；叶子结点表示的矩形长宽均为1，即单位矩形，数据域则存储需要求的数据，每个父结点的数据域可以通过四个儿子结点得出。<br>二维线段树的操作与一维线段树完全类似，区别只是有四个儿子结点需要考虑而已。<br><img src="/2017/05/21/segment-tree/segmenttree-2.jpg" alt="二维线段树示意图"><br>线段树的具体实现和操作只有结合具体的使用场景才能确定，下面将通过几个用线段树解决的常见问题来说明线段树的用法。  </p>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="求解区间的最值与总和"><a href="#求解区间的最值与总和" class="headerlink" title="求解区间的最值与总和"></a>求解区间的最值与总和</h2><p>在线段树结点中定义minValue、maxValue、sumValue三个数据域以便同时求解区间的最小值、最大值、总和值。<br><img src="/2017/05/21/segment-tree/segmenttree-3.jpg" alt="线段树结点">  </p>
+<ol>
+<li>线段树的建立<br>当区间左右端点重合时，将其作为叶结点并直接返回；否则，将区间从中间一分为二，递归地建立左子树与右子树。回溯时，根据子结点的数据域更新当前结点的数据域。<br><img src="/2017/05/21/segment-tree/segmenttree-4.jpg" alt="线段树建立代码"><br>以数组[4, 1, 5, 3, 2, 8]为例，建好后的线段树如图：<br><img src="/2017/05/21/segment-tree/segmenttree-5.jpg" alt="线段树建立示意图">  </li>
+<li>区间更新<br>更新操作要使用“延迟标记”的技巧。分为三种情况：<br>①如果当前结点存储的区间与待更新区间没有任何交集，则直接返回。<br>②如果当前结点存储的区间是待更新区间的子区间，就将该结点的modifyValue延迟标记域加上更新值，并直接修改该结点中存储的信息，这便是“延迟”操作。这样做避免了每次更新操作时对待更新区间内的全部结点进行更新，而是给这个区间打上一个标记，表示该区间已经更新过，当下次需要访问子区间时，再根据标记修改子区间的信息，这样便大大提高了更新操作的效率。<br>③如果当前结点存储的区间与待更新区间有交集，则要先根据该结点的标记修改子节点的信息，并将该结点的标记置为0（即pushDown“下沉”操作），再分别递归更新左子树和右子树。最后回溯时再根据已经更新过的左右子树信息修改当前结点内保存的信息。<br>区间更新操作：<br><img src="/2017/05/21/segment-tree/segmenttree-6.jpg" alt="区间更新代码"><br>“下沉”操作：<br><img src="/2017/05/21/segment-tree/segmenttree-7.jpg" alt="下沉操作代码"><br>接上例，给[3, 5]区间加上2之后：<br><img src="/2017/05/21/segment-tree/segmenttree-8.jpg" alt="区间更新示意图1"><br>[1, 2]区间加5：<br><img src="/2017/05/21/segment-tree/segmenttree-9.jpg" alt="区间更新示意图2"><br>再给[2, 4]区间减2：<br><img src="/2017/05/21/segment-tree/segmenttree-10.jpg" alt="区间更新示意图3">  </li>
+<li>区间查询<br>区间查询过程与区间更新类似，也分为三种情况。<br>①如果当前结点存储的区间与待查询区间没有任何交集，则不再继续查询。如果查询的是区间最小值，就返回一个极大的值maxLimit；如果查询的是区间最大值，就返回一个极小的值minLimit；如果查询的是区间总和值，就返回0。这样做的目的是为了不影响父结点的查询结果。<br>②如果当前结点存储的区间是待查询区间的子区间，就直接返回该结点中存储的待查询信息。<br>③如果当前结点存储的区间与待查询区间有交集，则要先根据该结点的标记修改子节点的信息，并将该结点的标记置为0（即pushDown“下沉”操作），再分别递归查询左子树和右子树。最后回溯时根据左右子树的查询结果确定当前结点的查询结果。<br><img src="/2017/05/21/segment-tree/segmenttree-11.jpg" alt="线段树查询代码"><br>接上例，在[2, 5]区间上查询最小值：<br><img src="/2017/05/21/segment-tree/segmenttree-12.jpg" alt="区间查询示意图">  <h2 id="矩形的面积（周长）并"><a href="#矩形的面积（周长）并" class="headerlink" title="矩形的面积（周长）并"></a>矩形的面积（周长）并</h2><h3 id="矩形的面积并"><a href="#矩形的面积并" class="headerlink" title="矩形的面积并"></a>矩形的面积并</h3></li>
+<li>算法描述<br>平面上边相互平行的矩形的面积并问题也可以用线段树来求解，核心思想是使用“扫描线法”，将某一维套用线段树，另外一维则用来枚举。<br><img src="/2017/05/21/segment-tree/segmenttree-13.jpg" alt="面积并示意图1"><br>第一步：<br>将所有矩形拆成两条垂直于x轴的线段，平行x轴的边可以舍去。<br>定义矩形竖直边中x坐标较小的为入边，x坐标较大的为出边，入边权值为+1，出边权值为-1，并将所有的线段按照x坐标递增排序。<br><img src="/2017/05/21/segment-tree/segmenttree-14.jpg" alt="面积并示意图2"><br><img src="/2017/05/21/segment-tree/segmenttree-15.jpg" alt="面积并示意图3"><br>第二步：<br>将所有矩形端点的y坐标进行重映射(离散化)，将原坐标映射成小范围的整数可以作为数组下标，更方便计算。映射可以将所有y坐标进行排序去重，然后二分查找确定映射后的值。<br>如下图所示，蓝色数字表示的是离散后的坐标，即1、2、3、4分别对应原先的5、10、23、25。假设离散后的y方向的坐标个数为m，则y方向被分割成m-1个独立单元，称这些独立单元为“单位线段”，分别记为<1-2>、<2-3>、<3-4>。<br><img src="/2017/05/21/segment-tree/segmenttree-16.jpg" alt="面积并示意图4"><br><img src="/2017/05/21/segment-tree/segmenttree-17.jpg" alt="面积并示意图5"><br>第三步：<br>以x坐标递增的方式枚举每条垂直线段，y方向用一个长度为m-1的数组构造线段树，来维护“单位线段”的权值。<br>如图所示，展示了每条线段按x递增方式插入之后每个“单位线段”的权值。当枚举到第i条线段时，检查所有“单位线段”的权值，所有权值大于零的“单位线段”的实际长度之和(离散化前的长度)被称为“合法长度”，记为L，那么(X[i] – X[i-1]) * L，就是第i条线段和第i-1条线段之间的矩形面积和，计算完第i条垂直线段后将它插入，所谓”插入”就是利用该线段的权值更新该线段对应的“单位线段”的权值和（这里的更新就是累加）。<br><img src="/2017/05/21/segment-tree/segmenttree-18.jpg" alt="面积并示意图5"><br><img src="/2017/05/21/segment-tree/segmenttree-19.jpg" alt="面积并示意图5"><br><img src="/2017/05/21/segment-tree/segmenttree-20.jpg" alt="面积并示意图5"><br>如下图所示：红色、黄色、蓝色三个矩形分别是3对相邻线段间的矩形面积和，其中红色部分的y方向由<1-2>、<2-3>两个“单位线段”组成，黄色部分的y方向由<1-2>、<2-3>、<3-4>三个“单位线段”组成，蓝色部分的y方向由<2-3>、<3-4>两个“单位线段”组成。特殊的，在计算蓝色部分的时候，<1-2>部分的权值由于第3条线段的插入(第3条线段权值为-1)而变为零，所以不能计入“合法长度”。以上所有相邻线段之间的面积和就是最后要求的矩形面积并。<br><img src="/2017/05/21/segment-tree/segmenttree-21.jpg" alt="面积并示意图6"><br><img src="/2017/05/21/segment-tree/segmenttree-22.jpg" alt="面积并示意图5">  </1-2></3-4></2-3></3-4></2-3></1-2></2-3></1-2></3-4></2-3></1-2></li>
+<li>数据结构<br>在线段树结点中定义cover域，用于在“扫描线”过程中记录结点存储的线段被覆盖的次数。<br><img src="/2017/05/21/segment-tree/segmenttree-23.jpg" alt="线段树结点">  </li>
+<li>算法实现<br>y坐标的离散化：<br><img src="/2017/05/21/segment-tree/segmenttree-24.jpg" alt="离散化"><br>线段树的建立： 使用离散过后的y坐标数组coordinates建立线段树<br><img src="/2017/05/21/segment-tree/segmenttree-25.jpg" alt="线段树建立"><br><img src="/2017/05/21/segment-tree/segmenttree-26.jpg" alt="线段树建立"><br>线段树的更新操作：<br><img src="/2017/05/21/segment-tree/segmenttree-27.jpg" alt="线段树更新"><br><img src="/2017/05/21/segment-tree/segmenttree-28.jpg" alt="线段树更新"><br>扫描线法矩形的面积并：<br><img src="/2017/05/21/segment-tree/segmenttree-29.jpg" alt="扫描线">  <h3 id="矩形的周长并"><a href="#矩形的周长并" class="headerlink" title="矩形的周长并"></a>矩形的周长并</h3></li>
+<li>算法描述<br>求解矩形周长并也是利用扫描线的方法，每次扫描到入边时，便加上本次扫描线的长度与上次扫描线长度的差，这样便能求出一个方向上的总周长。再对另一个方向的边进行一次扫描，便可以求出另一个方向上的总周长，之后相加便是矩形的总周长。<br>如图，绿色的线是扫描线，其红色部分是计入竖直方向周长的部分。<br><img src="/2017/05/21/segment-tree/segmenttree-30.jpg" alt="周长并示意图1"><br><img src="/2017/05/21/segment-tree/segmenttree-31.jpg" alt="周长并示意图2"><br><img src="/2017/05/21/segment-tree/segmenttree-32.jpg" alt="周长并示意图2"><br><img src="/2017/05/21/segment-tree/segmenttree-33.jpg" alt="周长并示意图2"><br><img src="/2017/05/21/segment-tree/segmenttree-34.jpg" alt="周长并示意图2"><br>红色的线长度相加再乘以2即是竖直方向上的周长。水平方向过程相同。  </li>
+<li>数据结构<br>与矩形面积并问题使用的线段树完全相同。  </li>
+<li>算法实现<br>x、y坐标的离散化：<br><img src="/2017/05/21/segment-tree/segmenttree-35.jpg" alt="离散化"><br>扫描法求周长并：<br><img src="/2017/05/21/segment-tree/segmenttree-36.jpg" alt="扫描线">  <h2 id="区间染色"><a href="#区间染色" class="headerlink" title="区间染色"></a>区间染色</h2></li>
+<li>问题概述<br>为了便于阐述，我们引入这样一个问题：有¬一条直线，每次把其中一段染成某种颜色，操作过程中可以查询任意线段的颜色分布情况。<br>对于这个问题，首先应该把所有操作所涉及到的坐标离散化，从而可以用整数区间来表示直线上的线段，这样我们就可以用线段树来解决这个问题。对比区间求和，不同点在于区间求和的更新是对区间和进行累加，而这类染色问题则是对区间的值进行替换，显然数据域应该存储所有的颜色状态。这里我们假设总共有32种颜色，包括无色的情况。我们不可能32种颜色状态全部保存在线段树的结点上，否则每个结点需要存储32个布尔值，浪费太多的空间，然而32种颜色状态恰好可以压缩在一个int32整数中，利用二进制压缩可以用一个32位整数来保存所有的32种颜色状态，整数每一位的置位情况代表一种颜色状态，置位为1，代表有该种颜色，反之则不存在。每一个结点初始化为无色状态，即整数1。此外，线段树的每一个结点还需要一个“lazy”标记，记录该段是否同色，即是否只有一种颜色。与区间求和不同的是回溯统计的时候，对于两个子结点的数据域不再是加和，而是位或和。<br>下面分别给出一维和二维线段树的数据结构（python实现）：<br><img src="/2017/05/21/segment-tree/segmenttree-37.jpg" alt="数据结构"><br><img src="/2017/05/21/segment-tree/segmenttree-38.jpg" alt="数据结构"><br>可以看出两者的区别在于一维线段树的区间在平面问题中变成了矩形区域，这里我们用矩形的左下和右上两个顶点的坐标代表矩形区域，即图中的block变量，另外在二维线段树中每一个树结点有两个或者四个儿子结点，这里用初始化为空列表，建树时加入结点编号。整个线段树我们按照先序序列保存其所有结点。  </li>
+<li>建立线段树<br>以一维线段树为例，建树过程类似区间最值问题，只是树结点区间值不再是相等，而是相差为1。下图是Python实现：<br><img src="/2017/05/21/segment-tree/segmenttree-39.jpg" alt="建立线段树"><br>由代码可见，建树是一个递归过程，并且是先序遍历过程，每建立一个节点之后再递归建立其左右子树。时间复杂度和空间复杂度均为O(n）。  </li>
+<li>区间更新<br>区间更新问题就是设置某一段为指定的颜色，基本思路同区间最值问题，下面给出Python实现：<br><img src="/2017/05/21/segment-tree/segmenttree-40.jpg" alt="区间更新"><br>其中v是当前结点编号，lhs、rhs分别为更新区间的端点值，color是目标颜色。对每一个结点分三种情况讨论，区间无交集、区间包含、区间相交，当更新区间和当前结点所代表区间相交时，应判断当前段是否同色，如果同色，应将标记下传，取消当前结点的同色标记，然后对左右子树进行递归操作，最后合并左右子树的状态，可以看到这里求并是采用位或运算。<br>二维线段树原理基本相同，只需要将相应区间改变为矩形区域，这里不再重复阐述。  </li>
+<li>区间查询<br>区间查询问题就是将给定区间划分为O(logn)个子区间，综合所有子区间的数据域即得到问题的解。<br><img src="/2017/05/21/segment-tree/segmenttree-41.jpg" alt="区间查询"><br>区间查询问题同样需要考虑区间无交集、区间包含、区间相交三种情况，对于区间相交的情况我们需要将标记下传，因为我们采用了lazy标记，当一段区间同色时，它的子区间此时的颜色标记状态可能并没有更新，这样我们就会得到错误的结果。  <h2 id="区间K值"><a href="#区间K值" class="headerlink" title="区间K值"></a>区间K值</h2>区间K值问题顾名思义就是求任意给定区间（矩形区域）的第K小或者第K大值。这里我们给出两种利用线段树求解的方法。  </li>
+<li>普通线段树<br>利用线段树划分区间的思想，线段树的每个结点存的不只是区间端点，而是这个区间内所有的数，并且是按照递增顺序有序排列的，建树过程是一个归并排序的过程，从叶子结点自底向上进行归并，对于一个长度为6的数组[4, 3, 2, 1, 5, 6]，建立线段树如下图所示：<br><img src="/2017/05/21/segment-tree/segmenttree-42.jpg" alt="普通线段树"><br>从图中可以看出，线段树的任何一个结点存储了对应区间的数，并且进行有序排列，所以根结点存储的一定是一个长度为数组总长的有序数组，叶子结点存储的递增序列为原数组元素。<br>以求第K小值为例，每次询问，我们将给定区间拆分成一个个线段树上的子区间，然后二分枚举答案T，再利用二分查找统计这些子区间中小于等于T的数的个数，从而确定T是否是第K大的。<br>下面是查询操作的Python实现：<br><img src="/2017/05/21/segment-tree/segmenttree-43.jpg" alt="查询操作"><br>上面给出的查询操作，即查询给定区间[low,high]中小于等于给定值value的元素数目，同样我们将给定区间划分为一个个子区间，对每一个区间进行二分查找，所以这一步操作的时间复杂度为O(logn*logn)。下面是二分枚举的过程：<br><img src="/2017/05/21/segment-tree/segmenttree-44.jpg" alt="二分枚举"><br>如果给定区间中不大于当前值mid_value的个数小于K，令数值区间下界为mid_value+1，否则令数值区间的上界为mid_value,直到数值区间汇聚到一点，即为第K小值，这一步操作的时间复杂度为O(logn)，所以查询操作的总时间复杂度为O((logn)^3)。  </li>
+<li>可持续化线段树<br><strong>主席树定义</strong><br>可持续化线段树又叫做主席树,也叫作函数式线段树，因为它应用了函数式编程的思想来使线段树支持询问历史版本，同时充分利用它们之间的共同数据来减少时间和空间消耗的增强版的线段树。说得更详细一点，就是对原来的数列[1..n]的每一个前缀[1..i]（1≤i≤n）建立一棵线段树，线段树的每一个节点存储某个前缀区间[1..i]中属于区间[L..R]的数一共有多少个，比如根节点是[1..n]，一共i个数，sum[root]=i，根节点的左儿子是[1..(1+n)/2]，若不大于(1+n)/2的数有x个，则sum[root.left]=x。下面我们以2.5 8.2 10 6.5为例简述整个过程。<br><strong>数据离散化：</strong><br>由于数列元素中有浮点数，我们首先需要将数据离散化转换成整数，这样我们就可以利用线段树解决问题了。下面先给出Python实现：<br><img src="/2017/05/21/segment-tree/segmenttree-45.jpg" alt="主席树"><br>其中data为初始数据，首先将数列进行去重，除去其中重复的元素，本例中没有重复元素，但这是必须的。然后，对去重后的数列进行排序，即2.5 6.5 8.2 10。下一步，遍历原数组中的每一个元素，用该元素在去重后数组中的下标值加1作为其离散化后的值，即1 3 4 2，这样我们就可以根据这个数列建立线段树求解。<br><strong>建树：</strong><br>首先不考虑MLE，我们分别建立每一颗线段树，得到下图：<br><img src="/2017/05/21/segment-tree/segmenttree-46.jpg" alt="建树"><br>观察到每个[1..i]和[1..i-1]，容易发现只有一条路是不一样的，对于该条路径上的每一个结点我们新建结点，其他的结点用前一棵树的结点即可，这样就可以大大节约空间，如下图：<br><img src="/2017/05/21/segment-tree/segmenttree-47.jpg" alt="建树"><br>可见，如果数列长度为n，初始线段树高度为O(logn),那么每新建一棵线段树我们需要新建O(logn)个结点，那么总的空间复杂度即为O(nlogn)。下面给出Python实现：<br><img src="/2017/05/21/segment-tree/segmenttree-48.jpg" alt="建树"><br>这一步很简单，方法同染色问题，初始化每一个结点元素个数为0。<br><img src="/2017/05/21/segment-tree/segmenttree-49.jpg" alt="建树"><br>如图所示，pre为前一棵线段树结点编号，cur为当前线段树结点编号，[low,high]为当前结点所表示数值区间，value是新加的元素值。对路径上每一个结点，首先将前一棵线段树的对应结点复制过来，然后对左右子树进行递归操作，最后更新结点数据域即可。<br><strong>查询:</strong><br>假设我们要查找[i..j]中第K小数，设某结点为x，那么x.sum[j] - x.sum[i - 1]就是[i..j]中在结点x内的元素总数。从根节点开始，利用二分查找，如果当前结点的左儿子区间内元素个数大于等于K，则递归地在左儿子结点中继续查找第K小元素，否则设左儿子区间内元素个数为m，递归地在右儿子结点中查找第K-m小元素，直到找到叶结点，其对应的离散化前的元素值即为第K小。和普通二叉树的查询操作一样，其时间复杂度为O(logn)，显然优于前一种方法。  <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><strong>源代码链接：</strong><a href="https://github.com/bluestyle97/HIT-Software-Design/tree/master/SegmentTree" target="_blank" rel="external">https://github.com/bluestyle97/HIT-Software-Design/tree/master/SegmentTree</a><br><strong>参考文章：</strong><br>1.<a href="http://blog.csdn.net/x314542916/article/details/7837276" target="_blank" rel="external">线段树的入门级总结</a> （作者：x314542916）<br>2.<a href="http://www.cppblog.com/menjitianya/archive/2016/02/25/212891.html" target="_blank" rel="external">夜深人静写算法（七）——线段树</a> （作者：英雄哪里出来）<br>3.<a href="http://www.cppblog.com/menjitianya/archive/2015/10/06/211956.html" target="_blank" rel="external">二维线段树</a> （作者：英雄哪里出来）  </li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线段树/" rel="tag"># 线段树</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/19/red-black-tree/" rel="prev" title="数据结构——红黑树(Red-Black Tree)">
+                数据结构——红黑树(Red-Black Tree) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/690147660.jpg"
+               alt="Xu Jiale" />
+          <p class="site-author-name" itemprop="name">Xu Jiale</p>
+           
+              <p class="site-description motion-element" itemprop="description">今天要比昨天更优秀</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bluestyle97" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/Bluestyle97" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+		
+<iframe frameborder="no" border="0" marginwidth="0" 
+	marginheight="0" width=283 height=86 src="//music.163.com/outchain/player?type=2&id=5253801&auto=0&height=66"></iframe>
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本介绍"><span class="nav-number">1.</span> <span class="nav-text">基本介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二维线段树介绍"><span class="nav-number">2.</span> <span class="nav-text">二维线段树介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用场景"><span class="nav-number">3.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#求解区间的最值与总和"><span class="nav-number">3.1.</span> <span class="nav-text">求解区间的最值与总和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形的面积（周长）并"><span class="nav-number">3.2.</span> <span class="nav-text">矩形的面积（周长）并</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#矩形的面积并"><span class="nav-number">3.2.1.</span> <span class="nav-text">矩形的面积并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩形的周长并"><span class="nav-number">3.2.2.</span> <span class="nav-text">矩形的周长并</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区间染色"><span class="nav-number">3.3.</span> <span class="nav-text">区间染色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区间K值"><span class="nav-number">3.4.</span> <span class="nav-text">区间K值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xu Jiale</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客总数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2134985"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PelTKoQ6rDpQ82Kl7vfzsbaW-gzGzoHsz", "pbICuzzoWlP7VjxbvAEABTsj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
