@@ -1,0 +1,1219 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习,算法,聚类," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="蓝色格调" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;谱聚类（spectral clustering）是广泛使用的聚类算法，比起传统的K-Means算法，谱聚类对数据分布的适应性更强，聚类效果也很优秀，同时聚类的计算量也小很多，更加难能可贵的是实现起来也不复杂。在处理实际的聚类问题时，个人认为谱聚类是应该首先考虑的几种算法之一。下面我们就对谱聚类的算法原理做一个总结。 概述&amp;emsp;谱聚类是从图论中演化出来的算法，后来在聚类中得到了广泛">
+<meta name="keywords" content="机器学习,算法,聚类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习——谱聚类算法(Spectral Clustering)">
+<meta property="og:url" content="http://yoursite.com/2017/10/25/spectral-clustering/index.html">
+<meta property="og:site_name" content="蓝色格调">
+<meta property="og:description" content="&amp;emsp;谱聚类（spectral clustering）是广泛使用的聚类算法，比起传统的K-Means算法，谱聚类对数据分布的适应性更强，聚类效果也很优秀，同时聚类的计算量也小很多，更加难能可贵的是实现起来也不复杂。在处理实际的聚类问题时，个人认为谱聚类是应该首先考虑的几种算法之一。下面我们就对谱聚类的算法原理做一个总结。 概述&amp;emsp;谱聚类是从图论中演化出来的算法，后来在聚类中得到了广泛">
+<meta property="og:image" content="http://yoursite.com/2017/10/25/spectral-clustering/image1.jpg">
+<meta property="og:updated_time" content="2017-10-25T10:22:03.554Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习——谱聚类算法(Spectral Clustering)">
+<meta name="twitter:description" content="&amp;emsp;谱聚类（spectral clustering）是广泛使用的聚类算法，比起传统的K-Means算法，谱聚类对数据分布的适应性更强，聚类效果也很优秀，同时聚类的计算量也小很多，更加难能可贵的是实现起来也不复杂。在处理实际的聚类问题时，个人认为谱聚类是应该首先考虑的几种算法之一。下面我们就对谱聚类的算法原理做一个总结。 概述&amp;emsp;谱聚类是从图论中演化出来的算法，后来在聚类中得到了广泛">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/25/spectral-clustering/image1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/25/spectral-clustering/"/>
+
+
+
+
+
+  <title> 机器学习——谱聚类算法(Spectral Clustering) | 蓝色格调 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2be6fee97cbfe3edaec8399b8c10bb95";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/bluestyle97"><img style="position: absolute; top: 0; left: 0; border: 0;" 
+	src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" 
+	alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蓝色格调</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录生活，感悟人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/25/spectral-clustering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xu Jiale">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/690147660.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蓝色格调">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                机器学习——谱聚类算法(Spectral Clustering)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-25T16:32:06+08:00">
+                2017-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/10/25/spectral-clustering/" class="leancloud_visitors" data-flag-title="机器学习——谱聚类算法(Spectral Clustering)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+			   <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4,854
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  20
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;谱聚类（spectral clustering）是广泛使用的聚类算法，比起传统的K-Means算法，谱聚类对数据分布的适应性更强，聚类效果也很优秀，同时聚类的计算量也小很多，更加难能可贵的是实现起来也不复杂。在处理实际的聚类问题时，个人认为谱聚类是应该首先考虑的几种算法之一。下面我们就对谱聚类的算法原理做一个总结。</p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>&emsp;谱聚类是从图论中演化出来的算法，后来在聚类中得到了广泛的应用。它的主要思想是把所有的数据看做空间中的点，这些点之间可以用边连接起来。距离较远的两个点之间的边权重值较低，而距离较近的两个点之间的边权重值较高，通过对所有数据点组成的图进行切图，让切图后不同的子图间边权重和尽可能的低，而子图内的边权重和尽可能的高，从而达到聚类的目的。<br>&emsp;乍一看，这个算法原理的确简单，但是要完全理解这个算法的话，需要对图论中的无向图，线性代数和矩阵分析都有一定的了解。下面我们就从这些需要的基础知识开始，一步步学习谱聚类。<br><a id="more"></a> </p>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="谱聚类基础之一——无向权重图"><a href="#谱聚类基础之一——无向权重图" class="headerlink" title="谱聚类基础之一——无向权重图"></a>谱聚类基础之一——无向权重图</h2><p>&emsp;由于谱聚类是基于图论的，因此我们首先温习下图的概念。对于一个图<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>G</mi></math>，我们一般用点的集合<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>V</mi></math>和边的集合<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>E</mi></math>来描述。即为<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>G</mi><mo stretchy="false">(</mo><mi>V</mi><mo>,</mo><mi>E</mi><mo stretchy="false">)</mo></math>。其中<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>V</mi></math>即为我们数据集里面所有的点<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>v</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>v</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>v</mi><br>    <mi>n</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br></math>。对于V中的任意两个点，可以有边连接，也可以没有边连接。我们定义权重<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>w</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br></math>为点vi和点vj之间的权重。由于我们是无向图，所以<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>w</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <msub><br>    <mi>w</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br></math>。<br>&emsp;对于有边连接的两个点vi和vj，wij&gt;0,对于没有边连接的两个点vi和vj，wij=0。对于图中的任意一个点vi，它的度di定义为和它相连的所有边的权重之和，即  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msub><br>    <mi>d</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>=</mo><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>n</mi><br>    </mrow><br>  </munderover><br>  <msub><br>    <mi>w</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br></math><br>利用每个点度的定义，我们可以得到一个nxn的度矩阵D,它是一个对角矩阵，只有主对角线有值，对应第i行的第i个点的度数，定义如下：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mi mathvariant="bold">D</mi><br>  </mrow><br>  <mo>=</mo><br>  <mrow><br>    <mo>(</mo><br>    <mtable columnalign="center center center" rowspacing="4pt" columnspacing="1em"><br>      <mtr><br>        <mtd><br>          <msub><br>            <mi>d</mi><br>            <mn>1</mn><br>          </msub><br>        </mtd><br>        <mtd><br>          <mo>&#x2026;<!-- … --></mo><br>        </mtd><br>        <mtd><br>          <mo>&#x2026;<!-- … --></mo><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mo>&#x2026;<!-- … --></mo><br>        </mtd><br>        <mtd><br>          <msub><br>            <mi>d</mi><br>            <mn>2</mn><br>          </msub><br>        </mtd><br>        <mtd><br>          <mo>&#x2026;<!-- … --></mo><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mo>&#x22EE;<!-- ⋮ --></mo><br>        </mtd><br>        <mtd><br>          <mo>&#x22EE;<!-- ⋮ --></mo><br>        </mtd><br>        <mtd><br>          <mo>&#x22F1;<!-- ⋱ --></mo><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mo>&#x2026;<!-- … --></mo><br>        </mtd><br>        <mtd><br>          <mo>&#x2026;<!-- … --></mo><br>        </mtd><br>        <mtd><br>          <msub><br>            <mi>d</mi><br>            <mi>n</mi><br>          </msub><br>        </mtd><br>      </mtr><br>    </mtable><br>    <mo>)</mo><br>  </mrow><br></math><br>&emsp;利用所有点之间的权重值，我们可以得到图的邻接矩阵W，它也是一个nxn的矩阵，第i行的第j个值对应我们的权重wij。<br>&emsp;除此之外，对于点集V的的一个子集A⊂V，我们定义：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br>  <mi>A</mi><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br>  <mo>:=</mo><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>&#x5B50;</mo><br>  </mrow><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>&#x96C6;</mo><br>  </mrow><br>  <mi>A</mi><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>&#x4E2D;</mo><br>  </mrow><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>&#x70B9;</mo><br>  </mrow><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>&#x7684;</mo><br>  </mrow><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>&#x4E2A;</mo><br>  </mrow><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>&#x6570;</mo><br>  </mrow><br></math>  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mi>v</mi><br>  <mi>o</mi><br>  <mi>l</mi><br>  <mo stretchy="false">(</mo><br>  <mi>A</mi><br>  <mo stretchy="false">)</mo><br>  <mo>:=</mo><br>  <munder><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>&#x2208;<!-- ∈ --></mo><br>      <mi>A</mi><br>    </mrow><br>  </munder><br>  <msub><br>    <mi>d</mi><br>    <mi>i</mi><br>  </msub><br></math>  </p>
+<h2 id="谱聚类基础之二——相似矩阵"><a href="#谱聚类基础之二——相似矩阵" class="headerlink" title="谱聚类基础之二——相似矩阵"></a>谱聚类基础之二——相似矩阵</h2><p>&emsp;在上一节我们讲到了邻接矩阵W，它是由任意两点之间的权重值wij组成的矩阵。通常我们可以自己输入权重，但是在谱聚类中，我们只有数据点的定义，并没有直接给出这个邻接矩阵，那么怎么得到这个邻接矩阵呢？<br>&emsp;基本思想是，距离较远的两个点之间的边权重值较低，而距离较近的两个点之间的边权重值较高，不过这仅仅是定性，我们需要定量的权重值。一般来说，我们可以通过样本点距离度量的相似矩阵S来获得邻接矩阵W。<br>&emsp;构建邻接矩阵W的方法有三类。ϵ-邻近法，K邻近法和全连接法。<br>&emsp;对于ϵ-邻近法，它设置了一个距离阈值ϵ，然后用欧式距离sij度量任意两点xi和xj的距离。即相似矩阵的<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>s</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br>  <msub><br>    <mi>x</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>&#x2212;<!-- − --></mo><br>  <msub><br>    <mi>x</mi><br>    <mi>j</mi><br>  </msub><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br>  <msubsup><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo stretchy="false">|</mo><br>    </mrow><br>    <mn>2</mn><br>    <mn>2</mn><br>  </msubsup><br></math>, 然后根据sij和ϵ的大小关系，来定义邻接矩阵W如下：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msub><br>    <mi>W</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mrow><br>    <mo>{</mo><br>    <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false"><br>      <mtr><br>        <mtd><br>          <mn>0</mn><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>s</mi><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mi>i</mi><br>                <mi>j</mi><br>              </mrow><br>            </msub><br>            <mo>&gt;</mo><br>            <mi>&#x03F5;<!-- ϵ --></mi><br>          </mrow><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mi>&#x03F5;<!-- ϵ --></mi><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <msub><br>                <mi>s</mi><br>                <mrow class="MJX-TeXAtom-ORD"><br>                  <mi>i</mi><br>                  <mi>j</mi><br>                </mrow><br>              </msub><br>              <mo>&#x2264;<!-- ≤ --></mo><br>              <mi>&#x03F5;<!-- ϵ --></mi><br>            </mrow><br>          </mrow><br>        </mtd><br>      </mtr><br>    </mtable><br>    <mo fence="true" stretchy="true"></mo><br>  </mrow><br></math><br>&emsp;从上式可见，两点间的权重要不就是ϵ,要不就是0，没有其他的信息了。距离远近度量很不精确，因此在实际应用中，我们很少使用ϵ-邻近法。<br>&emsp;第二种定义邻接矩阵W的方法是K邻近法，利用KNN算法遍历所有的样本点，取每个样本最近的k个点作为近邻，只有和样本距离最近的k个点之间的wij&gt;0。但是这种方法会造成重构之后的邻接矩阵W非对称，我们后面的算法需要对称邻接矩阵。为了解决这种问题，一般采取下面两种方法之一：<br>&emsp;第一种K邻近法是只要一个点在另一个点的K近邻中，则保留  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msub><br>    <mi>W</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <msub><br>    <mi>W</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mrow><br>    <mo>{</mo><br>    <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false"><br>      <mtr><br>        <mtd><br>          <mn>0</mn><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>            <mspace width="thickmathspace"><br>            <mi>a</mi><br>            <mi>n</mi><br>            <mi>d</mi><br>            <mspace width="thickmathspace"><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mspace></mspace></mrow><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mi>e</mi><br>          <mi>x</mi><br>          <mi>p</mi><br>          <mo stretchy="false">(</mo><br>          <mo>&#x2212;<!-- − --></mo><br>          <mfrac><br>            <mrow><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>              <msub><br>                <mi>x</mi><br>                <mi>i</mi><br>              </msub><br>              <mo>&#x2212;<!-- − --></mo><br>              <msub><br>                <mi>x</mi><br>                <mi>j</mi><br>              </msub><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>              <msubsup><br>                <mrow class="MJX-TeXAtom-ORD"><br>                  <mo stretchy="false">|</mo><br>                </mrow><br>                <mn>2</mn><br>                <mn>2</mn><br>              </msubsup><br>            </mrow><br>            <mrow><br>              <mn>2</mn><br>              <msup><br>                <mi>&#x03C3;<!-- σ --></mi><br>                <mn>2</mn><br>              </msup><br>            </mrow><br>          </mfrac><br>          <mo stretchy="false">)</mo><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>            <mspace width="thickmathspace"><br>            <mi>o</mi><br>            <mi>r</mi><br>            <mspace width="thickmathspace"><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>          </mspace></mspace></mrow><br>          <mo stretchy="false">)</mo><br>        </mtd><br>      </mtr><br>    </mtable><br>    <mo fence="true" stretchy="true"></mo><br>  </mrow><br></math><br>&emsp;第二种K邻近法是必须两个点互为K近邻中，才能保留  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msub><br>    <mi>W</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <msub><br>    <mi>W</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mrow><br>    <mo>{</mo><br>    <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false"><br>      <mtr><br>        <mtd><br>          <mn>0</mn><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>            <mspace width="thickmathspace"><br>            <mi>o</mi><br>            <mi>r</mi><br>            <mspace width="thickmathspace"><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mspace></mspace></mrow><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mi>e</mi><br>          <mi>x</mi><br>          <mi>p</mi><br>          <mo stretchy="false">(</mo><br>          <mo>&#x2212;<!-- − --></mo><br>          <mfrac><br>            <mrow><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>              <msub><br>                <mi>x</mi><br>                <mi>i</mi><br>              </msub><br>              <mo>&#x2212;<!-- − --></mo><br>              <msub><br>                <mi>x</mi><br>                <mi>j</mi><br>              </msub><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>              <msubsup><br>                <mrow class="MJX-TeXAtom-ORD"><br>                  <mo stretchy="false">|</mo><br>                </mrow><br>                <mn>2</mn><br>                <mn>2</mn><br>              </msubsup><br>            </mrow><br>            <mrow><br>              <mn>2</mn><br>              <msup><br>                <mi>&#x03C3;<!-- σ --></mi><br>                <mn>2</mn><br>              </msup><br>            </mrow><br>          </mfrac><br>          <mo stretchy="false">)</mo><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>            <mspace width="thickmathspace"><br>            <mi>a</mi><br>            <mi>n</mi><br>            <mi>d</mi><br>            <mspace width="thickmathspace"><br>            <msub><br>              <mi>x</mi><br>              <mi>j</mi><br>            </msub><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <mi>K</mi><br>            <mi>N</mi><br>            <mi>N</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>x</mi><br>              <mi>i</mi><br>            </msub><br>          </mspace></mspace></mrow><br>          <mo stretchy="false">)</mo><br>        </mtd><br>      </mtr><br>    </mtable><br>    <mo fence="true" stretchy="true"></mo><br>  </mrow><br></math><br>&emsp;第三种定义邻接矩阵W的方法是全连接法，相比前两种方法，第三种方法所有的点之间的权重值都大于0，因此称之为全连接法。可以选择不同的核函数来定义边权重，常用的有多项式核函数，高斯核函数和Sigmoid核函数。最常用的是高斯核函数RBF，此时相似矩阵和邻接矩阵相同：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msub><br>    <mi>W</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <msub><br>    <mi>S</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mi>e</mi><br>  <mi>x</mi><br>  <mi>p</mi><br>  <mo stretchy="false">(</mo><br>  <mo>&#x2212;<!-- − --></mo><br>  <mfrac><br>    <mrow><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>      <msub><br>        <mi>x</mi><br>        <mi>i</mi><br>      </msub><br>      <mo>&#x2212;<!-- − --></mo><br>      <msub><br>        <mi>x</mi><br>        <mi>j</mi><br>      </msub><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>      <msubsup><br>        <mrow class="MJX-TeXAtom-ORD"><br>          <mo stretchy="false">|</mo><br>        </mrow><br>        <mn>2</mn><br>        <mn>2</mn><br>      </msubsup><br>    </mrow><br>    <mrow><br>      <mn>2</mn><br>      <msup><br>        <mi>&#x03C3;<!-- σ --></mi><br>        <mn>2</mn><br>      </msup><br>    </mrow><br>  </mfrac><br>  <mo stretchy="false">)</mo><br></math><br>&emsp;在实际的应用中，使用第三种全连接法来建立邻接矩阵是最普遍的，而在全连接法中使用高斯径向核RBF是最普遍的。  </p>
+<h2 id="谱聚类基础之三——拉普拉斯矩阵"><a href="#谱聚类基础之三——拉普拉斯矩阵" class="headerlink" title="谱聚类基础之三——拉普拉斯矩阵"></a>谱聚类基础之三——拉普拉斯矩阵</h2><p>&emsp;单独把拉普拉斯矩阵(Graph Laplacians)拿出来介绍是因为后面的算法和这个矩阵的性质息息相关。它的定义很简单，拉普拉斯矩阵L=D−W。D即为我们第二节讲的度矩阵，它是一个对角矩阵。而W即为我们第二节讲的邻接矩阵，它可以由我们第三节的方法构建出。<br>&emsp;拉普拉斯矩阵有一些很好的性质如下：  </p>
+<ol>
+<li>拉普拉斯矩阵是对称矩阵，这可以由D和W都是对称矩阵而得。  </li>
+<li>由于拉普拉斯矩阵是对称矩阵，则它的所有的特征值都是实数。  </li>
+<li>对于任意的向量f,我们有 <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>   <msup><br>     <mi>f</mi><br>     <mi>T</mi><br>   </msup><br>   <mi>L</mi><br>   <mi>f</mi><br>   <mo>=</mo><br>   <mfrac><br>     <mn>1</mn><br>     <mn>2</mn><br>   </mfrac><br>   <munderover><br>     <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mo>,</mo><br>       <mi>j</mi><br>       <mo>=</mo><br>       <mn>1</mn><br>     </mrow><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>n</mi><br>     </mrow><br>   </munderover><br>   <msub><br>     <mi>w</mi><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mi>j</mi><br>     </mrow><br>   </msub><br>   <mo stretchy="false">(</mo><br>   <msub><br>     <mi>f</mi><br>     <mi>i</mi><br>   </msub><br>   <mo>&#x2212;<!-- − --></mo><br>   <msub><br>     <mi>f</mi><br>     <mi>j</mi><br>   </msub><br>   <msup><br>     <mo stretchy="false">)</mo><br>     <mn>2</mn><br>   </msup><br> </math><br> &emsp;这个利用拉普拉斯矩阵的定义很容易得到如下：<br> <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>   <msup><br>     <mi>f</mi><br>     <mi>T</mi><br>   </msup><br>   <mi>L</mi><br>   <mi>f</mi><br>   <mo>=</mo><br>   <msup><br>     <mi>f</mi><br>     <mi>T</mi><br>   </msup><br>   <mi>D</mi><br>   <mi>f</mi><br>   <mo>&#x2212;<!-- − --></mo><br>   <msup><br>     <mi>f</mi><br>     <mi>T</mi><br>   </msup><br>   <mi>W</mi><br>   <mi>f</mi><br>   <mo>=</mo><br>   <munderover><br>     <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mo>=</mo><br>       <mn>1</mn><br>     </mrow><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>n</mi><br>     </mrow><br>   </munderover><br>   <msub><br>     <mi>d</mi><br>     <mi>i</mi><br>   </msub><br>   <msubsup><br>     <mi>f</mi><br>     <mi>i</mi><br>     <mn>2</mn><br>   </msubsup><br>   <mo>&#x2212;<!-- − --></mo><br>   <munderover><br>     <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mo>,</mo><br>       <mi>j</mi><br>       <mo>=</mo><br>       <mn>1</mn><br>     </mrow><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>n</mi><br>     </mrow><br>   </munderover><br>   <msub><br>     <mi>w</mi><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mi>j</mi><br>     </mrow><br>   </msub><br>   <msub><br>     <mi>f</mi><br>     <mi>i</mi><br>   </msub><br>   <msub><br>     <mi>f</mi><br>     <mi>j</mi><br>   </msub><br> </math><br> <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>   <mo>=</mo><br>   <mfrac><br>     <mn>1</mn><br>     <mn>2</mn><br>   </mfrac><br>   <mo stretchy="false">(</mo><br>   <munderover><br>     <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mo>=</mo><br>       <mn>1</mn><br>     </mrow><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>n</mi><br>     </mrow><br>   </munderover><br>   <msub><br>     <mi>d</mi><br>     <mi>i</mi><br>   </msub><br>   <msubsup><br>     <mi>f</mi><br>     <mi>i</mi><br>     <mn>2</mn><br>   </msubsup><br>   <mo>&#x2212;<!-- − --></mo><br>   <mn>2</mn><br>   <munderover><br>     <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mo>,</mo><br>       <mi>j</mi><br>       <mo>=</mo><br>       <mn>1</mn><br>     </mrow><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>n</mi><br>     </mrow><br>   </munderover><br>   <msub><br>     <mi>w</mi><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mi>j</mi><br>     </mrow><br>   </msub><br>   <msub><br>     <mi>f</mi><br>     <mi>i</mi><br>   </msub><br>   <msub><br>     <mi>f</mi><br>     <mi>j</mi><br>   </msub><br>   <mo>+</mo><br>   <munderover><br>     <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>j</mi><br>       <mo>=</mo><br>       <mn>1</mn><br>     </mrow><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>n</mi><br>     </mrow><br>   </munderover><br>   <msub><br>     <mi>d</mi><br>     <mi>j</mi><br>   </msub><br>   <msubsup><br>     <mi>f</mi><br>     <mi>j</mi><br>     <mn>2</mn><br>   </msubsup><br>   <mo stretchy="false">)</mo><br>   <mo>=</mo><br>   <mfrac><br>     <mn>1</mn><br>     <mn>2</mn><br>   </mfrac><br>   <munderover><br>     <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mo>,</mo><br>       <mi>j</mi><br>       <mo>=</mo><br>       <mn>1</mn><br>     </mrow><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>n</mi><br>     </mrow><br>   </munderover><br>   <msub><br>     <mi>w</mi><br>     <mrow class="MJX-TeXAtom-ORD"><br>       <mi>i</mi><br>       <mi>j</mi><br>     </mrow><br>   </msub><br>   <mo stretchy="false">(</mo><br>   <msub><br>     <mi>f</mi><br>     <mi>i</mi><br>   </msub><br>   <mo>&#x2212;<!-- − --></mo><br>   <msub><br>     <mi>f</mi><br>     <mi>j</mi><br>   </msub><br>   <msup><br>     <mo stretchy="false">)</mo><br>     <mn>2</mn><br>   </msup><br> </math>  </li>
+<li>拉普拉斯矩阵是半正定的，且对应的n个实数特征值都大于等于0，即<math xmlns="http://www.w3.org/1998/Math/MathML"><br><mn>0</mn><br><mo>=</mo><br><msub><br> <mi>&#x03BB;<!-- λ --></mi><br> <mn>1</mn><br></msub><br><mo>&#x2264;<!-- ≤ --></mo><br><msub><br> <mi>&#x03BB;<!-- λ --></mi><br> <mn>2</mn><br></msub><br><mo>&#x2264;<!-- ≤ --></mo><br><mo>.</mo><br><mo>.</mo><br><mo>.</mo><br><mo>&#x2264;<!-- ≤ --></mo><br><msub><br> <mi>&#x03BB;<!-- λ --></mi><br> <mi>n</mi><br></msub><br></math>，且最小的特征值为0，这个由性质3很容易得出。  </li>
+</ol>
+<h2 id="谱聚类基础之四——无向图切图"><a href="#谱聚类基础之四——无向图切图" class="headerlink" title="谱聚类基础之四——无向图切图"></a>谱聚类基础之四——无向图切图</h2><p>&emsp;对于无向图G的切图，我们的目标是将图G(V,E)切成相互没有连接的k个子图，每个子图点的集合为：<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br></math>，它们满足<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>A</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>&#x2229;<!-- ∩ --></mo><br>  <msub><br>    <mi>A</mi><br>    <mi>j</mi><br>  </msub><br>  <mo>=</mo><br>  <mi mathvariant="normal">&#x2205;<!-- ∅ --></mi><br></math>,且<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>&#x222A;<!-- ∪ --></mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>&#x222A;<!-- ∪ --></mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>&#x222A;<!-- ∪ --></mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo>=</mo><br>  <mi>V</mi><br></math>.<br>&emsp;对于任意两个子图点的集合<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>A</mi><br>  <mo>,</mo><br>  <mi>B</mi><br>  <mo>&#x2282;<!-- ⊂ --></mo><br>  <mi>V</mi><br></math>, <math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>A</mi><br>  <mo>&#x2229;<!-- ∩ --></mo><br>  <mi>B</mi><br>  <mo>=</mo><br>  <mi mathvariant="normal">&#x2205;<!-- ∅ --></mi><br></math>, 我们定义A和B之间的切图权重为：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mi>W</mi><br>  <mo stretchy="false">(</mo><br>  <mi>A</mi><br>  <mo>,</mo><br>  <mi>B</mi><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <munder><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>&#x2208;<!-- ∈ --></mo><br>      <mi>A</mi><br>      <mo>,</mo><br>      <mi>j</mi><br>      <mo>&#x2208;<!-- ∈ --></mo><br>      <mi>B</mi><br>    </mrow><br>  </munder><br>  <msub><br>    <mi>w</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>  </msub><br></math><br>&emsp;那么对于我们k个子图点的集合：<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br></math>，我们定义切图cut为：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mi>c</mi><br>  <mi>u</mi><br>  <mi>t</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <mfrac><br>    <mn>1</mn><br>    <mn>2</mn><br>  </mfrac><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <mi>W</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mover><br>      <mi>A</mi><br>      <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>    </mover><br>    <mi>i</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br></math><br>&emsp;其中<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mover><br>      <mi>A</mi><br>      <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>    </mover><br>    <mi>i</mi><br>  </msub><br></math>为<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>A</mi><br>    <mi>i</mi><br>  </msub><br></math>的补集，意为除<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>A</mi><br>    <mi>i</mi><br>  </msub><br></math>子集外其他V的子集的并集。<br>&emsp;那么如何切图可以让子图内的点权重和高，子图间的点权重和低呢？一个自然的想法就是最小化<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>c</mi><br>  <mi>u</mi><br>  <mi>t</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br></math>, 但是可以发现，这种极小化的切图存在问题，如下图：<br><img src="/2017/10/25/spectral-clustering/image1.jpg" alt="image1"><br>&emsp;我们选择一个权重最小的边缘的点，比如C和H之间进行cut，这样可以最小化<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>c</mi><br>  <mi>u</mi><br>  <mi>t</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br></math>, 但是却不是最优的切图，如何避免这种切图，并且找到类似图中”Best Cut”这样的最优切图呢？我们下一节就来看看谱聚类使用的切图方法。  </p>
+<h1 id="切图聚类"><a href="#切图聚类" class="headerlink" title="切图聚类"></a>切图聚类</h1><p>&emsp;为了避免最小切图导致的切图效果不佳，我们需要对每个子图的规模做出限定，一般来说，有两种切图方式，第一种是RatioCut，第二种是Ncut。下面我们分别加以介绍。  </p>
+<h2 id="RadioCut切图"><a href="#RadioCut切图" class="headerlink" title="RadioCut切图"></a>RadioCut切图</h2><p>&emsp;RatioCut切图为了避免第五节的最小切图，对每个切图，不光考虑最小化cut(A1,A2,…Ak)，它还同时考虑最大化每个子图点的个数，即：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mi>R</mi><br>  <mi>a</mi><br>  <mi>t</mi><br>  <mi>i</mi><br>  <mi>o</mi><br>  <mi>C</mi><br>  <mi>u</mi><br>  <mi>t</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <mfrac><br>    <mn>1</mn><br>    <mn>2</mn><br>  </mfrac><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <mfrac><br>    <mrow><br>      <mi>W</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>      <mo>,</mo><br>      <msub><br>        <mover><br>          <mi>A</mi><br>          <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>        </mover><br>        <mi>i</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>    </mrow><br>    <mrow><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>    </mrow><br>  </mfrac><br></math><br>&emsp;那么怎么最小化这个RatioCut函数呢？牛人们发现，RatioCut函数可以通过如下方式表示。<br>&emsp;我们引入指示向量<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>h</mi><br>    <mi>j</mi><br>  </msub><br>  <mo>=</mo><br>  <mo fence="false" stretchy="false">{</mo><br>  <msub><br>    <mi>h</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>h</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>h</mi><br>    <mi>k</mi><br>  </msub><br>  <mo fence="false" stretchy="false">}</mo><br>  <mspace width="thickmathspace"><br>  <mi>j</mi><br>  <mo>=</mo><br>  <mn>1</mn><br>  <mo>,</mo><br>  <mn>2</mn><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mi>k</mi><br></mspace></math>,对于任意一个向量<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>h</mi><br>    <mi>j</mi><br>  </msub><br></math>, 它是一个n维向量（n为样本数），我们定义<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>h</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br></math>为：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msub><br>    <mi>h</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mrow><br>    <mo>{</mo><br>    <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false"><br>      <mtr><br>        <mtd><br>          <mn>0</mn><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>v</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>          </mrow><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mfrac><br>            <mn>1</mn><br>            <msqrt><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>              <msub><br>                <mi>A</mi><br>                <mi>j</mi><br>              </msub><br>              <mrow class="MJX-TeXAtom-ORD"><br>                <mo stretchy="false">|</mo><br>              </mrow><br>            </msqrt><br>          </mfrac><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>v</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>          </mrow><br>        </mtd><br>      </mtr><br>    </mtable><br>    <mo fence="true" stretchy="true"></mo><br>  </mrow><br></math><br>&emsp;那么我们对于<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br></math>,有：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mtable columnalign="right left right left right left right left right left right left" rowspacing="3pt" columnspacing="0em 2em 0em 2em 0em 2em 0em 2em 0em 2em 0em" displaystyle="true"><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-1"><br>        <mtext>(1)</mtext><br>      </mtd><br>      <mtd><br>        <msubsup><br>          <mi>h</mi><br>          <mi>i</mi><br>          <mi>T</mi><br>        </msubsup><br>        <mi>L</mi><br>        <msub><br>          <mi>h</mi><br>          <mi>i</mi><br>        </msub><br>      </mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>=</mo><br>            <mn>1</mn><br>          </mrow><br>        </munder><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>n</mi><br>            <mo>=</mo><br>            <mn>1</mn><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mi>h</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>i</mi><br>            <mi>m</mi><br>          </mrow><br>        </msub><br>        <mo>&#x2212;<!-- − --></mo><br>        <msub><br>          <mi>h</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>i</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <msup><br>          <mo stretchy="false">)</mo><br>          <mn>2</mn><br>        </msup><br>      </mtd><br>    </mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-2"><br>        <mtext>(2)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <mo stretchy="false">(</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mo stretchy="false">(</mo><br>        <mfrac><br>          <mn>1</mn><br>          <msqrt><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>          </msqrt><br>        </mfrac><br>        <mo>&#x2212;<!-- − --></mo><br>        <mn>0</mn><br>        <msup><br>          <mo stretchy="false">)</mo><br>          <mn>2</mn><br>        </msup><br>        <mo>+</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mo stretchy="false">(</mo><br>        <mn>0</mn><br>        <mo>&#x2212;<!-- − --></mo><br>        <mfrac><br>          <mn>1</mn><br>          <msqrt><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>          </msqrt><br>        </mfrac><br>        <msup><br>          <mo stretchy="false">)</mo><br>          <mn>2</mn><br>        </msup><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-3"><br>        <mtext>(3)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <mo stretchy="false">(</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>          </mrow><br>        </mfrac><br>        <mo>+</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>          </mrow><br>        </mfrac><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-4"><br>        <mtext>(4)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <mo stretchy="false">(</mo><br>        <mi>c</mi><br>        <mi>u</mi><br>        <mi>t</mi><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mi>A</mi><br>          <mi>i</mi><br>        </msub><br>        <mo>,</mo><br>        <msub><br>          <mover><br>            <mi>A</mi><br>            <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>          </mover><br>          <mi>i</mi><br>        </msub><br>        <mo stretchy="false">)</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>          </mrow><br>        </mfrac><br>        <mo>+</mo><br>        <mi>c</mi><br>        <mi>u</mi><br>        <mi>t</mi><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mover><br>            <mi>A</mi><br>            <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>          </mover><br>          <mi>i</mi><br>        </msub><br>        <mo>,</mo><br>        <msub><br>          <mi>A</mi><br>          <mi>i</mi><br>        </msub><br>        <mo stretchy="false">)</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>          </mrow><br>        </mfrac><br>        <mo stretchy="false">)</mo><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-5"><br>        <mtext>(5)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mrow><br>            <mi>c</mi><br>            <mi>u</mi><br>            <mi>t</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <msub><br>              <mover><br>                <mi>A</mi><br>                <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>              </mover><br>              <mi>i</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mrow><br>          <mrow><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mrow class="MJX-TeXAtom-ORD"><br>              <mo stretchy="false">|</mo><br>            </mrow><br>          </mrow><br>        </mfrac><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-6"><br>        <mtext>(6)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mi>R</mi><br>        <mi>a</mi><br>        <mi>t</mi><br>        <mi>i</mi><br>        <mi>o</mi><br>        <mi>C</mi><br>        <mi>u</mi><br>        <mi>t</mi><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mi>A</mi><br>          <mi>i</mi><br>        </msub><br>        <mo>,</mo><br>        <msub><br>          <mover><br>            <mi>A</mi><br>            <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>          </mover><br>          <mi>i</mi><br>        </msub><br>        <mo stretchy="false">)</mo><br>      </mtd><br>    </mtd></mlabeledtr><br>  </mtable><br></math><br>&emsp;上述第（1）式用了上面第四节的拉普拉斯矩阵的性质3. 第二式用到了指示向量的定义。可以看出，对于某一个子图i，它的RatioCut对应于hiTLhi,那么我们的k个子图呢？对应的RatioCut函数表达式为：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mi>R</mi><br>  <mi>a</mi><br>  <mi>t</mi><br>  <mi>i</mi><br>  <mi>o</mi><br>  <mi>C</mi><br>  <mi>u</mi><br>  <mi>t</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>=</mo><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <msub><br>    <mo stretchy="false">)</mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br></math><br>&emsp;其中<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br></math>为矩阵的迹。也就是说，我们的RatioCut切图，实际上就是最小化我们的<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br></math>。注意到<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>H</mi><br>  <mo>=</mo><br>  <mi>I</mi><br></math>,则我们的切图优化目标为:  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <munder><br>    <mrow class="MJX-TeXAtom-OP MJX-fixedlimits"><br>      <munder><br>        <mrow><br>          <mi>a</mi><br>          <mi>r</mi><br>          <mi>g</mi><br>          <mspace width="thickmathspace"><br>          <mi>m</mi><br>          <mi>i</mi><br>          <mi>n</mi><br>        </mspace></mrow><br>        <mo>&#x23DF;<!-- ⏟ --></mo><br>      </munder><br>    </mrow><br>    <mi>H</mi><br>  </munder><br>  <mspace width="thickmathspace"><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br>  <mspace width="thickmathspace"><br>  <mspace width="thickmathspace"><br>  <mi>s</mi><br>  <mo>.</mo><br>  <mi>t</mi><br>  <mo>.</mo><br>  <mspace width="thickmathspace"><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>H</mi><br>  <mo>=</mo><br>  <mi>I</mi><br></mspace></mspace></mspace></mspace></math><br>&emsp;注意到我们H矩阵里面的每一个指示向量都是n维的，向量中每个变量的取值为0或者<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mfrac><br>    <mn>1</mn><br>    <msqrt><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>      <msub><br>        <mi>A</mi><br>        <mi>j</mi><br>      </msub><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>    </msqrt><br>  </mfrac><br></math>，就有<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mn>2</mn><br>    <mi>n</mi><br>  </msup><br></math>种取值，有k个子图的话就有k个指示向量，共有<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>k</mi><br>  <msup><br>    <mn>2</mn><br>    <mi>n</mi><br>  </msup><br></math>种H，因此找到满足上面优化目标的H是一个NP难的问题。那么是不是就没有办法了呢？<br>&emsp;注意观察<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br></math>中每一个优化子目标<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br></math>,其中h是单位正交基， L为对称矩阵，此时<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br></math>的最大值为L的最大特征值，最小值是L的最小特征值。如果你对主成分分析PCA很熟悉的话，这里很好理解。在PCA中，我们的目标是找到协方差矩阵（对应此处的拉普拉斯矩阵L）的最大的特征值，而在我们的谱聚类中，我们的目标是找到目标的最小的特征值，得到对应的特征向量，此时对应二分切图效果最佳。也就是说，我们这里要用到维度规约的思想来近似去解决这个NP难的问题。<br>&emsp;对于<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br></math>，我们的目标是找到最小的L的特征值，而对于<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br></math>，则我们的目标就是找到k个最小的特征值，一般来说，k远远小于n，也就是说，此时我们进行了维度规约，将维度从n降到了k，从而近似可以解决这个NP难的问题。<br>&emsp;通过找到L的最小的k个特征值，可以得到对应的k个特征向量，这k个特征向量组成一个nxk维度的矩阵，即为我们的H。一般需要对H里的每一个特征向量做标准化，即<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>=</mo><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo>/</mo><br>  </mrow><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br></math>.<br>&emsp;由于我们在使用维度规约的时候损失了少量信息，导致得到的优化后的指示向量h对应的H现在不能完全指示各样本的归属，因此一般在得到nxk维度的矩阵H后还需要对每一行进行一次传统的聚类，比如使用K-Means聚类.  </p>
+<h2 id="NCut切图"><a href="#NCut切图" class="headerlink" title="NCut切图"></a>NCut切图</h2><p>&emsp;Ncut切图和RatioCut切图很类似，但是把Ratiocut的分母<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br>  <mi>A</mi><br>  <mi>i</mi><br>  <mrow class="MJX-TeXAtom-ORD"><br>    <mo stretchy="false">|</mo><br>  </mrow><br></math>换成<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>v</mi><br>  <mi>o</mi><br>  <mi>l</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>i</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br></math>. 由于子图样本的个数多并不一定权重就大，我们切图时基于权重也更合我们的目标，因此一般来说Ncut切图优于RatioCut切图。  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mi>N</mi><br>  <mi>C</mi><br>  <mi>u</mi><br>  <mi>t</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <mfrac><br>    <mn>1</mn><br>    <mn>2</mn><br>  </mfrac><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <mfrac><br>    <mrow><br>      <mi>W</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>      <mo>,</mo><br>      <msub><br>        <mover><br>          <mi>A</mi><br>          <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>        </mover><br>        <mi>i</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>    </mrow><br>    <mrow><br>      <mi>v</mi><br>      <mi>o</mi><br>      <mi>l</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>    </mrow><br>  </mfrac><br></math><br>&emsp;对应的，Ncut切图对指示向量h做了改进。注意到RatioCut切图的指示向量使用的是<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mfrac><br>    <mn>1</mn><br>    <msqrt><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>      <msub><br>        <mi>A</mi><br>        <mi>j</mi><br>      </msub><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo stretchy="false">|</mo><br>      </mrow><br>    </msqrt><br>  </mfrac><br></math>标示样本归属，而Ncut切图使用了子图权重<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mfrac><br>    <mn>1</mn><br>    <msqrt><br>      <mi>v</mi><br>      <mi>o</mi><br>      <mi>l</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>j</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>    </msqrt><br>  </mfrac><br></math>来标示指示向量h，定义如下:  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msub><br>    <mi>h</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mrow><br>    <mo>{</mo><br>    <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false"><br>      <mtr><br>        <mtd><br>          <mn>0</mn><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>v</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>          </mrow><br>        </mtd><br>      </mtr><br>      <mtr><br>        <mtd><br>          <mfrac><br>            <mn>1</mn><br>            <msqrt><br>              <mi>v</mi><br>              <mi>o</mi><br>              <mi>l</mi><br>              <mo stretchy="false">(</mo><br>              <msub><br>                <mi>A</mi><br>                <mi>j</mi><br>              </msub><br>              <mo stretchy="false">)</mo><br>            </msqrt><br>          </mfrac><br>        </mtd><br>        <mtd><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <msub><br>              <mi>v</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>          </mrow><br>        </mtd><br>      </mtr><br>    </mtable><br>    <mo fence="true" stretchy="true"></mo><br>  </mrow><br></math><br>&emsp;那么我们对于<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br></math>,有：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mtable columnalign="right left right left right left right left right left right left" rowspacing="3pt" columnspacing="0em 2em 0em 2em 0em 2em 0em 2em 0em 2em 0em" displaystyle="true"><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-7"><br>        <mtext>(7)</mtext><br>      </mtd><br>      <mtd><br>        <msubsup><br>          <mi>h</mi><br>          <mi>i</mi><br>          <mi>T</mi><br>        </msubsup><br>        <mi>L</mi><br>        <msub><br>          <mi>h</mi><br>          <mi>i</mi><br>        </msub><br>      </mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>=</mo><br>            <mn>1</mn><br>          </mrow><br>        </munder><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>n</mi><br>            <mo>=</mo><br>            <mn>1</mn><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mi>h</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>i</mi><br>            <mi>m</mi><br>          </mrow><br>        </msub><br>        <mo>&#x2212;<!-- − --></mo><br>        <msub><br>          <mi>h</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>i</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <msup><br>          <mo stretchy="false">)</mo><br>          <mn>2</mn><br>        </msup><br>      </mtd><br>    </mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-8"><br>        <mtext>(8)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <mo stretchy="false">(</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mo stretchy="false">(</mo><br>        <mfrac><br>          <mn>1</mn><br>          <msqrt><br>            <mi>v</mi><br>            <mi>o</mi><br>            <mi>l</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </msqrt><br>        </mfrac><br>        <mo>&#x2212;<!-- − --></mo><br>        <mn>0</mn><br>        <msup><br>          <mo stretchy="false">)</mo><br>          <mn>2</mn><br>        </msup><br>        <mo>+</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mo stretchy="false">(</mo><br>        <mn>0</mn><br>        <mo>&#x2212;<!-- − --></mo><br>        <mfrac><br>          <mn>1</mn><br>          <msqrt><br>            <mi>v</mi><br>            <mi>o</mi><br>            <mi>l</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </msqrt><br>        </mfrac><br>        <msup><br>          <mo stretchy="false">)</mo><br>          <mn>2</mn><br>        </msup><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-9"><br>        <mtext>(9)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <mo stretchy="false">(</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mi>v</mi><br>            <mi>o</mi><br>            <mi>l</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mrow><br>        </mfrac><br>        <mo>+</mo><br>        <munder><br>          <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mo>&#x2209;<!-- ∉ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <mi>n</mi><br>            <mo>&#x2208;<!-- ∈ --></mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>          </mrow><br>        </munder><br>        <msub><br>          <mi>w</mi><br>          <mrow class="MJX-TeXAtom-ORD"><br>            <mi>m</mi><br>            <mi>n</mi><br>          </mrow><br>        </msub><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mi>v</mi><br>            <mi>o</mi><br>            <mi>l</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mrow><br>        </mfrac><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-10"><br>        <mtext>(10)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mn>2</mn><br>        </mfrac><br>        <mo stretchy="false">(</mo><br>        <mi>c</mi><br>        <mi>u</mi><br>        <mi>t</mi><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mi>A</mi><br>          <mi>i</mi><br>        </msub><br>        <mo>,</mo><br>        <msub><br>          <mover><br>            <mi>A</mi><br>            <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>          </mover><br>          <mi>i</mi><br>        </msub><br>        <mo stretchy="false">)</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mi>v</mi><br>            <mi>o</mi><br>            <mi>l</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mrow><br>        </mfrac><br>        <mo>+</mo><br>        <mi>c</mi><br>        <mi>u</mi><br>        <mi>t</mi><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mover><br>            <mi>A</mi><br>            <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>          </mover><br>          <mi>i</mi><br>        </msub><br>        <mo>,</mo><br>        <msub><br>          <mi>A</mi><br>          <mi>i</mi><br>        </msub><br>        <mo stretchy="false">)</mo><br>        <mfrac><br>          <mn>1</mn><br>          <mrow><br>            <mi>v</mi><br>            <mi>o</mi><br>            <mi>l</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mrow><br>        </mfrac><br>        <mo stretchy="false">)</mo><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-11"><br>        <mtext>(11)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mfrac><br>          <mrow><br>            <mi>c</mi><br>            <mi>u</mi><br>            <mi>t</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>i</mi><br>            </msub><br>            <mo>,</mo><br>            <msub><br>              <mover><br>                <mi>A</mi><br>                <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>              </mover><br>              <mi>i</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mrow><br>          <mrow><br>            <mi>v</mi><br>            <mi>o</mi><br>            <mi>l</mi><br>            <mo stretchy="false">(</mo><br>            <msub><br>              <mi>A</mi><br>              <mi>j</mi><br>            </msub><br>            <mo stretchy="false">)</mo><br>          </mrow><br>        </mfrac><br>      </mtd><br>    </mtd></mlabeledtr><br>    <mlabeledtr><br>      <mtd id="mjx-eqn-12"><br>        <mtext>(12)</mtext><br>      </mtd><br>      <mtd><br>      <mtd><br>        <mi></mi><br>        <mo>=</mo><br>        <mi>N</mi><br>        <mi>C</mi><br>        <mi>u</mi><br>        <mi>t</mi><br>        <mo stretchy="false">(</mo><br>        <msub><br>          <mi>A</mi><br>          <mi>i</mi><br>        </msub><br>        <mo>,</mo><br>        <msub><br>          <mover><br>            <mi>A</mi><br>            <mo accent="false">&#x00AF;<!-- ¯ --></mo><br>          </mover><br>          <mi>i</mi><br>        </msub><br>        <mo stretchy="false">)</mo><br>      </mtd><br>    </mtd></mlabeledtr><br>  </mtable><br></math><br>&emsp;推导方式和RatioCut完全一致。也就是说，我们的优化目标仍然是  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <mi>N</mi><br>  <mi>C</mi><br>  <mi>u</mi><br>  <mi>t</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>A</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>k</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>L</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>=</mo><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>k</mi><br>    </mrow><br>  </munderover><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <msub><br>    <mo stretchy="false">)</mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>i</mi><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br></math><br>但是此时我们的<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>H</mi><br>  <mo>&#x2260;<!-- ≠ --></mo><br>  <mi>I</mi><br></math>,而是<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>D</mi><br>  <mi>H</mi><br>  <mo>=</mo><br>  <mi>I</mi><br></math>。推导如下：   </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <msubsup><br>    <mi>h</mi><br>    <mi>i</mi><br>    <mi>T</mi><br>  </msubsup><br>  <mi>D</mi><br>  <msub><br>    <mi>h</mi><br>    <mi>i</mi><br>  </msub><br>  <mo>=</mo><br>  <munderover><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>j</mi><br>      <mo>=</mo><br>      <mn>1</mn><br>    </mrow><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>n</mi><br>    </mrow><br>  </munderover><br>  <msubsup><br>    <mi>h</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mi>i</mi><br>      <mi>j</mi><br>    </mrow><br>    <mn>2</mn><br>  </msubsup><br>  <msub><br>    <mi>d</mi><br>    <mi>j</mi><br>  </msub><br>  <mo>=</mo><br>  <mfrac><br>    <mn>1</mn><br>    <mrow><br>      <mi>v</mi><br>      <mi>o</mi><br>      <mi>l</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>    </mrow><br>  </mfrac><br>  <munder><br>    <mo movablelimits="false">&#x2211;<!-- ∑ --></mo><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <msub><br>        <mi>v</mi><br>        <mi>j</mi><br>      </msub><br>      <mo>&#x2208;<!-- ∈ --></mo><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>    </mrow><br>  </munder><br>  <msub><br>    <mi>w</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <msub><br>        <mi>v</mi><br>        <mi>j</mi><br>      </msub><br>    </mrow><br>  </msub><br>  <mo>=</mo><br>  <mfrac><br>    <mn>1</mn><br>    <mrow><br>      <mi>v</mi><br>      <mi>o</mi><br>      <mi>l</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>    </mrow><br>  </mfrac><br>  <mi>v</mi><br>  <mi>o</mi><br>  <mi>l</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>A</mi><br>    <mi>i</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br>  <mo>=</mo><br>  <mn>1</mn><br></math><br>&emsp;也就是说，此时我们的优化目标最终为：  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <munder><br>    <mrow class="MJX-TeXAtom-OP MJX-fixedlimits"><br>      <munder><br>        <mrow><br>          <mi>a</mi><br>          <mi>r</mi><br>          <mi>g</mi><br>          <mspace width="thickmathspace"><br>          <mi>m</mi><br>          <mi>i</mi><br>          <mi>n</mi><br>        </mspace></mrow><br>        <mo>&#x23DF;<!-- ⏟ --></mo><br>      </munder><br>    </mrow><br>    <mi>H</mi><br>  </munder><br>  <mspace width="thickmathspace"><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo stretchy="false">)</mo><br>  <mspace width="thickmathspace"><br>  <mspace width="thickmathspace"><br>  <mi>s</mi><br>  <mo>.</mo><br>  <mi>t</mi><br>  <mo>.</mo><br>  <mspace width="thickmathspace"><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>D</mi><br>  <mi>H</mi><br>  <mo>=</mo><br>  <mi>I</mi><br></mspace></mspace></mspace></mspace></math><br>&emsp;此时我们的H中的指示向量h并不是标准正交基，所以在RatioCut里面的降维思想不能直接用。怎么办呢？其实只需要将指示向量矩阵H做一个小小的转化即可。<br>&emsp;我们令<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>H</mi><br>  <mo>=</mo><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>F</mi><br></math>, 则：<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>L</mi><br>  <mi>H</mi><br>  <mo>=</mo><br>  <msup><br>    <mi>F</mi><br>    <mi>T</mi><br>  </msup><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>L</mi><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>F</mi><br></math>，<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>H</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>D</mi><br>  <mi>H</mi><br>  <mo>=</mo><br>  <msup><br>    <mi>F</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>F</mi><br>  <mo>=</mo><br>  <mi>I</mi><br></math>,也就是说优化目标变成了:  </p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><br>  <munder><br>    <mrow class="MJX-TeXAtom-OP MJX-fixedlimits"><br>      <munder><br>        <mrow><br>          <mi>a</mi><br>          <mi>r</mi><br>          <mi>g</mi><br>          <mspace width="thickmathspace"><br>          <mi>m</mi><br>          <mi>i</mi><br>          <mi>n</mi><br>        </mspace></mrow><br>        <mo>&#x23DF;<!-- ⏟ --></mo><br>      </munder><br>    </mrow><br>    <mi>F</mi><br>  </munder><br>  <mspace width="thickmathspace"><br>  <mi>t</mi><br>  <mi>r</mi><br>  <mo stretchy="false">(</mo><br>  <msup><br>    <mi>F</mi><br>    <mi>T</mi><br>  </msup><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>L</mi><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>F</mi><br>  <mo stretchy="false">)</mo><br>  <mspace width="thickmathspace"><br>  <mspace width="thickmathspace"><br>  <mi>s</mi><br>  <mo>.</mo><br>  <mi>t</mi><br>  <mo>.</mo><br>  <mspace width="thickmathspace"><br>  <msup><br>    <mi>F</mi><br>    <mi>T</mi><br>  </msup><br>  <mi>F</mi><br>  <mo>=</mo><br>  <mi>I</mi><br></mspace></mspace></mspace></mspace></math><br>&emsp;可以发现这个式子和RatioCut基本一致，只是中间的L变成了<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>L</mi><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br></math>。这样我们就可以继续按照RatioCut的思想，求出<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>L</mi><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br></math>的最小的前k个特征值，然后求出对应的特征向量，并标准化，得到最后的特征矩阵F,最后对F进行一次传统的聚类（比如K-Means）即可。<br>&emsp;一般来说， <math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br>  <mi>L</mi><br>  <msup><br>    <mi>D</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <mo>&#x2212;<!-- − --></mo><br>      <mn>1</mn><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mo>/</mo><br>      </mrow><br>      <mn>2</mn><br>    </mrow><br>  </msup><br></math>相当于对拉普拉斯矩阵L做了一次标准化，即<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mfrac><br>    <msub><br>      <mi>L</mi><br>      <mrow class="MJX-TeXAtom-ORD"><br>        <mi>i</mi><br>        <mi>j</mi><br>      </mrow><br>    </msub><br>    <msqrt><br>      <mi>v</mi><br>      <mi>o</mi><br>      <mi>l</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>i</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>      <mi>v</mi><br>      <mi>o</mi><br>      <mi>l</mi><br>      <mo stretchy="false">(</mo><br>      <msub><br>        <mi>A</mi><br>        <mi>j</mi><br>      </msub><br>      <mo stretchy="false">)</mo><br>    </msqrt><br>  </mfrac><br></math>  </p>
+<h1 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h1><p>&emsp;铺垫了这么久，终于可以总结下谱聚类的基本流程了。一般来说，谱聚类主要的注意点为相似矩阵的生成方式（参见第二节），切图的方式（参见第六节）以及最后的聚类方法（参见第六节）。<br>&emsp;最常用的相似矩阵的生成方式是基于高斯核距离的全连接方式，最常用的切图方式是Ncut。而到最后常用的聚类方法为K-Means。下面以Ncut总结谱聚类算法流程。<br>&emsp;输入：样本集<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>x</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>x</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>,</mo><br>  <msub><br>    <mi>x</mi><br>    <mi>n</mi><br>  </msub><br>  <mo stretchy="false">)</mo><br></math>，相似矩阵的生成方式, 降维后的维度<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>k</mi><br>    <mn>1</mn><br>  </msub><br></math>, 聚类方法，聚类后的维度<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <msub><br>    <mi>k</mi><br>    <mn>2</mn><br>  </msub><br></math><br>&emsp;输出：簇划分<math xmlns="http://www.w3.org/1998/Math/MathML"><br>  <mi>C</mi><br>  <mo stretchy="false">(</mo><br>  <msub><br>    <mi>c</mi><br>    <mn>1</mn><br>  </msub><br>  <mo>,</mo><br>  <msub><br>    <mi>c</mi><br>    <mn>2</mn><br>  </msub><br>  <mo>,</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <mo>.</mo><br>  <msub><br>    <mi>c</mi><br>    <mrow class="MJX-TeXAtom-ORD"><br>      <msub><br>        <mi>k</mi><br>        <mn>2</mn><br>      </msub><br>    </mrow><br>  </msub><br>  <mo stretchy="false">)</mo><br></math>.  </p>
+<ol>
+<li>根据输入的相似矩阵的生成方式构建样本的相似矩阵S  </li>
+<li>根据相似矩阵S构建邻接矩阵W，构建度矩阵D  </li>
+<li>计算出拉普拉斯矩阵L  </li>
+<li>构建标准化后的拉普拉斯矩阵<math xmlns="http://www.w3.org/1998/Math/MathML"><br><msup><br> <mi>D</mi><br> <mrow class="MJX-TeXAtom-ORD"><br>   <mo>&#x2212;<!-- − --></mo><br>   <mn>1</mn><br>   <mrow class="MJX-TeXAtom-ORD"><pre><code>&lt;mo&gt;/&lt;/mo&gt;
+</code></pre>   </mrow><br>   <mn>2</mn><br> </mrow><br></msup><br><mi>L</mi><br><msup><br> <mi>D</mi><br> <mrow class="MJX-TeXAtom-ORD"><br>   <mo>&#x2212;<!-- − --></mo><br>   <mn>1</mn><br>   <mrow class="MJX-TeXAtom-ORD"><pre><code>&lt;mo&gt;/&lt;/mo&gt;
+</code></pre>   </mrow><br>   <mn>2</mn><br> </mrow><br></msup><br></math>  </li>
+<li>计算<math xmlns="http://www.w3.org/1998/Math/MathML"><br><msup><br> <mi>D</mi><br> <mrow class="MJX-TeXAtom-ORD"><br>   <mo>&#x2212;<!-- − --></mo><br>   <mn>1</mn><br>   <mrow class="MJX-TeXAtom-ORD"><pre><code>&lt;mo&gt;/&lt;/mo&gt;
+</code></pre>   </mrow><br>   <mn>2</mn><br> </mrow><br></msup><br><mi>L</mi><br><msup><br> <mi>D</mi><br> <mrow class="MJX-TeXAtom-ORD"><br>   <mo>&#x2212;<!-- − --></mo><br>   <mn>1</mn><br>   <mrow class="MJX-TeXAtom-ORD"><pre><code>&lt;mo&gt;/&lt;/mo&gt;
+</code></pre>   </mrow><br>   <mn>2</mn><br> </mrow><br></msup><br></math>最小的k1个特征值所各自对应的特征向量f  </li>
+<li>将特征向量f标准化，最终组成<math xmlns="http://www.w3.org/1998/Math/MathML"><br><mi>n</mi><br><mo>&#x00D7;<!-- × --></mo><br><msub><br> <mi>k</mi><br> <mn>1</mn><br></msub><br></math>维的特征矩阵F  </li>
+<li>对F中的每一行作为一个k1维的样本，共n个样本，用输入的聚类方法进行聚类，聚类维数为k2。  </li>
+<li>得到簇划分<math xmlns="http://www.w3.org/1998/Math/MathML"><br><mi>C</mi><br><mo stretchy="false">(</mo><br><msub><br> <mi>c</mi><br> <mn>1</mn><br></msub><br><mo>,</mo><br><msub><br> <mi>c</mi><br> <mn>2</mn><br></msub><br><mo>,</mo><br><mo>.</mo><br><mo>.</mo><br><mo>.</mo><br><msub><br> <mi>c</mi><br> <mrow class="MJX-TeXAtom-ORD"><br>   <msub><pre><code>&lt;mi&gt;k&lt;/mi&gt;
+&lt;mn&gt;2&lt;/mn&gt;
+</code></pre>   </msub><br> </mrow><br></msub><br><mo stretchy="false">)</mo><br></math>.  <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>&emsp;谱聚类算法是一个使用起来简单，但是讲清楚却不是那么容易的算法，它需要你有一定的数学基础。如果你掌握了谱聚类，相信你会对矩阵分析，图论有更深入的理解。同时对降维里的主成分分析也会加深理解。<br>&emsp;下面总结下谱聚类算法的优缺点。<br>&emsp;谱聚类算法的主要优点有：  </li>
+<li>谱聚类只需要数据之间的相似度矩阵，因此对于处理稀疏数据的聚类很有效。这点传统聚类算法比如K-Means很难做到  </li>
+<li>由于使用了降维，因此在处理高维数据聚类时的复杂度比传统聚类算法好。<br>&emsp;谱聚类算法的主要缺点有：  </li>
+<li>如果最终聚类的维度非常高，则由于降维的幅度不够，谱聚类的运行速度和最后的聚类效果均不好。  </li>
+<li>聚类效果依赖于相似矩阵，不同的相似矩阵得到的最终聚类效果可能很不同。  </li>
+</ol>
+<p>（转载自<a href="http://www.cnblogs.com/pinard/" target="_blank" rel="external">刘建平Pinard</a>的博客：<a href="http://www.cnblogs.com/pinard/p/6221564.html" target="_blank" rel="external">谱聚类（spectral clustering）原理总结</a>）</p>
+
+      
+    </div>
+	
+	<div>
+	  
+        ﻿<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+	</div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+            <a href="/tags/算法/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+          
+            <a href="/tags/聚类/" rel="tag"><i class="fa fa-tag"></i> 聚类</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/13/music-share-1/" rel="prev" title="音乐分享(一)——Cecile Corbel">
+                音乐分享(一)——Cecile Corbel <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/690147660.jpg"
+               alt="Xu Jiale" />
+          <p class="site-author-name" itemprop="name">Xu Jiale</p>
+           
+              <p class="site-description motion-element" itemprop="description">今天要比昨天更优秀</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bluestyle97" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/Bluestyle97" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://xinghuazhang.xin" title="张兴华" target="_blank">张兴华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.guoxiangzhe.com" title="郭向哲" target="_blank">郭向哲</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://neilyu.cn" title="于晟建" target="_blank">于晟建</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+<iframe frameborder="no" border="0" marginwidth="0" 
+	marginheight="0" width=283 height=86 src="//music.163.com/outchain/player?type=2&id=418602088&auto=0&height=66"></iframe>
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-number">2.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#谱聚类基础之一——无向权重图"><span class="nav-number">2.1.</span> <span class="nav-text">谱聚类基础之一——无向权重图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谱聚类基础之二——相似矩阵"><span class="nav-number">2.2.</span> <span class="nav-text">谱聚类基础之二——相似矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谱聚类基础之三——拉普拉斯矩阵"><span class="nav-number">2.3.</span> <span class="nav-text">谱聚类基础之三——拉普拉斯矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谱聚类基础之四——无向图切图"><span class="nav-number">2.4.</span> <span class="nav-text">谱聚类基础之四——无向图切图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#切图聚类"><span class="nav-number">3.</span> <span class="nav-text">切图聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RadioCut切图"><span class="nav-number">3.1.</span> <span class="nav-text">RadioCut切图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NCut切图"><span class="nav-number">3.2.</span> <span class="nav-text">NCut切图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法流程"><span class="nav-number">4.</span> <span class="nav-text">算法流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xu Jiale</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共18.7k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客总数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2134985"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PelTKoQ6rDpQ82Kl7vfzsbaW-gzGzoHsz", "pbICuzzoWlP7VjxbvAEABTsj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
