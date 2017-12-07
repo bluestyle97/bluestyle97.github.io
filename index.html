@@ -310,6 +310,218 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/web-spider-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xu Jiale">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/690147660.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蓝色格调">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/12/08/web-spider-1/" itemprop="url">
+                  利用Python进行网络数据抓取（一）——前言
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T01:10:26+08:00">
+                2017-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据抓取/" itemprop="url" rel="index">
+                    <span itemprop="name">数据抓取</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/08/web-spider-1/" class="leancloud_visitors" data-flag-title="利用Python进行网络数据抓取（一）——前言">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+			   <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,429
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h1><p>&emsp;你有没有过这样的需求？学校的教务处系统实在是太垃圾，一选课就崩，要是能自己写个程序秒选课就好了！自己在搞机器学习，需要大量数据用于训练，要是能自己写个程序从互联网上自动抓取数据就好了！自己想时刻关（tou）注（kui）女神的社交账号发布的动态以便秒赞，但自己又不能老盯着，要是能写个程序能帮你抓取女生的动态就好了……如果你有以上需求中的一个或多个，那么恭喜你，爬虫技术正是你所需要的。<br>&emsp;什么是爬虫？爬虫是一种自动获取网页内容的<strong>程序</strong>，是搜索引擎的重要组成部分。我们可以把爬虫想象成一只蜘蛛，把万维网想象成一张蜘蛛网，爬虫在万维网上爬啊爬，就把网页上的数据给爬下来了。是不是很好理解？<br>&emsp;本人很早之前就对爬虫技术感兴趣，可惜一直没空研究。本学期软件工程大作业正好我是负责数据抓取，因此学习了一下，也算是有一些心得，在这里就对过去这段时间学习的内容做一下整理与总结。</p>
+<h1 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h1><h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>&emsp;理解了爬虫是什么、是用来干什么之后，我们使用什么语言来实现一个爬虫呢？是使用Java，Python，还是C++？对我而言，进行网络数据抓取首推当然是Python语言，理由如下：  </p>
+<ol>
+<li>Python是一种动态类型语言，代码简洁，使用方便，语法也十分的简单。  </li>
+<li>Python有许多优秀的第三方库如requests，selenium等，可以直接导入使用，大大减少了工作量。  </li>
+<li>Python灵活的语法和数据类型使得在对抓取下来的数据进行处理时变得异常简单。  </li>
+</ol>
+<p>&emsp;使用Python进行网络数据采集是你的不二选择，just try it, and you’ll fall in love with it!<br>&emsp;既然确定使用Python，那么使用哪个版本的Python比较好呢，2.x还是3.x？由于一些历史原因，Python被分成了两个版本，而且这两个版本互不兼容（excuse me?），对很多人来说这是一个非常头疼的问题（比如说我），因为一些任务需求迫不得已在电脑上同时安装两个版本的Python并且经常来回切换，简直烦的一比有木有！<br>&emsp;在这里，我强烈推荐使用3.x版本的Python（貌似最新版本是3.6.3?）。首先，Python 2.x 早晚要被Python 3.x取代，3.x代表了未来。其次，虽然一搜索会发现网络上有很多博客的博主仍在推荐使用2.x版本，理由是很多库不兼容3.x版本。然而在2017年的今天，经过我的亲身体验，发现这完全是在扯淡，几乎任何第三方库都早已兼容3.x版本了好伐？即使现在没有兼容，早晚也会兼容；如果这个库完全没有往3.x版本移植的打算，那么八成这个库是不打算再维护下去了，就是这么自信！最后的最后，最重要的一点是：当你用过Python 2.x版本之后，我猜你一定会被2.x版本那屎一般的中文编码问题恶心的想吐！不管你有没有被恶心到，反正我是被恶心到了！然而3.x版本的中文处理简直完美！就凭这一点，就没有不去使用3.x版本的理由！<br>&emsp;最后再多说一句，在安装Python时，推荐使用Anaconda进行安装（<a href="https://www.anaconda.com/download/" target="_blank" rel="external">官网链接</a>），Anaconda是一个Python的发行版，它与Python的关系就如同Ubuntu与Linux的关系一样。Anaconda自带许多有用的第三方库，为你省去了很多麻烦，而且安装以后可以使用conda命令来管理你的第三方包，十分方便。  </p>
+<h2 id="工具准备-1"><a href="#工具准备-1" class="headerlink" title="工具准备"></a>工具准备</h2><p>在使用Python写爬虫时，有一些十分有用的库是需要经常使用的，下面介绍几个比较常用的库：</p>
+<h3 id="urllib"><a href="#urllib" class="headerlink" title="urllib"></a>urllib</h3><p>这是一个Python自带的库，可以用来发起网络请求并获取响应数据。<br>```python<br>    from urllib.request import urlopen</p>
+<pre><code># 发起一个网络请求
+html = urlopen(&apos;http://www.baidu.com&apos;)
+# 打印输出网页内容
+print(html.read())
+</code></pre><p>urllib库还可以用来下载网页上的内容，如图片、视频等（可以用来下载女神在社交账号上发的自拍哦，刺激不刺激？）<br>```python<br>    from urllib.request import urlopen<br>    from urllib.request import urlretrieve<br>    from bs4 import BeautifulSoup    # 用于定位网页元素，下面有介绍</p>
+<pre><code># 先发起网络请求获取网页
+html = urlopen(&apos;你女神的主页&apos;)
+# 使用网页内容实例化一个BeautifulSoup对象
+bs = BeautifulSoup(html, &apos;lxml&apos;)    # 使用lxml解析网页，速度比较快
+# 在网页上定位你女神的自拍图片元素并获取链接属性
+image_url = bs.find(&apos;img&apos;, {&apos;class&apos;: &apos;女神的自拍&apos;}).attrs[&apos;src&apos;]
+# 最后下载自拍！
+urlretrieve(image_url, &apos;D:\images\goddess\zipai.jpg&apos;)
+</code></pre><h3 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h3><p>&emsp;虽然用 Python 的标准库也可以控制网页表单，但是有时用一点儿语法糖可以让生活更甜蜜.requests库就是这样一个擅长处理那些复杂的HTTP请求、cookie、header（响应头和请求头）等内容的Python第三方库。<br>它的安装很简单，直接在命令行中运行：<br>    pip install requests<br>如果使用Anaconda版的Python的话，则已经内置了requests，无需安装。  </p>
+
+          
+        
+      
+    </div>
+	
+	<div>
+	  
+	</div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/25/spectral-clustering/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1511,7 +1723,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1522,7 +1734,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1533,7 +1745,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1649,7 +1861,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共18.1k字</span>
+  <span class="post-count">博客全站共19.5k字</span>
 </div>
         
 <div class="busuanzi-count">
@@ -2044,6 +2256,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
