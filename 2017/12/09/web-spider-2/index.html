@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="爬虫,数据抓取,Python," />
 
 
 
@@ -107,15 +107,21 @@
 
 
 
-<meta name="description" content="今天要比昨天更优秀">
-<meta property="og:type" content="website">
-<meta property="og:title" content="蓝色格调">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+<meta name="description" content="&amp;emsp;&amp;emsp;经过上一篇的工具准备后，我们已经具备写出一个爬虫的能力了，接下来就让我们通过实战来验证一下。在本篇博客中，我们将实现一个功能完善的微博爬虫，能够根据用户的微博ID爬取他的关注、粉丝，以及发布的微博等。这听起来是不是很刺激？接下来就让我们开始吧！ 准备工作&amp;emsp;&amp;emsp;众所周知微博有三种版本：网页版、移动版、和wap版。网页版就是PC上看到的版本，移动版就是手机上的">
+<meta name="keywords" content="爬虫,数据抓取,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Python进行网络数据抓取（二）——实战篇之新浪微博">
+<meta property="og:url" content="http://yoursite.com/2017/12/09/web-spider-2/index.html">
 <meta property="og:site_name" content="蓝色格调">
-<meta property="og:description" content="今天要比昨天更优秀">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;经过上一篇的工具准备后，我们已经具备写出一个爬虫的能力了，接下来就让我们通过实战来验证一下。在本篇博客中，我们将实现一个功能完善的微博爬虫，能够根据用户的微博ID爬取他的关注、粉丝，以及发布的微博等。这听起来是不是很刺激？接下来就让我们开始吧！ 准备工作&amp;emsp;&amp;emsp;众所周知微博有三种版本：网页版、移动版、和wap版。网页版就是PC上看到的版本，移动版就是手机上的">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/weibo-pc.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/weibo-mobile.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/weibo-wap.png">
+<meta property="og:updated_time" content="2017-12-09T06:06:27.537Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="蓝色格调">
-<meta name="twitter:description" content="今天要比昨天更优秀">
+<meta name="twitter:title" content="利用Python进行网络数据抓取（二）——实战篇之新浪微博">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;经过上一篇的工具准备后，我们已经具备写出一个爬虫的能力了，接下来就让我们通过实战来验证一下。在本篇博客中，我们将实现一个功能完善的微博爬虫，能够根据用户的微博ID爬取他的关注、粉丝，以及发布的微博等。这听起来是不是很刺激？接下来就让我们开始吧！ 准备工作&amp;emsp;&amp;emsp;众所周知微博有三种版本：网页版、移动版、和wap版。网页版就是PC上看到的版本，移动版就是手机上的">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/09/web-spider-2/weibo-pc.png">
 
 
 
@@ -143,13 +149,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2017/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/09/web-spider-2/"/>
 
 
 
 
 
-  <title> 归档 | 蓝色格调 </title>
+  <title> 利用Python进行网络数据抓取（二）——实战篇之新浪微博 | 蓝色格调 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -184,7 +190,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 	
 	<a href="https://github.com/bluestyle97"><img style="position: absolute; top: 0; left: 0; border: 0;" 
@@ -316,325 +322,241 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 8 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/12/09/web-spider-2/" itemprop="url">
-              
-                <span itemprop="name">利用Python进行网络数据抓取（二）——实战篇之新浪微博</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-12-09T13:29:09+08:00"
-              content="2017-12-09" >
-          12-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/12/08/web-spider-1/" itemprop="url">
-              
-                <span itemprop="name">利用Python进行网络数据抓取（一）——基础篇</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-12-08T01:10:26+08:00"
-              content="2017-12-08" >
-          12-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/25/spectral-clustering/" itemprop="url">
-              
-                <span itemprop="name">机器学习——谱聚类算法(Spectral Clustering)</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-25T16:32:06+08:00"
-              content="2017-10-25" >
-          10-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/13/music-share-1/" itemprop="url">
-              
-                <span itemprop="name">音乐分享(一)——Cecile Corbel</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-13T15:05:08+08:00"
-              content="2017-10-13" >
-          10-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/13/word-embedding/" itemprop="url">
-              
-                <span itemprop="name">词语上下位关系的抽取——模式匹配法与词嵌入法(Word Embedding)</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-13T12:58:30+08:00"
-              content="2017-10-13" >
-          10-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/05/21/segment-tree/" itemprop="url">
-              
-                <span itemprop="name">数据结构——线段树(Segment Tree)</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-05-21T15:26:00+08:00"
-              content="2017-05-21" >
-          05-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/19/red-black-tree/" itemprop="url">
-              
-                <span itemprop="name">数据结构——红黑树(Red-Black Tree)</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-19T19:50:16+08:00"
-              content="2017-04-19" >
-          04-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/17/git/" itemprop="url">
-              
-                <span itemprop="name">Git使用指南</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-17T09:03:06+08:00"
-              content="2017-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/09/web-spider-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xu Jiale">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/690147660.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蓝色格调">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                利用Python进行网络数据抓取（二）——实战篇之新浪微博
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T13:29:09+08:00">
+                2017-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/09/web-spider-2/" class="leancloud_visitors" data-flag-title="利用Python进行网络数据抓取（二）——实战篇之新浪微博">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+			   <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  566
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;经过上一篇的工具准备后，我们已经具备写出一个爬虫的能力了，接下来就让我们通过实战来验证一下。在本篇博客中，我们将实现一个功能完善的微博爬虫，能够根据用户的微博ID爬取他的关注、粉丝，以及发布的微博等。这听起来是不是很刺激？接下来就让我们开始吧！</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>&emsp;&emsp;众所周知微博有三种版本：网页版、移动版、和wap版。网页版就是PC上看到的版本，移动版就是手机上的Android或IOS客户端看到的版本，而wap版则是以前4G尚未普及的时代手机上看到的几乎全是文字的网页。以下是这三个版本的界面对比：<br>网页版：<br><img src="/2017/12/09/web-spider-2/weibo-pc.png" alt="weibo-pc"><br>移动版：<br><img src="/2017/12/09/web-spider-2/weibo-mobile.png" alt="weibo-mobile"><br>wap版：<br><img src="/2017/12/09/web-spider-2/weibo-wap.png" alt="weibo-wap"><br>&emsp;&emsp;可以看出，这三种版本的界面丰富程度是依次递减的，且它们的url各不相同。那么我们在爬取微博的时候，应该选择哪个版本进行爬取呢？<br>&emsp;&emsp;在本次实战中，我们选择移动版微博进行爬取，理由如下：网页版微博容量太大，请求速度慢，界面元素太多，不便于快速定位到所需元素，而且爬取网页版微博需要cookie才能正常访问（这个是最关键的一点）；而wap版微博虽然访问简单，但是界面容量又太小，难以通过一次请求获取到全部所需元素，比如一条微博中有9张图片，而wap版微博只显示第一张图片，要想获取全部图片，你需要发起9次请求！这简直不能忍！ 作为对比，移动版微博就非常友好了：请求迅速，HTML简洁全面，而且不用登陆就能获取到各种微博的信息。<br>&emsp;&emsp;综上所述，将移动版微博作为抓取目标是再合适不过的选择。在抓取其他网站的时候，不妨也利用上述的思考过程，分析一下从哪个客户端版本进行抓取最为合适，往往能节省相当大的时间和精力。  </p>
+<h1 id="开始抓取"><a href="#开始抓取" class="headerlink" title="开始抓取"></a>开始抓取</h1>
+      
+    </div>
+	
+	<div>
+	  
+        ﻿<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+	</div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"><i class="fa fa-tag"></i> 爬虫</a>
+          
+            <a href="/tags/数据抓取/" rel="tag"><i class="fa fa-tag"></i> 数据抓取</a>
+          
+            <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/08/web-spider-1/" rel="prev" title="利用Python进行网络数据抓取（一）——基础篇">
+                利用Python进行网络数据抓取（一）——基础篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -642,6 +564,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
 
         </div>
         
@@ -661,8 +589,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/690147660.jpg"
@@ -776,6 +713,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始抓取"><span class="nav-number">2.</span> <span class="nav-text">开始抓取</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -914,11 +867,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
 
 
   
@@ -951,6 +902,10 @@
   
     
 
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2134985"></script>
+      <!-- UY END -->
     
   
 
@@ -1209,26 +1164,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

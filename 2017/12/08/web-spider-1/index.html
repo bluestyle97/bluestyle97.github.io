@@ -116,7 +116,7 @@
 <meta property="og:description" content="基本介绍&amp;emsp;&amp;emsp;你有没有过这样的需求？学校的教务处系统实在是太垃圾，一选课就崩，要是能自己写个程序秒选课就好了！自己在搞机器学习，需要大量数据用于训练，要是能自己写个程序从互联网上自动抓取数据就好了！自己想时刻关（tou）注（kui）女神的社交账号发布的动态以便秒赞，但自己又不能老盯着，要是能写个程序能帮你抓取女神的动态就好了……如果你有以上需求中的一个或多个，那么恭喜你，爬虫技术">
 <meta property="og:image" content="http://yoursite.com/2017/12/08/web-spider-1/example-bs.png">
 <meta property="og:image" content="https://h5.sinaimg.cn/m/emoticon/icon/others/d_miao-9ebe15b2c2.png">
-<meta property="og:updated_time" content="2017-12-09T05:15:57.281Z">
+<meta property="og:updated_time" content="2017-12-09T05:31:02.857Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Python进行网络数据抓取（一）——基础篇">
 <meta name="twitter:description" content="基本介绍&amp;emsp;&amp;emsp;你有没有过这样的需求？学校的教务处系统实在是太垃圾，一选课就崩，要是能自己写个程序秒选课就好了！自己在搞机器学习，需要大量数据用于训练，要是能自己写个程序从互联网上自动抓取数据就好了！自己想时刻关（tou）注（kui）女神的社交账号发布的动态以便秒赞，但自己又不能老盯着，要是能写个程序能帮你抓取女神的动态就好了……如果你有以上需求中的一个或多个，那么恭喜你，爬虫技术">
@@ -390,8 +390,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据抓取/" itemprop="url" rel="index">
-                    <span itemprop="name">数据抓取</span>
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
                   </a>
                 </span>
 
@@ -432,7 +432,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3,225
+                  3,226
                 </span>
               
 
@@ -556,7 +556,7 @@ response = sess.post(&apos;http://www.weibo.com&apos;, params}
         &lt;/div&gt;
     &lt;/article&gt;
 &lt;/div&gt;
-</code></pre><p>这是来自微博移动版的一条微博的HTML（<a href="https://m.weibo.cn/status/4182306673004976" target="_blank" rel="external">原博链接</a>），简便起见，省略了其中的<footer\>标签（即转发数、评论数、赞数）：<br><img src="/2017/12/08/web-spider-1/example-bs.png" alt="example-bs"><br>要想获取这段HTML，首先我们要使用requests发起一个get请求（当然，使用urllib库中的urlopen方法也可以，但是我个人更习惯于使用requests）：  </footer\></p>
+</code></pre><p>这是来自微博移动版的一条微博的HTML（<a href="https://m.weibo.cn/status/4182306673004976" target="_blank" rel="external">原博链接</a>），简便起见，省略了其中的footer标签（即转发数、评论数、赞数）：<br><img src="/2017/12/08/web-spider-1/example-bs.png" alt="example-bs"><br>要想获取这段HTML，首先我们要使用requests发起一个get请求（当然，使用urllib库中的urlopen方法也可以，但是我个人更习惯于使用requests）：  </p>
 <pre><code>import requests
 from bs4 import BeautifulSoup
 
@@ -639,6 +639,10 @@ weibo = bs.find(&apos;div&apos;, {&apos;class&apos;: &apos;card-main&apos;})
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/09/web-spider-2/" rel="next" title="利用Python进行网络数据抓取（二）——实战篇之新浪微博">
+                <i class="fa fa-chevron-left"></i> 利用Python进行网络数据抓取（二）——实战篇之新浪微博
+              </a>
             
           </div>
 
@@ -728,7 +732,7 @@ weibo = bs.find(&apos;div&apos;, {&apos;class&apos;: &apos;card-main&apos;})
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -882,7 +886,7 @@ weibo = bs.find(&apos;div&apos;, {&apos;class&apos;: &apos;card-main&apos;})
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共21.3k字</span>
+  <span class="post-count">博客全站共21.8k字</span>
 </div>
         
 <div class="busuanzi-count">

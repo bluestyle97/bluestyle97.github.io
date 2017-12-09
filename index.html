@@ -328,6 +328,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/09/web-spider-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xu Jiale">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/690147660.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蓝色格调">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/12/09/web-spider-2/" itemprop="url">
+                  利用Python进行网络数据抓取（二）——实战篇之新浪微博
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T13:29:09+08:00">
+                2017-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/09/web-spider-2/" class="leancloud_visitors" data-flag-title="利用Python进行网络数据抓取（二）——实战篇之新浪微博">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+			   <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  566
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;经过上一篇的工具准备后，我们已经具备写出一个爬虫的能力了，接下来就让我们通过实战来验证一下。在本篇博客中，我们将实现一个功能完善的微博爬虫，能够根据用户的微博ID爬取他的关注、粉丝，以及发布的微博等。这听起来是不是很刺激？接下来就让我们开始吧！</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>&emsp;&emsp;众所周知微博有三种版本：网页版、移动版、和wap版。网页版就是PC上看到的版本，移动版就是手机上的Android或IOS客户端看到的版本，而wap版则是以前4G尚未普及的时代手机上看到的几乎全是文字的网页。以下是这三个版本的界面对比：<br>网页版：<br><img src="/2017/12/09/web-spider-2/weibo-pc.png" alt="weibo-pc"><br>移动版：<br><img src="/2017/12/09/web-spider-2/weibo-mobile.png" alt="weibo-mobile"><br>wap版：<br><img src="/2017/12/09/web-spider-2/weibo-wap.png" alt="weibo-wap"><br>&emsp;&emsp;可以看出，这三种版本的界面丰富程度是依次递减的，且它们的url各不相同。那么我们在爬取微博的时候，应该选择哪个版本进行爬取呢？<br>&emsp;&emsp;在本次实战中，我们选择移动版微博进行爬取，理由如下：网页版微博容量太大，请求速度慢，界面元素太多，不便于快速定位到所需元素，而且爬取网页版微博需要cookie才能正常访问（这个是最关键的一点）；而wap版微博虽然访问简单，但是界面容量又太小，难以通过一次请求获取到全部所需元素，比如一条微博中有9张图片，而wap版微博只显示第一张图片，要想获取全部图片，你需要发起9次请求！这简直不能忍！ 作为对比，移动版微博就非常友好了：请求迅速，HTML简洁全面，而且不用登陆就能获取到各种微博的信息。<br>&emsp;&emsp;综上所述，将移动版微博作为抓取目标是再合适不过的选择。在抓取其他网站的时候，不妨也利用上述的思考过程，分析一下从哪个客户端版本进行抓取最为合适，往往能节省相当大的时间和精力。  </p>
+<h1 id="开始抓取"><a href="#开始抓取" class="headerlink" title="开始抓取"></a>开始抓取</h1>
+          
+        
+      
+    </div>
+	
+	<div>
+	  
+	</div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/web-spider-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -390,8 +580,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据抓取/" itemprop="url" rel="index">
-                    <span itemprop="name">数据抓取</span>
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
                   </a>
                 </span>
 
@@ -432,7 +622,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3,225
+                  3,226
                 </span>
               
 
@@ -1722,7 +1912,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1860,7 +2050,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共21.3k字</span>
+  <span class="post-count">博客全站共21.8k字</span>
 </div>
         
 <div class="busuanzi-count">
