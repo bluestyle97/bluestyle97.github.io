@@ -117,7 +117,18 @@
 <meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/weibo-pc.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/weibo-mobile.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/weibo-wap.png">
-<meta property="og:updated_time" content="2017-12-09T06:06:27.537Z">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/luhan-homepage.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/luhan-weibo.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/chrome-extension.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/firebug-1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/firebug-2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/luhan-info.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/chrome-tool.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/chrome-tool-1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/chrome-tool-2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/chrome-json.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/web-spider-2/chrome-json-content.png">
+<meta property="og:updated_time" content="2017-12-10T04:29:46.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Python进行网络数据抓取（二）——实战篇之新浪微博">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;经过上一篇的工具准备后，我们已经具备写出一个爬虫的能力了，接下来就让我们通过实战来验证一下。在本篇博客中，我们将实现一个功能完善的微博爬虫，能够根据用户的微博ID爬取他的关注、粉丝，以及发布的微博等。这听起来是不是很刺激？接下来就让我们开始吧！ 准备工作&amp;emsp;&amp;emsp;众所周知微博有三种版本：网页版、移动版、和wap版。网页版就是PC上看到的版本，移动版就是手机上的">
@@ -433,7 +444,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  566
+                  1,908
                 </span>
               
 
@@ -449,7 +460,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  2
+                  7
                 </span>
               
             </div>
@@ -470,7 +481,65 @@
       
         <p>&emsp;&emsp;经过上一篇的工具准备后，我们已经具备写出一个爬虫的能力了，接下来就让我们通过实战来验证一下。在本篇博客中，我们将实现一个功能完善的微博爬虫，能够根据用户的微博ID爬取他的关注、粉丝，以及发布的微博等。这听起来是不是很刺激？接下来就让我们开始吧！</p>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>&emsp;&emsp;众所周知微博有三种版本：网页版、移动版、和wap版。网页版就是PC上看到的版本，移动版就是手机上的Android或IOS客户端看到的版本，而wap版则是以前4G尚未普及的时代手机上看到的几乎全是文字的网页。以下是这三个版本的界面对比：<br>网页版：<br><img src="/2017/12/09/web-spider-2/weibo-pc.png" alt="weibo-pc"><br>移动版：<br><img src="/2017/12/09/web-spider-2/weibo-mobile.png" alt="weibo-mobile"><br>wap版：<br><img src="/2017/12/09/web-spider-2/weibo-wap.png" alt="weibo-wap"><br>&emsp;&emsp;可以看出，这三种版本的界面丰富程度是依次递减的，且它们的url各不相同。那么我们在爬取微博的时候，应该选择哪个版本进行爬取呢？<br>&emsp;&emsp;在本次实战中，我们选择移动版微博进行爬取，理由如下：网页版微博容量太大，请求速度慢，界面元素太多，不便于快速定位到所需元素，而且爬取网页版微博需要cookie才能正常访问（这个是最关键的一点）；而wap版微博虽然访问简单，但是界面容量又太小，难以通过一次请求获取到全部所需元素，比如一条微博中有9张图片，而wap版微博只显示第一张图片，要想获取全部图片，你需要发起9次请求！这简直不能忍！ 作为对比，移动版微博就非常友好了：请求迅速，HTML简洁全面，而且不用登陆就能获取到各种微博的信息。<br>&emsp;&emsp;综上所述，将移动版微博作为抓取目标是再合适不过的选择。在抓取其他网站的时候，不妨也利用上述的思考过程，分析一下从哪个客户端版本进行抓取最为合适，往往能节省相当大的时间和精力。  </p>
-<h1 id="开始抓取"><a href="#开始抓取" class="headerlink" title="开始抓取"></a>开始抓取</h1>
+<h1 id="开始抓取"><a href="#开始抓取" class="headerlink" title="开始抓取"></a>开始抓取</h1><p>&emsp;&emsp;明确了将移动版微博作为抓取目标之后，我们首先来分析一下它的页面结构。<br>&emsp;&emsp;这是鹿晗的微博主页（为什么选择鹿晗作为示例呢，大概是因为他长得比较帅吧）：<br><img src="/2017/12/09/web-spider-2/luhan-homepage.png" alt="luhan-homepage"><br>这是鹿晗发布的微博页面：<br><img src="/2017/12/09/web-spider-2/luhan-weibo.png" alt="luhan-weibo"><br>&emsp;&emsp;好了，现在我们对移动版微博的界面已经有了基本的认识，那么就开始进行爬取吧！<br>&emsp;&emsp;等等！在进行正式的爬取之前，我要介绍两个十分有用的chrome浏览器插件：Firebug Lite（<a href="https://getfirebug.com/firebuglite#Install" target="_blank" rel="external">官网链接</a>）和JSON Viewer（直接从chrome扩展程序商店中下载）。 就是下面的这两个：<br><img src="/2017/12/09/web-spider-2/chrome-extension.png" width="660" height="300"><br>&emsp;&emsp;Firebug Lite可以用来方便地探测HTML文档中特定元素的位置。例如，我们想获取鹿晗微博中的文字信息，直接在文字上点击鼠标右键，再点击Inspect with Firebug Lite：<br><img src="/2017/12/09/web-spider-2/firebug-1.png" width="540" height="400"><br>然后浏览器底部便会跳出如下窗口，微博文字所在的HTML元素便清晰地显示出来啦！<br><img src="/2017/12/09/web-spider-2/firebug-2.png" alt="firebug-2"><br>&emsp;&emsp;JSON Viewer是一个在浏览器中规范化显示JSON对象的插件，下文中会有示例。  </p>
+<h2 id="抓取个人资料"><a href="#抓取个人资料" class="headerlink" title="抓取个人资料"></a>抓取个人资料</h2><p>首先，我们来看一看移动版微博的个人资料页面。让我们在鹿晗的微博主页点击“更多基本资料”按钮，便会出现以下界面：<br><img src="/2017/12/09/web-spider-2/luhan-info.png" width="400" height="400"><br>那么我们如何爬取这个页面内的资料信息呢？也许你会想，直接发起网络请求获取网页HTML，再使用BeautifulSoup解析网页内容呗！且慢！我们先尝试一下有没有更为简单的方法。<br>首先，我们打开chrome浏览器的开发者工具：<br><img src="/2017/12/09/web-spider-2/chrome-tool.png" width="540" height="400"><br>接着，我们刷新一下个人资料页面，开发者工具界面便会变成这样：<br><img src="/2017/12/09/web-spider-2/chrome-tool-1.png" width="540" height="400"><br>上面显示了打开这个网页过程中的所有网络请求列表，乱糟糟的，对吧？我们要做的便是“去伪存真”，从这些杂乱无章的请求信息中提取出我们需要的信息。事实上，这些请求里面包括了这个网页所需要的所有图片、<br>js代码文件等，我们并不需要这些信息。让我们点击开发工具界面的“XHR”按钮，只查看ajax请求来试一试：<br><img src="/2017/12/09/web-spider-2/chrome-tool-2.png" width="540" height="400"><br>哇，只剩下一个了耶！让我们点击右侧的headers，复制该请求的链接，并将其输入到浏览器的地址框内并回车，看看会发生什么神奇的事情：<br><img src="/2017/12/09/web-spider-2/chrome-json.png" alt="chrome-json"><br>很明显，访问这个URL会返回一个JSON对象！为什么在浏览器中显示的JSON对象会如此规范美观呢？是因为chrome浏览器比较牛逼吗？显然不是的，当然是因为我安装了前面提到的JSON Viewer啦！如果没有安装这个插件的话，相信浏览器的显示效果一定会让你流下感动的泪水。<br>那么，让我们看一下这个JSON对象的内容：<br><img src="/2017/12/09/web-spider-2/chrome-json-content.png" alt="chrome-json"><br>天啦噜！这不正是我么想要的用户资料嘛！也就是说，我们发现了移动版新浪微博从后台请求个人信息数据的入口！到了这一步，其实意味着我们离大功告成已经不远了。也许你会问，为什么不直接解析用户资料页面HTML，而是要费这么多周折找到这个返回JSON的请求呢？事实上，你一试验就会知道，获取JSON对象并解析的速度是远远快于获取网页HTML再解析的速度的。因此，在对其他网站进行数据抓取时，我们也应该按照这种思路，首先寻找一下有没有这种数据请求入口。<br>那么抓取微博个人资料的思路就十分明确了：首先发送网络请求，获取包含个人资料的JSON对象，然后根据JSON对象的结构逐条解析我们需要的信息就行啦！示例代码如下：<br>首先定义存储微博用户个人资料的类：  </p>
+<pre><code>class WeiboUserItem(WeiboPosterItem):
+    def __init__(self):
+        WeiboPosterItem.__init__(self)
+        self.id = 0                 # 用户ID
+        self.name = &apos;&apos;              # 用户名
+        self.avatar_url = &apos;&apos;        # 头像链接
+        self.profile_url = &apos;&apos;       # 主页链接
+        self.gender = &apos;&apos;            # 性别
+        self.location = &apos;&apos;          # 所在地
+        self.description = &apos;&apos;       # 个人简介
+        self.signup_time = &apos;&apos;       # 注册时间
+        self.weibo_count = 0        # 微博数
+        self.follow_count = 0       # 关注数
+        self.fans_count = 0         # 粉丝数
+</code></pre><p>根据微博用户ID爬取个人信息：  </p>
+<pre><code>weibo_user_profile_url = &apos;https://m.weibo.cn/api/container/getIndex?uid={uid1}&amp;luicode=10000012&amp;type=uid&amp;value={uid2}&apos;
+
+def scrape_user_info(id):
+    item = WeiboUserItem()
+    item.id = id
+    item.profile_url = &apos;https://weibo.com/u/{uid}&apos;.format(uid=id)
+
+    # 通过主页请求获取关注数、粉丝数、头像url
+    response = requests.get(weibo_user_profile_url.format(uid1=id, uid2=id))
+    result = response.json()
+    item.follow_count = result.get(&apos;data&apos;).get(&apos;userInfo&apos;).get(&apos;follow_count&apos;)
+    item.fans_count = result.get(&apos;data&apos;).get(&apos;userInfo&apos;).get(&apos;followers_count&apos;)
+    item.avatar_url = result.get(&apos;data&apos;).get(&apos;userInfo&apos;).get(&apos;profile_image_url&apos;)
+
+    # 通过详细资料请求获取详细资料
+    response = requests.get(weibo_user_info_url.format(uid1=id, uid2=id))
+    result = response.json()
+    for card in result.get(&apos;data&apos;).get(&apos;cards&apos;):
+        if card.get(&apos;card_type&apos;) != 11:
+            continue
+        for card_inner in card.get(&apos;card_group&apos;):
+            if card_inner.get(&apos;card_type&apos;) != 41:
+                continue
+            item_name = card_inner.get(&apos;item_name&apos;)
+            item_content = card_inner.get(&apos;item_content&apos;)
+            if item_name == &apos;昵称&apos;:
+                item.name = item_content
+            elif item_name == &apos;性别&apos;:
+                item.gender = item_content
+            elif item_name == &apos;所在地&apos;:
+                item.location = item_content
+            elif item_name == &apos;简介&apos;:
+                item.description = item_content
+            elif item_name == &apos;注册时间&apos;:
+                item.signup_time = item_content
+
+    # 通过用户微博请求获取用户微博数
+    response = requests.get(weibo_user_weibo_url.format(uid1=id, uid2=id, page=1))
+    result = response.json()
+    item.weibo_count = result.get(&apos;data&apos;).get(&apos;cardlistInfo&apos;).get(&apos;total&apos;)
+    return item
+</code></pre>
       
     </div>
 	
@@ -723,7 +792,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始抓取"><span class="nav-number">2.</span> <span class="nav-text">开始抓取</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始抓取"><span class="nav-number">2.</span> <span class="nav-text">开始抓取</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抓取个人资料"><span class="nav-number">2.1.</span> <span class="nav-text">抓取个人资料</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -768,7 +837,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共21.8k字</span>
+  <span class="post-count">博客全站共23.2k字</span>
 </div>
         
 <div class="busuanzi-count">
