@@ -43,7 +43,6 @@ Selected Publications
   **Jiale Xu**, Jia Zheng, Yanyu Xu, Rui Tang, Shenghua Gao  
   Computer Vision and Pattern Recognition (CVPR), 2021 [[Paper]](https://openaccess.thecvf.com/content/CVPR2021/html/Xu_Layout-Guided_Novel_View_Synthesis_From_a_Single_Indoor_Panorama_CVPR_2021_paper.html)[[Project]](https://github.com/bluestyle97/PNVS)  
   
-
 Professional Services
 ======
 - Conference Reviewer: AAAI 2021, ECCV 2022, CVPR 2023, ICCV 2023
