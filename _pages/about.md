@@ -8,9 +8,9 @@ redirect_from:
   - /about.html
 ---
 
-I am a Ph.D. candidate (Sept.2019-Now) at ShanghaiTech University, supervised by Prof. [Shenghua Gao](https://scholar.google.com/citations?user=fe-1v0MAAAAJ). Before that, I obtained my Bachelor’s degree in Computer Science from Harbin Institute of Technology (HIT). I am now a research intern at [Tencent ARC Lab](https://arc.tencent.com/) (Jun.2022-now), working closely with [Xintao Wang](https://xinntao.github.io/) and [Yan-Pei Cao](https://yanpei.me/).
+I am a Ph.D. candidate (Sept.2019-Now) at ShanghaiTech University, supervised by Prof. [Shenghua Gao](https://scholar.google.com/citations?user=fe-1v0MAAAAJ). Before that, I obtained my Bachelor’s degree in Computer Science from Harbin Institute of Technology (HIT). I am now a research intern at [Tencent ARC Lab](https://arc.tencent.com/) (Jun.2022-Now), working closely with [Xintao Wang](https://xinntao.github.io/) and [Yan-Pei Cao](https://yanpei.me/).
 
-My recent research intersts lie in diffusion models, text-to-3D synthesis and 3D reconstruction.
+My recent research interests lie in diffusion models, text-to-3D synthesis and 3D reconstruction.
 
 **I am currently actively searching for a full-time position and expect to graduate in 2024. Feel free to contact me!**
 
@@ -21,7 +21,7 @@ Education
 
 Work Experiences
 ======
-- Tencent ARC Lab, Shenzhen, China, (Jun. 2022 - Now)
+- Tencent ARC Lab, Shenzhen, China, (Jun.2022-Now)
   - 2022 Tencent Rhino-bird Research Elite Program
   - Text-to-3D Content Synthesis
 
