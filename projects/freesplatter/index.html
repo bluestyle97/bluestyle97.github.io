@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="High-quality 3D Gaussian primitives from 2-4 posed sparse images within 0.23 second">
+  <meta name="keywords" content="FreeSplatter, sparse-view reconstruction, Image-to-3D, Gaussian Splatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreeSplatter: Pose-free Gaussian Splatting for Sparse-view 3D Reconstruction</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+
+  <script>
+
+    $(function () {
+      var includes = $('[data-include]')
+      $.each(includes, function () {
+        var file = $(this).data('include') + '.html'
+        $(this).load(file)
+        console.log(file);
+      })
+    })
+
+  </script>
+
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.156.1/build/three.module.js",
+        "three/controls/OrbitControls": "https://unpkg.com/three@0.156.1/examples/jsm/controls/OrbitControls.js",
+        "three/libs/stats": "https://unpkg.com/three@0.156.1/examples/jsm/libs/stats.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
+  <style>
+    model-viewer {
+      width: 300px;
+      height: 300px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            
+            <h1 class="title is-1 publication-title">FreeSplatter: Pose-free Gaussian Splatting for Sparse-view 3D Reconstruction</h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                  <span class="author-block"> <a href="https://github.com/bluestyle97" target="_blank">Jiale Xu</a><sup>1</sup>,</span>
+                  <span class="author-block"> <a href="https://cs.hku.hk/people/academic-staff/gaosh" target="_blank">Shenghua Gao</a><sup>2</sup>,</span>
+                  <span class="author-block"> <a href="https://www.linkedin.com/in/YingShanProfile/" target="_blank">Ying Shan</a><sup>1</sup></span>
+              </span>
+
+              <br>
+              <span class="author-block">
+                    <span class="author-block"><sup>1</sup>ARC Lab, Tencent PCG &nbsp;&nbsp;</span>
+                    <span class="author-block"><sup>2</sup>The University of Hong Kong &nbsp;&nbsp;</span>
+              </span>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <!-- PDF Link. -->
+                  <span class="link-block">
+                    <a
+                      href="https://bluestyle97.github.io/projects/freesplatter/"
+                      target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                  <!-- Code Link. -->
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/TencentARC/FreeSplatter"
+                      target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                    </a>
+                  </span>
+                  <!-- Model Link. -->
+                  <span class="link-block">
+                    <a
+                      href="https://huggingface.co/TencentARC/InstantMesh"
+                      target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fa fa-database"></i>
+                      </span>
+                      <span>Model</span>
+                    </a>
+                  </span>
+                  <!-- Demo Link. -->
+                  <span class="link-block">
+                    <a
+                      href="https://huggingface.co/spaces/TencentARC/FreeSplatter"
+                      target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">&#129303;</span>
+                      <span>Demo</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <div class="is-size-5 publication-authors">
+                <hr
+                  style="
+                    width: 100%;
+                    height: 0.7px;
+                    background-color: rgba(0, 0, 0, 0.665);
+                    margin-top: 1em;
+                  " />
+                Reconstruct 3D Gaussians from <strong>unposed</strong> sparse-view images and recover their camera parameters.
+              </div>
+
+              <br/>
+
+              <!-- Object -->
+              <div class="columns is-1 is-multiline is-mobile">
+                <div class="column pb-0 mb-0 is-one-third">
+                  <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+                    <source src="./webpage_object/GSO_DOLL_FAMILY_video.mp4" type="video/mp4">
+                  </video>
+                  <div style="text-align: center;">
+                    <img src="./webpage_object/GSO_DOLL_FAMILY_images.png" alt="GSO_DOLL_FAMILY_images" style="width:100%">
+                    <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/GSO_DOLL_FAMILY_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+                    <a href="./webpage_object/GSO_DOLL_FAMILY_poses.html" target="_blank">Pose Viewer</a>
+                  </div>
+                </div>
+
+                <div class="column pb-0 mb-0 is-one-third">
+                  <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+                    <source src="./webpage_object/ABO_00071_video.mp4" type="video/mp4">
+                  </video>
+                  <div style="text-align: center;">
+                    <img src="./webpage_object/ABO_00071_images.png" alt="ABO_00071_images" style="width:100%">
+                    <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/ABO_00071_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+                    <a href="./webpage_object/ABO_00071_poses.html" target="_blank">Pose Viewer</a>
+                  </div>
+                </div>
+                
+                <div class="column pb-0 mb-0 is-one-third">
+                    <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+                      <source src="./webpage_object/GSO_Transformers_Age_of_Extinction_Mega_1Step_Bumblebee_Figure_video.mp4" type="video/mp4">
+                    </video>
+                    <div style="text-align: center;">
+                      <img src="./webpage_object/GSO_Transformers_Age_of_Extinction_Mega_1Step_Bumblebee_Figure_images.png" alt="GSO_Transformers_Age_of_Extinction_Mega_1Step_Bumblebee_Figure_images" style="width:100%">
+                      <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/GSO_Transformers_Age_of_Extinction_Mega_1Step_Bumblebee_Figure_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+                      <a href="./webpage_object/GSO_Transformers_Age_of_Extinction_Mega_1Step_Bumblebee_Figure_poses.html" target="_blank">Pose Viewer</a>
+                    </div>
+                  </div>  
+              </div>
+
+              <!-- Scene -->
+              <div class="columns is-1 is-multiline is-mobile">
+                <div class="column pb-0 mb-0 is-one-third">
+                  <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+                    <source src="./webpage_scene/blendedmvs_1_video.mp4" type="video/mp4">
+                  </video>
+                  <div style="text-align: center;">
+                    <img src="./webpage_scene/blendedmvs_1_images.png" alt="blendedmvs_1_images" style="width:50%"></br>
+                    <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/blendedmvs_1_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+                    <a href="./webpage_scene/blendedmvs_1_poses.html" target="_blank">Pose Viewer</a>
+                  </div>
+                </div>
+
+                <div class="column pb-0 mb-0 is-one-third">
+                  <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+                    <source src="./webpage_scene/re10k_1_video.mp4" type="video/mp4">
+                  </video>
+                  <div style="text-align: center;">
+                    <img src="./webpage_scene/re10k_1_images.png" alt="re10k_1_images" style="width:50%"></br>
+                    <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/re10k_1_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+                    <a href="./webpage_scene/re10k_1_poses.html" target="_blank">Pose Viewer</a>
+                  </div>
+                </div>
+
+                <div class="column pb-0 mb-0 is-one-third">
+                  <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+                    <source src="./webpage_scene/scannetpp_3_video.mp4" type="video/mp4">
+                  </video>
+                  <div style="text-align: center;">
+                    <img src="./webpage_scene/scannetpp_3_images.png" alt="scannetpp_3_images" style="width:50%"></br>
+                    <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/scannetpp_3_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+                    <a href="./webpage_scene/scannetpp_3_poses.html" target="_blank">Pose Viewer</a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+                Existing sparse-view reconstruction models heavily rely on accurate known camera poses. However, deriving 
+                camera extrinsics and intrinsics from sparse-view images presents significant challenges. In this work, 
+                we present <strong>FreeSplatter</strong>, a highly scalable, feed-forward reconstruction framework capable of 
+                generating high-quality 3D Gaussians from <strong>uncalibrated</strong> sparse-view images and recovering their 
+                camera parameters in mere seconds. FreeSplatter is built upon a streamlined transformer architecture, 
+                comprising sequential self-attention blocks that facilitate information exchange among multi-view image 
+                tokens and decode them into pixel-wise 3D Gaussian primitives. The predicted Gaussian primitives are situated 
+                in a unified reference frame, allowing for high-fidelity 3D modeling and instant camera parameter estimation 
+                using off-the-shelf solvers. To cater to both <strong>object-centric</strong> and <strong>scene-level</strong> 
+                reconstruction, we train two model variants of FreeSplatter on extensive datasets. In both scenarios, FreeSplatter 
+                outperforms state-of-the-art baselines in terms of reconstruction quality and pose estimation accuracy. 
+                Furthermore, we showcase FreeSplatter's potential in enhancing the productivity of downstream applications, such as 
+                text/image-to-3D content creation.
+              <br><br>
+            </p>
+          </div>
+          </object>
+        </div>
+      </div>
+      <img src="./assets/pipeline.png" alt="pipeline">
+      <p><strong>Pipeline.</strong> Given N input views without any known camera extrinsics nor intrinsics, we first 
+        patchify them into image tokens, and then feed all tokens into a sequence of self-attention blocks to exchange information 
+        among multiple views. Finally, we decode the output image tokens into N Gaussian maps, from which we can render novel views, 
+        as well as recovering camera focal length and poses with simple iterative solvers.
+      </p>
+    </div>
+  </section>
+
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">
+        <center>Object-level Reconstruction</center>
+      </h2>
+      <!-- <h4 class="subtitle is-4">
+        <center><a href="./page_gso.html">(Click to see more results)</a></center>
+      </h4> -->
+      <div class="hero-body">
+
+        <!-- Object: GSO -->
+        <div class="columns is-1 is-multiline is-mobile">
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_object/GSO_Lalaloopsy_Peanut_Big_Top_Tricycle_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_object/GSO_Lalaloopsy_Peanut_Big_Top_Tricycle_images.png" alt="GSO_Lalaloopsy_Peanut_Big_Top_Tricycle_images" style="width:100%">
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/GSO_Lalaloopsy_Peanut_Big_Top_Tricycle_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_object/GSO_Lalaloopsy_Peanut_Big_Top_Tricycle_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research" target="_blank">Google Scanned Objects</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_object/GSO_BIRD_RATTLE_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_object/GSO_BIRD_RATTLE_images.png" alt="GSO_BIRD_RATTLE_images" style="width:100%">
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/GSO_BIRD_RATTLE_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_object/GSO_BIRD_RATTLE_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research" target="_blank">Google Scanned Objects</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_object/GSO_FAIRY_TALE_BLOCKS_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_object/GSO_FAIRY_TALE_BLOCKS_images.png" alt="GSO_FAIRY_TALE_BLOCKS_images" style="width:100%">
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/GSO_FAIRY_TALE_BLOCKS_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_object/GSO_FAIRY_TALE_BLOCKS_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research" target="_blank">Google Scanned Objects</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Object: ABO -->
+        <div class="columns is-1 is-multiline is-mobile">
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_object/ABO_B073P1H6KJ_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_object/ABO_B073P1H6KJ_images.png" alt="ABO_B073P1H6KJ_images" style="width:100%">
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/ABO_B073P1H6KJ_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_object/ABO_B073P1H6KJ_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://amazon-berkeley-objects.s3.amazonaws.com/index.html" target="_blank">ABO</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_object/ABO_00234_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_object/ABO_00234_images.png" alt="ABO_00234_images" style="width:100%">
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/ABO_00234_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_object/ABO_00234_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://amazon-berkeley-objects.s3.amazonaws.com/index.html" target="_blank">ABO</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_object/ABO_00160_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_object/ABO_00160_images.png" alt="ABO_00160_images" style="width:100%">
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_object/ABO_00160_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_object/ABO_00160_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://amazon-berkeley-objects.s3.amazonaws.com/index.html" target="_blank">ABO</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </section>
+
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">
+        <center>Scene-level Reconstruction</center>
+      </h2>
+      <div class="hero-body">
+
+        <!-- Scene -->
+        <div class="columns is-1 is-multiline is-mobile">
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_scene/scannetpp_2_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_scene/scannetpp_2_images.png" alt="scannetpp_2_images" style="width:50%"></br>
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/scannetpp_2_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_scene/scannetpp_2_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://kaldir.vc.in.tum.de/scannetpp/" target="_blank">ScanNet++</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_scene/dtu_1_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_scene/dtu_1_images.png" alt="dtu_1_images" style="width:50%"></br>
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/dtu_1_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_scene/dtu_1_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://roboimagedata.compute.dtu.dk/?page_id=36" target="_blank">DTU</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_scene/re10k_2_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_scene/re10k_2_images.png" alt="re10k_2_images" style="width:50%"></br>
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/re10k_2_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_scene/re10k_2_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://google.github.io/realestate10k/" target="_blank">RealEstate10K</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="columns is-1 is-multiline is-mobile">
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_scene/mvimgnet_1_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_scene/mvimgnet_1_images.png" alt="mvimgnet_1_images" style="width:50%"></br>
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/mvimgnet_1_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_scene/mvimgnet_1_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://gaplab.cuhk.edu.cn/projects/MVImgNet/" target="_blank">MVImgNet</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_scene/sora_museum_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_scene/sora_museum_images.png" alt="sora_museum_images" style="width:50%"></br>
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/sora_museum_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_scene/sora_museum_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://openai.com/sora/" target="_blank">Sora</a>
+            </div>
+          </div>
+
+          <div class="column pb-0 mb-0 is-one-third">
+            <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+              <source src="./webpage_scene/co3d_1_video.mp4" type="video/mp4">
+            </video>
+            <div style="text-align: center;">
+              <img src="./webpage_scene/co3d_1_images.png" alt="co3d_1_images" style="width:50%"></br>
+              <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_scene/co3d_1_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+              <a href="./webpage_scene/co3d_1_poses.html" target="_blank">Pose Viewer</a></br>
+              Image Source: <a href="https://github.com/facebookresearch/co3d" target="_blank">CO3Dv2</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </section>
+
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">
+        <center>Image-to-3D Generation</center>
+      </h2>
+      <div class="hero-body">
+
+      <!-- Image-to-3D -->
+      <div class="columns is-1 is-multiline is-mobile">
+        <div class="column pb-0 mb-0 is-one-third">
+          <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+            <source src="./webpage_img_to_3d/Zero123++_v1.2/house_video.mp4" type="video/mp4">
+          </video>
+          <div style="text-align: center;">
+            <img src="./webpage_img_to_3d/Zero123++_v1.2/house_images.png" alt="Zero123++_v1.2/house_images" style="width:100%"></br>
+            <a href="./webpage_img_to_3d/Zero123++_v1.2/house_input.png" target="_blank">Input</a> | 
+            <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_img_to_3d/Zero123%2B%2B_v1.2/house_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+            <a href="./webpage_img_to_3d/Zero123++_v1.2/house_poses.html" target="_blank">Pose Viewer</a></br>
+            Multi-view Generator: <a href="https://github.com/SUDO-AI-3D/zero123plus" target="_blank">Zero123++ v1.2</a>
+          </div>
+        </div>
+
+        <div class="column pb-0 mb-0 is-one-third">
+          <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+            <source src="./webpage_img_to_3d/Zero123++_v1.2/stitch_video.mp4" type="video/mp4">
+          </video>
+          <div style="text-align: center;">
+            <img src="./webpage_img_to_3d/Zero123++_v1.2/stitch_images.png" alt="Zero123++_v1.2/stitch_images" style="width:100%"></br>
+            <a href="./webpage_img_to_3d/Zero123++_v1.2/stitch_input.png" target="_blank">Input</a> | 
+            <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_img_to_3d/Zero123%2B%2B_v1.2/stitch_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+            <a href="./webpage_img_to_3d/Zero123++_v1.2/stitch_poses.html" target="_blank">Pose Viewer</a></br>
+            Multi-view Generator: <a href="https://github.com/SUDO-AI-3D/zero123plus" target="_blank">Zero123++ v1.2</a>
+          </div>
+        </div>
+
+        <div class="column pb-0 mb-0 is-one-third">
+          <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+            <source src="./webpage_img_to_3d/Zero123++_v1.2/camera_video.mp4" type="video/mp4">
+          </video>
+          <div style="text-align: center;">
+            <img src="./webpage_img_to_3d/Zero123++_v1.2/camera_images.png" alt="Zero123++_v1.2/camera_images" style="width:100%"></br>
+            <a href="./webpage_img_to_3d/Zero123++_v1.2/camera_input.png" target="_blank">Input</a> | 
+            <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_img_to_3d/Zero123%2B%2B_v1.2/camera_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+            <a href="./webpage_img_to_3d/Zero123++_v1.2/camera_poses.html" target="_blank">Pose Viewer</a></br>
+            Multi-view Generator: <a href="https://github.com/SUDO-AI-3D/zero123plus" target="_blank">Zero123++ v1.2</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-1 is-multiline is-mobile">
+        <div class="column pb-0 mb-0 is-one-third">
+          <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+            <source src="./webpage_img_to_3d/Hunyuan3D_Std/crab_video.mp4" type="video/mp4">
+          </video>
+          <div style="text-align: center;">
+            <img src="./webpage_img_to_3d/Hunyuan3D_Std/crab_images.png" alt="Hunyuan3D_Std/crab_images" style="width:100%"></br>
+            <a href="./webpage_img_to_3d/Hunyuan3D_Std/crab_input.png" target="_blank">Input</a> | 
+            <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_img_to_3d/Hunyuan3D_Std/crab_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+            <a href="./webpage_img_to_3d/Hunyuan3D_Std/crab_poses.html" target="_blank">Pose Viewer</a></br>
+            Multi-view Generator: <a href="https://github.com/Tencent/Hunyuan3D-1" target="_blank">Hunyuan3D-1</a>
+          </div>
+        </div>
+
+        <div class="column pb-0 mb-0 is-one-third">
+          <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+            <source src="./webpage_img_to_3d/Hunyuan3D_Std/dragon_video.mp4" type="video/mp4">
+          </video>
+          <div style="text-align: center;">
+            <img src="./webpage_img_to_3d/Hunyuan3D_Std/dragon_images.png" alt="Hunyuan3D_Std/dragon_images" style="width:100%"></br>
+            <a href="./webpage_img_to_3d/Hunyuan3D_Std/dragon_input.png" target="_blank">Input</a> | 
+            <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_img_to_3d/Hunyuan3D_Std/dragon_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+            <a href="./webpage_img_to_3d/Hunyuan3D_Std/dragon_poses.html" target="_blank">Pose Viewer</a></br>
+            Multi-view Generator: <a href="https://github.com/Tencent/Hunyuan3D-1" target="_blank">Hunyuan3D-1</a>
+          </div>
+        </div>
+
+        <div class="column pb-0 mb-0 is-one-third">
+          <video id="teaser" autoplay muted loop playsinline controls  height="100%">
+            <source src="./webpage_img_to_3d/Hunyuan3D_Std/house2_video.mp4" type="video/mp4">
+          </video>
+          <div style="text-align: center;">
+            <img src="./webpage_img_to_3d/Hunyuan3D_Std/house2_images.png" alt="Hunyuan3D_Std/house2_images" style="width:100%"></br>
+            <a href="./webpage_img_to_3d/Hunyuan3D_Std/house2_input.png" target="_blank">Input</a> | 
+            <a href="viewer/index.html?url=https://huggingface.co/datasets/bluestyle97/FreeSplatterStatic/resolve/main/webpage_img_to_3d/Hunyuan3D_Std/house2_gs.ply&is_object=true" target="_blank">3DGS Viewer</a> | 
+            <a href="./webpage_img_to_3d/Hunyuan3D_Std/house2_poses.html" target="_blank">Pose Viewer</a></br>
+            Multi-view Generator: <a href="https://github.com/Tencent/Hunyuan3D-1" target="_blank">Hunyuan3D-1</a>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+  </section>
+
+    <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{freesplatter2024,
+    author={Xu, Jiale and Gao, Shenghua and Shan, Ying},
+    title     = {FreeSplatter: Pose-free Gaussian Splatting for Sparse-view 3D Reconstruction},
+    journal   = {arXiv},
+    year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="https://bluestyle97.github.io/projects/freesplatter/">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a
+          class="icon-link"
+          href="https://github.com/TencentARC/FreeSplatter"
+          class="external-link"
+          disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p style="text-align: center">
+              The website template is borrowed from
+              <a href="https://nerfies.github.io/" target="_blank">Nerfies</a
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
