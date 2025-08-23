@@ -1,8 +1,8 @@
 ---
 layout: post
-date: 2016-01-15 07:59:00-0400
+date: 2025-06-26 09:00:00+0800
 inline: true
 related_posts: false
 ---
 
-A simple inline announcement with Markdown emoji! :sparkles: :smile:
+Two papers ([FreeSplatter](https://bluestyle97.github.io/projects/freesplatter/) and [DepthSync](https://yuejiangdong.github.io/depthsync/)) are accepted by ICCV 2025.
