@@ -2,7 +2,7 @@
   "basics": {
     "name": "Jiale Xu",
     "label": "Senior Research Scientist",
-    "image": "",
+    "Location": "Shenzhen, China",
     "hometown": "Henan, China",
     "email": "bluestyle928@gmail.com",
     "location": {
@@ -55,7 +55,7 @@
     },
     {
       "title": "People's Scholarship",
-      "date": "2016-2018",
+      "date": "2017",
       "awarder": "Harbin Institute of Technology"
     },
     {
