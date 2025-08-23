@@ -398,16 +398,14 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-a-simple-inline-announcement",
-          title: 'A simple inline announcement.',
+            },},{id: "news-i-join-tencent-arc-lab-as-a-senior-researcher",
+          title: 'I join Tencent ARC Lab as a senior researcher.',
           description: "",
-          section: "News",},{id: "news-a-long-announcement-with-details",
-          title: 'A long announcement with details',
+          section: "News",},{id: "news-two-papers-di-pcg-and-nvcomposer-are-accepted-by-cvpr-2025",
+          title: 'Two papers (DI-PCG and NVComposer) are accepted by CVPR 2025.',
           description: "",
-          section: "News",handler: () => {
-              window.location.href = "/news/announcement_2/";
-            },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
-          title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
+          section: "News",},{id: "news-two-papers-freesplatter-and-depthsync-are-accepted-by-iccv-2025",
+          title: 'Two papers (FreeSplatter and DepthSync) are accepted by ICCV 2025.',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
