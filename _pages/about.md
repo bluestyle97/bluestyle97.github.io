@@ -1,17 +1,14 @@
 ---
 layout: about
-title: about
+title: About
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: Senior Researcher @ <a href='https://arc.tencent.com/en/index'>Tencent ARC Lab</a>.
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+  more_info: 
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -27,8 +24,10 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am currently a senior researcher at [Tencent ARC Lab](https://arc.tencent.com/en/index), working on 3D Generative AI. I obtained my Ph.D degree at ShanghaiTech University in 2024, advised by Prof. [Shenghua Gao](https://scholar.google.com/citations?user=fe-1v0MAAAAJ). Before that, I received my Bachelor's degree in Computer Science from Harbin Institute of Technology in 2019.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+From 2022 to 2024, I was a research intern at Tencent, working closely with [Xintao Wang](https://xinntao.github.io/) and [Yan-Pei Cao](https://yanpei.me/).
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+My research interests are 3D/4D reconstruction and generation, with the goal of providing high-fidelity 3D digitization and ready-to-use 3D contents.
+
+If you are interested in research intern opportunities or collaborations, feel free to drop me an email.
