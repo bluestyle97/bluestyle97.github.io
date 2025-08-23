@@ -1,11 +1,10 @@
 {
   "basics": {
     "name": "Jiale Xu",
-    "label": "Research Scientist",
+    "label": "Senior Research Scientist",
     "image": "",
     "hometown": "Henan, China",
     "email": "bluestyle928@gmail.com",
-    "url": "https://bluestyle97.github.io",
     "location": {
       "address": "Nanshan District",
       "city": "Shenzhen",
@@ -17,7 +16,7 @@
     {
       "name": "Tencent ARC Lab",
       "position": "Senior Researcher",
-      "url": "https://example.com",
+      "url": "https://arc.tencent.com/en/index",
       "startDate": "2024-07-19",
       "endDate": "",
       "summary": "Working on 3D Generative AI."
@@ -77,7 +76,7 @@
     },
     {
       "name": "Football",
-      "icon": "fa-solid fa-futbol-o",
+      "icon": "fa fa-futbol-o",
       "keywords": [
         "Lionel Messi",
         "Neymar JR.",
