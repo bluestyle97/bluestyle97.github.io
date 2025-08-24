@@ -1,34 +1,90 @@
-"adams":
-  - firstname: ["Edwin", "E.", "E. P.", "Edwin Plimpton"]
-    url: https://en.wikipedia.org/wiki/Edwin_Plimpton_Adams
+"zhao":
+  - firstname: ["Wang"]
+    url: https://thuzhaowang.github.io/
 
-"podolsky":
-  - firstname: ["Boris", "B.", "B. Y.", "Boris Yakovlevich"]
-    url: https://en.wikipedia.org/wiki/Boris_Podolsky
+"cao":
+  - firstname: ["Yan-Pei"]
+    url: https://yanpei.me/
 
-"rosen":
-  - firstname: ["Nathan", "N."]
-    url: https://en.wikipedia.org/wiki/Nathan_Rosen
+"shan":
+  - firstname: ["Ying"]
+    url: https://www.linkedin.com/in/YingShanProfile/
 
-"bach":
-  - firstname: ["Johann Sebastian", "J. S."]
-    url: https://en.wikipedia.org/wiki/Johann_Sebastian_Bach
+"li":
+  - firstname: ["Lingen"]
+    url: https://lg-li.github.io/
 
-  - firstname: ["Carl Philipp Emanuel", "C. P. E."]
-    url: https://en.wikipedia.org/wiki/Carl_Philipp_Emanuel_Bach
+  - firstname: ["Xiaoyu"]
+    url: https://xiaoyu258.github.io/
+  
+  - firstname: ["Jing"]
+    url: https://lijing1996.github.io/
+  
+  - firstname: ["Yaowei"]
+    url: https://github.com/liyaowei-stu
 
-"przibram":
-  - firstname: ["Karl"]
-    url: https://link.springer.com/article/10.1007/s00016-019-00242-z
+"gao":
+  - firstname: ["Shenghua"]
+    url: https://scholar.google.com/citations?user=fe-1v0MAAAAJ
+  
+  - firstname: ["Yiming"]
+    url: https://scholar.google.com/citations?user=uRCc-McAAAAJ
 
-"schrodinger":
-  - firstname: ["Erwin"]
-    url: https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger
+"zhang":
+  - firstname: ["Zhaoyang"]
+    url: https://zzyfd.github.io/#/
+  
+  - firstname: ["Song-Hai"]
+    url: https://www.cs.tsinghua.edu.cn/csen/info/1307/4342.htm
 
-"lorentz":
-  - firstname: ["Hendrik Antoon"]
-    url: https://en.wikipedia.org/wiki/Hendrik_Lorentz
+"hu":
+  - firstname: ["Wenbo"]
+    url: https://wbhu.github.io/
 
-"planck":
-  - firstname: ["Max"]
-    url: https://en.wikipedia.org/wiki/Max_Planck
+"gu":
+  - firstname: ["Jinwei"]
+    url: https://www.gujinwei.org/
+
+"xue":
+  - firstname: ["Tianfan"]
+    url: https://tianfan.info/
+
+"cheng":
+  - firstname: ["Weihao"]
+    url: https://www.cheng.website/
+
+"wang":
+  - firstname: ["Xintao"]
+    url: https://xinntao.github.io/
+
+"xu":
+  - firstname: ["Yanyu"]
+    url: https://scholar.google.com/citations?user=Y3hU1AYAAAAJ
+
+"yu":
+  - firstname: ["Chaohui"]
+    url: https://richardych.github.io/
+
+"qian":
+  - firstname: ["Shenhan"]
+    url: https://shenhanqian.github.io/
+
+"liu":
+  - firstname: ["Ziwei"]
+    url: https://liuziwei7.github.io/
+
+"ma":
+  - firstname: ["Liqian"]
+    url: https://charliememory.github.io/
+
+"zheng":
+  - firstname: ["Jia"]
+    url: https://bertjiazheng.github.io/
+
+"dong":
+  - firstname: ["Yuejiang"]
+    url: https://scholar.google.com/citations?user=0i7bPj8AAAAJ
+
+"tang":
+  - firstname: ["Rui"]
+    url: https://scholar.google.com/citations?user=dwvfKSkAAAAJ
