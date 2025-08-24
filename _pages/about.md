@@ -28,6 +28,6 @@ I am currently a senior researcher at [Tencent ARC Lab](https://arc.tencent.com/
 
 From 2022 to 2024, I was a research intern at Tencent, working closely with [Xintao Wang](https://xinntao.github.io/) and [Yan-Pei Cao](https://yanpei.me/).
 
-My research interests are 3D/4D reconstruction and generation, with the goal of providing high-fidelity 3D digitization and ready-to-use 3D contents.
+My research interests are 3D reconstruction and generation, with the goal of providing high-fidelity 3D digitization and ready-to-use 3D contents.
 
 If you are interested in research intern opportunities or collaborations, feel free to drop me an email.
