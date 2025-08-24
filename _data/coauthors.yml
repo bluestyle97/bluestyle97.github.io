@@ -22,6 +22,9 @@
   
   - firstname: ["Yaowei"]
     url: https://github.com/liyaowei-stu
+  
+  - firstname: ["Zhengxin"]
+    url: https://scholar.google.com/citations?user=7wslizAAAAAJ
 
 "gao":
   - firstname: ["Shenghua"]
@@ -81,8 +84,12 @@
   - firstname: ["Jia"]
     url: https://bertjiazheng.github.io/
 
+"zhong":
+  - firstname: ["Ziming"]
+    url: https://scholar.google.com/citations?user=nHG-dw0AAAAJ
+
 "dong":
-  - firstname: ["Yuejiang"]
+  - firstname: ["Yuejiang", "Yue-Jiang"]
     url: https://scholar.google.com/citations?user=0i7bPj8AAAAJ
 
 "tang":
