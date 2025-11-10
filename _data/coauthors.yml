@@ -75,10 +75,17 @@
 "liu":
   - firstname: ["Ziwei"]
     url: https://liuziwei7.github.io/
+  
+  - firstname: ["Kunhao"]
+    url: https://kunhao-liu.github.io/
 
 "ma":
   - firstname: ["Liqian"]
     url: https://charliememory.github.io/
+
+"lu":
+  - firstname: ["Shijian"]
+    url: https://scholar.google.com/citations?user=uYmK-A0AAAAJ
 
 "zheng":
   - firstname: ["Jia"]
@@ -95,3 +102,7 @@
 "tang":
   - firstname: ["Rui"]
     url: https://scholar.google.com/citations?user=dwvfKSkAAAAJ
+
+"bian":
+  - firstname: ["Yuxuan"]
+    url: https://yxbian23.github.io/
