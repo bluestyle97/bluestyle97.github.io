@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-One paper ([Assembler](https://assembler3d.github.io/) is accepted by SIGGRAPH ASIA 2025.
+One paper ([Assembler](https://assembler3d.github.io/)) is accepted by SIGGRAPH ASIA 2025.
