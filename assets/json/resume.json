@@ -76,20 +76,12 @@
     {
       "name": "Music",
       "icon": "fa-solid fa-music",
-      "keywords": [
-        "G.E.M.",
-        "Jay Chou",
-        "Taylor Swift"
-      ]
+      "keywords": ["G.E.M.", "Jay Chou", "Taylor Swift"]
     },
     {
       "name": "Football",
       "icon": "fa fa-futbol-o",
-      "keywords": [
-        "Lionel Messi",
-        "Neymar JR.",
-        "Argentina"
-      ]
+      "keywords": ["Lionel Messi", "Neymar JR.", "Argentina"]
     }
   ]
 }
