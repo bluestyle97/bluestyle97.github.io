@@ -408,7 +408,7 @@ ninja.data = [{
           title: 'Two papers (FreeSplatter and DepthSync) are accepted by ICCV 2025.',
           description: "",
           section: "News",},{id: "news-one-paper-assembler-is-accepted-by-siggraph-asia-2025",
-          title: 'One paper (Assembler is accepted by SIGGRAPH ASIA 2025.',
+          title: 'One paper (Assembler) is accepted by SIGGRAPH ASIA 2025.',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
