@@ -2,7 +2,7 @@
 layout: about
 title: About
 permalink: /
-subtitle: Senior Researcher @ <a href='https://arc.tencent.com/en/index'>Tencent ARC Lab</a>.
+subtitle: Senior Research Scientist @ <a href='https://www.meshy.ai/'>Meshy AI</a>.
 
 profile:
   align: right
