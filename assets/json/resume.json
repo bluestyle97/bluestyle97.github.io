@@ -14,15 +14,23 @@
   },
   "work": [
     {
-      "name": "Tencent ARC Lab",
+      "name": "Meshy AI",
       "position": "Senior Research Scientist",
-      "url": "https://arc.tencent.com/en/index",
-      "startDate": "2024-07-19",
+      "url": "https://www.meshy.ai/",
+      "startDate": "2025-11-14",
       "endDate": "",
       "summary": "Working on 3D Generative AI."
     },
     {
-      "name": "Tencent",
+      "name": "Tencent ARC Lab",
+      "position": "Senior Researcher",
+      "url": "https://arc.tencent.com/en/index",
+      "startDate": "2024-07-19",
+      "endDate": "2025-11-10",
+      "summary": "Working on 3D Generation and Reconstruction."
+    },
+    {
+      "name": "Tencent ARC Lab",
       "position": "Research Intern",
       "url": "https://arc.tencent.com/en/index",
       "startDate": "2022-06-20",
@@ -76,12 +84,12 @@
     {
       "name": "Music",
       "icon": "fa-solid fa-music",
-      "keywords": ["G.E.M.", "Jay Chou", "Taylor Swift"]
+      "keywords": ["G.E.M.", "Jay Chou", "Billie Eilish"]
     },
     {
       "name": "Football",
       "icon": "fa fa-futbol-o",
-      "keywords": ["Lionel Messi", "Neymar JR.", "Argentina"]
+      "keywords": ["Lionel Messi", "Argentina", "FC Barcelona"]
     }
   ]
 }
