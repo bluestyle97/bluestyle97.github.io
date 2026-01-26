@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I join Tencent ARC Lab as a senior researcher.
+I join [Tencent ARC Lab](https://arc.tencent.com/en/index) as a senior researcher.
