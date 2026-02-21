@@ -417,7 +417,7 @@ ninja.data = [{
           title: 'Two papers (Rolling-Forcing and IC-Custom) are accepted by ICLR 2026.',
           description: "",
           section: "News",},{id: "news-two-papers-meshweaver-and-sculpt4d-are-accepted-by-cvpr-2026",
-          title: 'Two papers MeshWeaver and Sculpt4D are accepted by CVPR 2026.',
+          title: 'Two papers (MeshWeaver and Sculpt4D) are accepted by CVPR 2026.',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
