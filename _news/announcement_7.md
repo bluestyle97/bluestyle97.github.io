@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Two papers ([MeshWeaver](https://bluestyle97.github.io/) and [Sculpt4D](https://visual-ai.github.io/sculpt4d/)) are accepted by CVPR 2026.
+Two papers ([MeshWeaver](https://arxiv.org/abs/2606.04688) and [Sculpt4D](https://visual-ai.github.io/sculpt4d/)) are accepted by CVPR 2026.
