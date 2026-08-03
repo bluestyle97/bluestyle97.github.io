@@ -44,6 +44,7 @@ repo_trophies:
 
 navbar_fixed: true
 footer_fixed: true
+enable_footer: false # set to true to show the copyright / last-updated bar at the bottom
 search_enabled: true
 socials_in_search: false
 posts_in_search: true
