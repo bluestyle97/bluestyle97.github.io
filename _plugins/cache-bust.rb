@@ -6,6 +6,9 @@ module Jekyll
       require 'digest/md5'
       require 'pathname'
 
+      # digest cache, shared for the whole build; see directory_files_content
+      @@directory_contents = {}
+
       attr_accessor :file_name, :directory
 
       def initialize(file_name:, directory: nil)
@@ -20,8 +23,12 @@ module Jekyll
       private
 
       def directory_files_content
-        target_path = File.join(directory, '**', '*')
-        Dir[target_path].map{|f| File.read(f) unless File.directory?(f) }.join
+        # Called once per page (~100 of them) while the sass tree is ~1.7 MB, so
+        # memoise the concatenation, keyed on the newest mtime so that edits during
+        # `jekyll serve` still produce a fresh digest.
+        files = Dir[File.join(directory, '**', '*')].reject { |f| File.directory?(f) }.sort
+        stamp = files.map { |f| File.mtime(f).to_i }.max
+        @@directory_contents[[directory, stamp]] ||= files.map { |f| File.binread(f) }.join
       end
 
       def file_content
@@ -43,7 +50,10 @@ module Jekyll
     end
 
     def bust_css_cache(file_name)
-      CacheDigester.new(file_name: file_name, directory: 'assets/_sass').digest!
+      # `_sass`, not `assets/_sass`: the latter does not exist, so the glob matched
+      # nothing and every build emitted md5("") = d41d8cd98f00b204e9800998ecf8427e.
+      # The stylesheet URL never changed, so browsers kept serving stale CSS.
+      CacheDigester.new(file_name: file_name, directory: '_sass').digest!
     end
   end
 end
