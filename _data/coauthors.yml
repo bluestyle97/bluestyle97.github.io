@@ -1,30 +1,18 @@
-"zhao":
-  - firstname: ["Wang"]
-    url: https://thuzhaowang.github.io/
+"bian":
+  - firstname: ["Yuxuan"]
+    url: https://yxbian23.github.io/
 
 "cao":
   - firstname: ["Yan-Pei"]
     url: https://yanpei.me/
 
-"shan":
-  - firstname: ["Ying"]
-    url: https://www.linkedin.com/in/YingShanProfile/
+"cheng":
+  - firstname: ["Weihao"]
+    url: https://www.cheng.website/
 
-"li":
-  - firstname: ["Lingen"]
-    url: https://lg-li.github.io/
-
-  - firstname: ["Xiaoyu"]
-    url: https://xiaoyu258.github.io/
-
-  - firstname: ["Jing"]
-    url: https://lijing1996.github.io/
-
-  - firstname: ["Yaowei"]
-    url: https://github.com/liyaowei-stu
-
-  - firstname: ["Zhengxin"]
-    url: https://scholar.google.com/citations?user=7wslizAAAAAJ
+"dong":
+  - firstname: ["Yuejiang", "Yue-Jiang"]
+    url: https://yuejiangdong.github.io/
 
 "gao":
   - firstname: ["Shenghua"]
@@ -33,28 +21,63 @@
   - firstname: ["Yiming"]
     url: https://scholar.google.com/citations?user=uRCc-McAAAAJ
 
-"zhang":
-  - firstname: ["Zhaoyang"]
-    url: https://zzyfd.github.io/#/
-
-  - firstname: ["Song-Hai"]
-    url: https://www.cs.tsinghua.edu.cn/csen/info/1307/4342.htm
+"gu":
+  - firstname: ["Jinwei"]
+    url: https://www.gujinwei.org/
 
 "hu":
   - firstname: ["Wenbo"]
     url: https://wbhu.github.io/
 
-"gu":
-  - firstname: ["Jinwei"]
-    url: https://www.gujinwei.org/
+  - firstname: ["Yuanming"]
+    url: https://yuanming.taichi.graphics/
 
-"xue":
-  - firstname: ["Tianfan"]
-    url: https://tianfan.info/
+"li":
+  - firstname: ["Jing"]
+    url: https://lijing1996.github.io/
 
-"cheng":
-  - firstname: ["Weihao"]
-    url: https://www.cheng.website/
+  - firstname: ["Lingen"]
+    url: https://lg-li.github.io/
+
+  - firstname: ["Xiaoyu"]
+    url: https://xiaoyu258.github.io/
+
+  - firstname: ["Yaowei"]
+    url: https://github.com/liyaowei-stu
+
+  - firstname: ["Zhengxin"]
+    url: https://scholar.google.com/citations?user=7wslizAAAAAJ
+
+"liu":
+  - firstname: ["Kunhao"]
+    url: https://kunhao-liu.github.io/
+
+  - firstname: ["Ziwei"]
+    url: https://liuziwei7.github.io/
+
+"lu":
+  - firstname: ["Shijian"]
+    url: https://scholar.google.com/citations?user=uYmK-A0AAAAJ
+
+"ma":
+  - firstname: ["Liqian"]
+    url: https://charliememory.github.io/
+
+"qian":
+  - firstname: ["Shenhan"]
+    url: https://shenhanqian.github.io/
+
+"shan":
+  - firstname: ["Ying"]
+    url: https://www.linkedin.com/in/YingShanProfile/
+
+"shen":
+  - firstname: ["Siyuan"]
+    url: https://messyshen.com/
+
+"tang":
+  - firstname: ["Rui"]
+    url: https://scholar.google.com/citations?user=dwvfKSkAAAAJ
 
 "wang":
   - firstname: ["Xintao"]
@@ -64,28 +87,24 @@
   - firstname: ["Yanyu"]
     url: https://scholar.google.com/citations?user=Y3hU1AYAAAAJ
 
+"xue":
+  - firstname: ["Tianfan"]
+    url: https://tianfan.info/
+
 "yu":
   - firstname: ["Chaohui"]
     url: https://richardych.github.io/
 
-"qian":
-  - firstname: ["Shenhan"]
-    url: https://shenhanqian.github.io/
+"zhang":
+  - firstname: ["Song-Hai"]
+    url: https://www.cs.tsinghua.edu.cn/csen/info/1307/4342.htm
 
-"liu":
-  - firstname: ["Ziwei"]
-    url: https://liuziwei7.github.io/
+  - firstname: ["Zhaoyang"]
+    url: https://zzyfd.github.io/#/
 
-  - firstname: ["Kunhao"]
-    url: https://kunhao-liu.github.io/
-
-"ma":
-  - firstname: ["Liqian"]
-    url: https://charliememory.github.io/
-
-"lu":
-  - firstname: ["Shijian"]
-    url: https://scholar.google.com/citations?user=uYmK-A0AAAAJ
+"zhao":
+  - firstname: ["Wang"]
+    url: https://thuzhaowang.github.io/
 
 "zheng":
   - firstname: ["Jia"]
@@ -94,15 +113,3 @@
 "zhong":
   - firstname: ["Ziming"]
     url: https://scholar.google.com/citations?user=nHG-dw0AAAAJ
-
-"dong":
-  - firstname: ["Yuejiang", "Yue-Jiang"]
-    url: https://yuejiangdong.github.io/
-
-"tang":
-  - firstname: ["Rui"]
-    url: https://scholar.google.com/citations?user=dwvfKSkAAAAJ
-
-"bian":
-  - firstname: ["Yuxuan"]
-    url: https://yxbian23.github.io/
