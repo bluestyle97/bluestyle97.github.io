@@ -25,6 +25,10 @@
   - firstname: ["Jinwei"]
     url: https://www.gujinwei.org/
 
+"hladky":
+  - firstname: ["Jozef"]
+    url: https://jozef.hladky.de/
+
 "hu":
   - firstname: ["Wenbo"]
     url: https://wbhu.github.io/
@@ -48,12 +52,20 @@
   - firstname: ["Zhengxin"]
     url: https://scholar.google.com/citations?user=7wslizAAAAAJ
 
+"lin":
+  - firstname: ["Junkai"]
+    url: https://maymhappy.github.io/
+
 "liu":
   - firstname: ["Kunhao"]
     url: https://kunhao-liu.github.io/
 
   - firstname: ["Ziwei"]
     url: https://liuziwei7.github.io/
+
+"long":
+  - firstname: ["Hang"]
+    url: https://lohhhha.github.io/
 
 "lu":
   - firstname: ["Shijian"]
@@ -62,6 +74,10 @@
 "ma":
   - firstname: ["Liqian"]
     url: https://charliememory.github.io/
+
+"niessner":
+  - firstname: ["Matthias"]
+    url: https://niessnerlab.org/
 
 "qian":
   - firstname: ["Shenhan"]
@@ -91,6 +107,10 @@
   - firstname: ["Tianfan"]
     url: https://tianfan.info/
 
+"yang":
+  - firstname: ["Wei"]
+    url: https://weiyang-hust.github.io/
+
 "yu":
   - firstname: ["Chaohui"]
     url: https://richardych.github.io/
@@ -99,10 +119,16 @@
   - firstname: ["Song-Hai"]
     url: https://www.cs.tsinghua.edu.cn/csen/info/1307/4342.htm
 
+  - firstname: ["Youjia"]
+    url: https://youjiazhang.github.io/
+
   - firstname: ["Zhaoyang"]
     url: https://zzyfd.github.io/#/
 
 "zhao":
+  - firstname: ["Tianhao"]
+    url: https://tianhaozhao668.github.io/
+
   - firstname: ["Wang"]
     url: https://thuzhaowang.github.io/
 
