@@ -89,7 +89,7 @@ Non-standard fields supported by `bib.liquid`: `abbr` (venue badge), `preview`, 
 - `google-scholar-citations.rb` / `inspirehep-citations.rb` — Liquid tags fetching live citation counts at build time.
 - `download-3rd-party.rb` — mirrors CDN libraries/fonts locally when `third_party_libraries.download` is true.
 - `external-posts.rb` — pulls blog posts from RSS feeds listed under `external_sources:`.
-- `cache-bust.rb`, `file-exists.rb`, `details.rb`, `remove-accents.rb` — asset hashing, existence checks, `{% details %}` blocks, slug normalization.
+- `cache-bust.rb`, `file-exists.rb`, `details.rb`, `remove-accents.rb` — asset hashing, existence checks, collapsible `details`/`enddetails` block tags, slug normalization.
 
 Plugins run at build time and hit the network — a slow or failing build is often one of the citation/download plugins.
 
