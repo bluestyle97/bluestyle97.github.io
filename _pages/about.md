@@ -11,7 +11,7 @@ profile:
   more_info:
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+social: false # includes social icons at the bottom of the page (navbar icons are controlled by enable_navbar_social)
 
 announcements:
   enabled: true # includes a list of news items
@@ -24,7 +24,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am currently a Senior Research Scientist at [Meshy AI](https://www.meshy.ai/), exploring cutting-edge technologies of 3D Generative AI. Previously, I was a Senior Researcher at [Tencent ARC Lab](https://arc.tencent.com/en/index), working on 3D reconstruction and generation. 
+I am currently a Senior Research Scientist at [Meshy AI](https://www.meshy.ai/), exploring cutting-edge technologies of 3D Generative AI. Previously, I was a Senior Researcher at [Tencent ARC Lab](https://arc.tencent.com/en/index), working on 3D reconstruction and generation.
 
 In Jul. 2024, I obtained my Ph.D degree from the School of Information Science and Technology, ShanghaiTech University, under the supervision of [Prof. Shenghua Gao](https://scholar.google.com/citations?user=fe-1v0MAAAAJ). Before that, I received my Bachelor's degree in Computer Science from Harbin Institute of Technology in 2019.
 

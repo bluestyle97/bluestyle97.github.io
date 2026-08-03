@@ -73,6 +73,9 @@ layout: default
       </div>
     {% endif %}
 
+    <!-- Visitor globe -->
+    {% include visitor_globe.liquid %}
+
     {% if site.newsletter and site.newsletter.enabled and site.footer_fixed %}
       {% include newsletter.liquid center=true %}
     {% endif %}

@@ -135,6 +135,19 @@ newsletter:
   # https://loops.so/docs/forms/custom-form
 
 # -----------------------------------------------------------------------------
+# Visitor globe (bottom of the about page, see _includes/visitor_globe.liquid)
+# -----------------------------------------------------------------------------
+
+visitor_globe:
+  enabled: true
+  provider: mapmyvisitors # mapmyvisitors | custom
+  id: "rpmCd304Iy3F3wSS9BrfiPBNs1UfFGl6t-I0RbRMa1M" # the `d=` value from your https://mapmyvisitors.com/add globe widget snippet
+  snippet: # only used when provider is `custom`: the widget snippet, pasted verbatim
+  width: 300 # widget width in px
+  title: # optional heading above the globe, e.g. Visitors
+  caption: # optional line of text below the globe
+
+# -----------------------------------------------------------------------------
 # Collections
 # -----------------------------------------------------------------------------
 
