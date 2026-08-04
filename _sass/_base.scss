@@ -441,35 +441,6 @@ ul.task-list input[type="checkbox"] {
   }
 }
 
-// Visitor globe (bottom of the about page)
-
-.visitor-globe {
-  text-align: center;
-  margin-top: 2rem;
-
-  h2 {
-    margin-bottom: 1rem;
-  }
-
-  .visitor-globe-widget {
-    margin: 0 auto;
-
-    // third-party widgets ship fixed-width canvases/images
-    canvas,
-    img,
-    iframe {
-      max-width: 100%;
-      height: auto;
-    }
-  }
-
-  .visitor-globe-caption {
-    font-size: 0.8rem;
-    color: var(--global-text-color-light);
-    margin-top: 0.5rem;
-  }
-}
-
 .wechat-modal {
   display: none;
   position: fixed;
