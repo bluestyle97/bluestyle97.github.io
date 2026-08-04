@@ -865,9 +865,17 @@ footer.sticky-bottom {
           padding-top: 0.25rem;
           padding-bottom: 0.25rem;
           margin-left: 0;
+          // MDB's .btn uppercases its label; keep the capitalisation as written
+          text-transform: none;
+          transition:
+            color 0.15s ease-in-out,
+            background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out;
 
+          // fill the button on hover rather than only recolouring text and border
           &:hover {
-            color: var(--global-theme-color);
+            color: var(--global-card-bg-color);
+            background-color: var(--global-theme-color);
             border-color: var(--global-theme-color);
           }
         }
