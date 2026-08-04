@@ -8,7 +8,8 @@
       {% endif %}
     >
       <table class="table table-sm table-borderless">
-        {% assign news = site.news | reverse %}
+        {% comment %}Sort explicitly: the filenames are not in chronological order.{% endcomment %}
+        {% assign news = site.news | sort: 'date' | reverse %}
         {% if include.limit and page.announcements.limit %}
           {% assign news_limit = page.announcements.limit %}
         {% else %}
