@@ -634,7 +634,8 @@ jekyll_get_json:
     json: assets/json/resume.json # it can also be an url
 
 jsonresume:
-  - basics
+  # `basics` intentionally omitted: the data stays in resume.json but the card is
+  # redundant next to the about page
   - work
   - education
   - publications

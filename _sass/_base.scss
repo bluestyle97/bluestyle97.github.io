@@ -1278,6 +1278,26 @@ ninja-keys::part(ninja-input-wrapper) {
   background: var(--global-bg-color);
 }
 
+// Institution logos in the CV work/education entries: right-aligned and capped to the
+// same box so square marks and wider logotypes read at a comparable optical size. The
+// white plate keeps the opaque logos (Tencent, HIT) legible in dark mode too.
+
+.cv-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  img {
+    max-width: 100%;
+    // 4.5rem matches the 72px occupied by the entry's three lines of text
+    max-height: 4.5rem;
+    object-fit: contain;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 2px;
+  }
+}
+
 // News table (about page and /news/). The theme ships no styles for it, so the rows
 // inherit the body line-height and Bootstrap's cell padding, which reads too airy.
 
