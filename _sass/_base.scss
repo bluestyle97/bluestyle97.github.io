@@ -446,8 +446,16 @@ ul.task-list input[type="checkbox"] {
 .profile-row {
   margin-bottom: 1rem;
 
-  .profile-photo img {
-    width: 100%;
+  .profile-photo {
+    img {
+      width: 100%;
+    }
+
+    // Bootstrap gives figures a 1rem bottom margin, which made the row 16px taller
+    // than the photo — enough that the bottom-aligned icons overshot its lower edge
+    figure {
+      margin-bottom: 0;
+    }
   }
 
   .post-title {
@@ -797,6 +805,10 @@ footer.sticky-bottom {
           background-color: var(--global-theme-color);
           margin-bottom: 0.5rem;
           color: var(--global-card-bg-color) !important;
+          // Bootstrap's .badge is nowrap, so a long venue name (SIGGRAPH ASIA 2025)
+          // spills out of the w-100 box instead of wrapping inside the column
+          white-space: normal;
+          line-height: 1.2;
 
           a {
             color: white;
