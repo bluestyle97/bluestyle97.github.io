@@ -2,7 +2,7 @@
 layout: about
 title: About
 permalink: /
-subtitle: Senior Research Scientist @ <a href='https://www.meshy.ai/'>Meshy AI</a>.
+subtitle: Senior Research Scientist<br><a href='https://www.meshy.ai/'>Meshy AI</a>
 
 profile:
   image: prof_pic.jpg
@@ -27,6 +27,6 @@ I am currently a Senior Research Scientist at [Meshy AI](https://www.meshy.ai/),
 
 In Jul. 2024, I obtained my Ph.D degree from the School of Information Science and Technology, ShanghaiTech University, under the supervision of [Prof. Shenghua Gao](https://scholar.google.com/citations?user=fe-1v0MAAAAJ). Before that, I received my Bachelor's degree in Computer Science from Harbin Institute of Technology in 2019.
 
-From 2022 to 2024, I was a research intern at Tencent, working closely with [Dr. Xintao Wang](https://xinntao.github.io/) and [Dr. Yan-Pei Cao](https://yanpei.me/).
+From 2022 to 2024, I was a research intern at Tencent ARC Lab, working closely with [Dr. Xintao Wang](https://xinntao.github.io/) and [Dr. Yan-Pei Cao](https://yanpei.me/).
 
 We are actively looking for full-time researchers, engineers and interns to work on 3D Generative AI at Meshy. Please feel free to reach out if you are interested.

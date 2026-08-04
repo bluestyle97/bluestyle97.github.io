@@ -458,13 +458,22 @@ ul.task-list input[type="checkbox"] {
     margin-bottom: 1rem;
   }
 
+  // Bootstrap stretches the columns to equal height, so making this one a flex
+  // column lets the icons claim the leftover space and sit on the photo's baseline.
+  .profile-meta {
+    display: flex;
+    flex-direction: column;
+  }
+
   // the bottom-of-page variant is centred and oversized; here the icons sit in a
   // column beside the photo, so align them with the name above them
   .social {
     text-align: left;
+    margin-top: auto;
 
     .contact-icons {
-      font-size: 2.5rem;
+      font-size: 3rem;
+      line-height: 1;
 
       a {
         margin-right: 0.5rem;
@@ -475,6 +484,12 @@ ul.task-list input[type="checkbox"] {
       margin-top: 0.5rem;
     }
   }
+}
+
+// The footer is hidden (enable_footer: false), which also zeroes the body padding that
+// existed to clear it — keep a couple of lines of air below the content.
+body.sticky-bottom-footer .post {
+  margin-bottom: 2.5rem;
 }
 
 .wechat-modal {
