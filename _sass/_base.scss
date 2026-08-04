@@ -494,6 +494,12 @@ ul.task-list input[type="checkbox"] {
   }
 }
 
+// The theme sets blockquotes to 1.2rem; on the about page the callout is there for the
+// accent border, not to enlarge the text.
+.about-content > blockquote {
+  font-size: 1rem;
+}
+
 // The footer is hidden (enable_footer: false), which also zeroes the body padding that
 // existed to clear it — keep a couple of lines of air below the content.
 body.sticky-bottom-footer .post {
