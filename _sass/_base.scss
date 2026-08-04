@@ -441,6 +441,42 @@ ul.task-list input[type="checkbox"] {
   }
 }
 
+// Profile header on the about page: photo left, name / position / icons right
+
+.profile-row {
+  margin-bottom: 1rem;
+
+  .profile-photo img {
+    width: 100%;
+  }
+
+  .post-title {
+    margin-top: 0;
+  }
+
+  .desc {
+    margin-bottom: 1rem;
+  }
+
+  // the bottom-of-page variant is centred and oversized; here the icons sit in a
+  // column beside the photo, so align them with the name above them
+  .social {
+    text-align: left;
+
+    .contact-icons {
+      font-size: 2.5rem;
+
+      a {
+        margin-right: 0.5rem;
+      }
+    }
+
+    .contact-note {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
 .wechat-modal {
   display: none;
   position: fixed;
