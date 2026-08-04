@@ -1269,6 +1269,35 @@ ninja-keys::part(ninja-input-wrapper) {
   background: var(--global-bg-color);
 }
 
+// News table (about page and /news/). The theme ships no styles for it, so the rows
+// inherit the body line-height and Bootstrap's cell padding, which reads too airy.
+
+.news {
+  table {
+    td,
+    th {
+      padding-top: 0.15rem;
+      padding-bottom: 0.15rem;
+      line-height: 1.45;
+    }
+
+    // MDB ships `table td { font-size: .9rem; font-weight: 300 }`. A direct rule on td
+    // beats the weight inherited from body, so news text was rendering lighter and
+    // smaller than the surrounding prose.
+    td {
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    // shrink the date column to its content instead of a fixed 20% of the page
+    th.news-date {
+      width: 1%;
+      white-space: nowrap;
+      padding-right: 1rem;
+    }
+  }
+}
+
 // newsletter
 .newsletter-form-container {
   margin-bottom: 20px;
