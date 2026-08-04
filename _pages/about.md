@@ -29,4 +29,4 @@ In Jul. 2024, I obtained my Ph.D degree from the School of Information Science a
 
 From 2022 to 2024, I was a research intern at Tencent ARC Lab, working closely with [Dr. Xintao Wang](https://xinntao.github.io/) and [Dr. Yan-Pei Cao](https://yanpei.me/).
 
-We are actively looking for full-time researchers, engineers and interns to work on 3D Generative AI at Meshy. Please feel free to reach out if you are interested.
+> We are actively looking for full-time researchers, engineers and interns to work on 3D Generative AI at Meshy. Please feel free to reach out if you are interested.
