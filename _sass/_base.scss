@@ -880,6 +880,8 @@ footer.sticky-bottom {
           margin-left: 0;
           // MDB's .btn uppercases its label; keep the capitalisation as written
           text-transform: none;
+          // MDB sets .btn-sm to .64rem (10.24px), too small next to 16px body text
+          font-size: 0.8rem;
           transition:
             color 0.15s ease-in-out,
             background-color 0.15s ease-in-out,
