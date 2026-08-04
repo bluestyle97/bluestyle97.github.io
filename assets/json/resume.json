@@ -96,7 +96,7 @@
     },
     {
       "name": "Football",
-      "icon": "fa fa-futbol-o",
+      "icon": "fa-solid fa-futbol",
       "keywords": ["Lionel Messi", "Argentina", "FC Barcelona"]
     }
   ]
