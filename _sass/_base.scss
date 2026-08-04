@@ -800,7 +800,14 @@ footer.sticky-bottom {
     li {
       margin-bottom: 1rem;
 
+      // Uniform thumbnails: every preview fills the same 16:9 box, scaled to cover it
+      // and centred, so the sides or top/bottom get cropped rather than the box
+      // resizing to each image's own aspect ratio.
       .preview {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        object-position: center;
       }
 
       .abbr {
