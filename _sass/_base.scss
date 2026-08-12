@@ -800,14 +800,30 @@ footer.sticky-bottom {
     li {
       margin-bottom: 1rem;
 
-      // Uniform thumbnails: every preview fills the same 16:9 box, scaled to cover it
-      // and centred, so the sides or top/bottom get cropped rather than the box
-      // resizing to each image's own aspect ratio.
-      .preview {
-        width: 100%;
+      // Uniform thumbnails: the figure is the 16:9 window and the image keeps its own
+      // aspect ratio inside it, overflowing and being clipped.
+      //
+      // The ratio deliberately lives on the wrapper rather than on the image. medium-zoom
+      // clones the <img> to the body and scales it from its rendered size, so an image
+      // forced into a 16:9 box zooms into a 16:9 box too, stretching the pixels to fit.
+      figure {
         aspect-ratio: 16 / 9;
-        object-fit: cover;
-        object-position: center;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        // let the image be the flex item, so it can be centred and overflow the window
+        picture {
+          display: contents;
+        }
+      }
+
+      .preview {
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
       }
 
       .abbr {
