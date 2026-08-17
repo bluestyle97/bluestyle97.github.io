@@ -2,15 +2,20 @@
 # the commented lines are the default social media links supported by the template
 # the socials will be displayed in the order they are defined here
 
+# The enabled entries are listed first, in display order; the commented-out ones below
+# stay in the template's original alphabetical order.
+scholar_userid: SO-JS9EAAAAJ # your Google Scholar ID
+github_username: bluestyle97 # your GitHub user name
+linkedin_username: jiale-xu-30966928a # your LinkedIn user name
+email: bluestyle928@gmail.com # your email address
+
 # acm_id: # your dl.acm.org/profile/id
 # blogger_url: # your blogger URL
 # bluesky_url: # your bluesky URL
 # dblp_url: # your DBLP profile url
 # discord_id: # your discord id (18-digit unique numerical identifier)
-email: bluestyle928@gmail.com # your email address
 # facebook_id: # your facebook id
 # flickr_id: # your flickr id
-github_username: bluestyle97 # your GitHub user name
 # gitlab_username: # your GitLab user name
 # hal_id: # your HAL id (https://hal.science/)
 # ieee_id: # your ieeexplore.ieee.org/author/id
@@ -21,7 +26,6 @@ github_username: bluestyle97 # your GitHub user name
 # lastfm_id: # your lastfm id
 # lattes_id: # your ID on Lattes (Brazilian Lattes CV)
 # leetcode_id: # your LeetCode id
-linkedin_username: jiale-xu-30966928a # your LinkedIn user name
 # mastodon_username: # your mastodon instance+username in the format instance.tld/@username
 # medium_username: # your Medium username
 # orcid_id: # your ORCID ID
@@ -31,7 +35,6 @@ linkedin_username: jiale-xu-30966928a # your LinkedIn user name
 # quora_username: # your Quora username
 # research_gate_profile: # your profile on ResearchGate
 # rss_icon: true # comment this line to hide the RSS icon
-scholar_userid: SO-JS9EAAAAJ # your Google Scholar ID
 # scopus_id: # your profile on Scopus
 # semanticscholar_id: # your Semantic Scholar ID
 # spotify_id: # your spotify id

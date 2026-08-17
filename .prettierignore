@@ -1,3 +1,6 @@
+# tool-managed local settings, rewritten without regard for prettier's style
+.claude/
+
 **/*.map
 **/*.min.css
 **/*.min.js
