@@ -16,7 +16,7 @@
 
 "gao":
   - firstname: ["Shenghua"]
-    url: https://scholar.google.com/citations?user=fe-1v0MAAAAJ
+    url: https://datascience.hku.hk/people/shenghua-gao/
 
   - firstname: ["Yiming"]
     url: https://scholar.google.com/citations?user=uRCc-McAAAAJ
@@ -24,6 +24,10 @@
 "gu":
   - firstname: ["Jinwei"]
     url: https://www.gujinwei.org/
+
+"han":
+  - firstname: ["Kai"]
+    url: https://www.kaihan.org/
 
 "hladky":
   - firstname: ["Jozef"]
@@ -52,6 +56,10 @@
   - firstname: ["Zhengxin"]
     url: https://scholar.google.com/citations?user=7wslizAAAAAJ
 
+"liang":
+  - firstname: ["Rendong"]
+    url: https://github.com/PENGUINLIONG
+
 "lin":
   - firstname: ["Junkai"]
     url: https://maymhappy.github.io/
@@ -69,7 +77,7 @@
 
 "lu":
   - firstname: ["Shijian"]
-    url: https://scholar.google.com/citations?user=uYmK-A0AAAAJ
+    url: https://sg-vilab.github.io/
 
 "ma":
   - firstname: ["Liqian"]
@@ -85,7 +93,7 @@
 
 "shan":
   - firstname: ["Ying"]
-    url: https://www.linkedin.com/in/YingShanProfile/
+    url: https://www.linkedin.com/in/yingshanprofile/
 
 "shen":
   - firstname: ["Siyuan"]
@@ -101,7 +109,7 @@
 
 "xu":
   - firstname: ["Yanyu"]
-    url: https://scholar.google.com/citations?user=Y3hU1AYAAAAJ
+    url: https://faculty.sdu.edu.cn/xuyanyu/en/index.htm
 
 "xue":
   - firstname: ["Tianfan"]
@@ -117,7 +125,7 @@
 
 "zhang":
   - firstname: ["Song-Hai"]
-    url: https://www.cs.tsinghua.edu.cn/csen/info/1307/4342.htm
+    url: https://cg.cs.tsinghua.edu.cn/
 
   - firstname: ["Youjia"]
     url: https://youjiazhang.github.io/

@@ -25,7 +25,7 @@ latest_posts:
 
 I am currently a Senior Research Scientist at [Meshy AI](https://www.meshy.ai/), exploring cutting-edge technologies of 3D Generative AI. Previously, I was a Senior Researcher at [Tencent ARC Lab](https://arc.tencent.com/en/index), working on 3D reconstruction and generation.
 
-In Jul. 2024, I obtained my Ph.D degree from the School of Information Science and Technology, ShanghaiTech University, under the supervision of [Prof. Shenghua Gao](https://scholar.google.com/citations?user=fe-1v0MAAAAJ). Before that, I received my Bachelor's degree in Computer Science from Harbin Institute of Technology in 2019.
+In Jul. 2024, I obtained my Ph.D degree from the School of Information Science and Technology, ShanghaiTech University, under the supervision of [Prof. Shenghua Gao](https://datascience.hku.hk/people/shenghua-gao/). Before that, I received my Bachelor's degree in Computer Science from Harbin Institute of Technology in 2019.
 
 From 2022 to 2024, I was a research intern at Tencent ARC Lab, working closely with [Dr. Xintao Wang](https://xinntao.github.io/) and [Dr. Yan-Pei Cao](https://yanpei.me/).
 
