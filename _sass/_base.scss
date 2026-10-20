@@ -965,6 +965,50 @@ footer.sticky-bottom {
         transition: all 0.15s ease;
       }
 
+      // Cite popup: a neutral box in JetBrains Mono with a restrained two-tone palette,
+      // overriding the stock pygments colours. Long lines wrap instead of scrolling;
+      // the copied text is unaffected.
+      div.bibtex.hidden {
+        figure.highlight {
+          margin: 10px 0 0;
+        }
+
+        pre {
+          font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+          font-size: 0.78rem;
+          line-height: 1.65;
+          color: var(--global-text-color);
+          background-color: color-mix(in srgb, var(--global-text-color) 4%, transparent);
+          border: 1px solid var(--global-divider-color);
+          border-radius: 6px;
+          padding: 12px 16px;
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
+          text-align: left;
+        }
+
+        .highlight {
+          .nc,
+          .na {
+            color: var(--global-theme-color);
+            font-weight: 500;
+          }
+
+          .nl {
+            color: var(--global-text-color);
+            font-weight: 500;
+          }
+
+          .s {
+            color: var(--global-text-color);
+          }
+
+          .p {
+            color: var(--global-text-color-light);
+          }
+        }
+      }
+
       div.abstract.hidden {
         border: dashed 1px var(--global-bg-color);
       }
