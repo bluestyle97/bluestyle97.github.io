@@ -806,7 +806,10 @@ footer.sticky-bottom {
       // The ratio deliberately lives on the wrapper rather than on the image. medium-zoom
       // clones the <img> to the body and scales it from its rendered size, so an image
       // forced into a 16:9 box zooms into a 16:9 box too, stretching the pixels to fit.
-      figure {
+      //
+      // :not(.highlight) keeps the Cite popup's Rouge <figure class="highlight"> out of
+      // this, otherwise the BibTeX gets clipped to a 16:9 box with no scrollbar.
+      figure:not(.highlight) {
         aspect-ratio: 16 / 9;
         overflow: hidden;
         display: flex;
