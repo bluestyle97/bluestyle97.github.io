@@ -66,6 +66,11 @@ on:
 permissions:
   contents: write
 
+# a newer push cancels an in-flight deploy, so an older build can't finish last and overwrite gh-pages
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     # available images: https://github.com/actions/runner-images#available-images
